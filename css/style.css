@@ -1,0 +1,301 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+/*General*/
+body {
+  background-color: #0a0505; }
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: repeat(3, auto);
+  grid-template-areas: "header" "main" "footer"; }
+
+.gC--main {
+  display: grid;
+  grid-area: main;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 0.5fr 0.5fr;
+  grid-template-areas: "indPre indPre indPre" "indLore indBat indTeamB" "indBest indBest indBest" "indRes indRes indRes";
+  width: 100%;
+  max-width: 100%; }
+
+.flexible--row {
+  display: flex;
+  flex-direction: row; }
+
+.flexible--rowWrap {
+  display: flex;
+  flex-flow: row wrap; }
+
+.flexible--column {
+  display: flex;
+  flex-direction: column; }
+
+.flexible--columnReverse {
+  display: flex;
+  flex-direction: column-reverse; }
+
+.flexible--columnWrap {
+  display: flex;
+  flex-flow: column wrap; }
+
+.text, .text--justify, .text--center {
+  font-family: "Righteous", cursive;
+  font-size: 75%;
+  font-weight: 500;
+  margin: 1%;
+  padding: 1%; }
+
+.text--justify {
+  text-align: justify; }
+
+.text--center {
+  text-align: center; }
+
+.mainTitle {
+  font-family: "Yanone Kaffeesatz", sans-serif;
+  font-size: 400%;
+  font-weight: 500;
+  padding: 5% 2%;
+  border-radius: 25px 25px 25px 25px; }
+
+.subMainTitle {
+  font-family: "Yanone Kaffeesatz", sans-serif;
+  font-size: 200%;
+  font-weight: 800;
+  text-align: center; }
+
+.subTitle {
+  font-family: "Yanone Kaffeesatz", sans-serif;
+  font-size: 400%;
+  font-weight: 300;
+  text-align: center;
+  border-radius: 75px 75px 75px 75px;
+  margin: 1%;
+  padding: 2%; }
+
+.button, .button--red, .button--green, .button--blue {
+  text-decoration: none;
+  font-family: "Yanone Kaffeesatz", sans-serif;
+  font-size: 100%;
+  font-weight: 700;
+  border-radius: 75px 75px 75px 75px;
+  margin: 1%;
+  padding: 4%;
+  transition: all .1s; }
+  .button:hover, .button--red:hover, .button--green:hover, .button--blue:hover {
+    transform: scale(1.1, 1.1);
+    box-shadow: 1px 1px 10px 5px black; }
+
+.button--red {
+  color: #e50f0f;
+  background-color: black; }
+  .button--red:hover {
+    color: #0a0505;
+    background-color: #9d0a0a; }
+
+.button--green {
+  color: #17e040;
+  background-color: black; }
+  .button--green:hover {
+    color: #0a0505;
+    background-color: #109b2c; }
+
+.button--blue {
+  color: #04c8f2;
+  background-color: black; }
+  .button--blue:hover {
+    color: #0a0505;
+    background-color: #038aa7; }
+
+.table {
+  border-collapse: collapse;
+  width: 80%;
+  height: auto;
+  margin: 1%; }
+  .table td, .table th {
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    padding: 1%;
+    background-color: rgba(10, 5, 5, 0.85);
+    text-align: center; }
+  .table th {
+    border-bottom: 2px solid inherit;
+    border-top: 2px solid inherit; }
+
+/* header */
+header {
+  grid-area: header;
+  width: 100%;
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+  color: #92eafd;
+  background-color: black; }
+
+/*nav*/
+nav {
+  justify-content: space-between;
+  width: 95%;
+  padding: 2%; }
+  nav .menu_log {
+    width: 70%;
+    justify-content: space-around;
+    font-family: "Righteous", cursive;
+    font-size: 50%;
+    font-weight: 500; }
+    nav .menu_log .menu {
+      justify-content: space-between;
+      width: 50%;
+      list-style: none; }
+      nav .menu_log .menu a {
+        color: #92eafd;
+        text-decoration: none;
+        border-radius: 75px 75px 75px 75px;
+        transition: all .2s; }
+        nav .menu_log .menu a:hover {
+          color: #df3bfa; }
+    nav .menu_log .log {
+      color: #f89595;
+      text-decoration: none;
+      padding: 1%;
+      transition: all .2s;
+      border-radius: 75px 75px 75px 75px; }
+      nav .menu_log .log:hover {
+        transform: scale(1.1, 1.1);
+        background-image: linear-gradient(90deg, #f89595, #e50f0f);
+        color: black; }
+
+/*indPre*/
+.indPre {
+  grid-area: indPre;
+  max-width: 100%;
+  color: #92eafd;
+  justify-content: center;
+  align-items: center;
+  padding: 0% 10%;
+  background-image: url(../img/indPreBG.png);
+  background-size: cover; }
+  .indPre .mainTitle {
+    background-color: rgba(10, 5, 5, 0.85);
+    margin: 2% 0%;
+    text-align: center; }
+  .indPre .text, .indPre .text--justify, .indPre .text--center {
+    background-color: rgba(10, 5, 5, 0.85);
+    border-radius: 15px 15px 15px 15px; }
+
+/* indCard */
+.indCard, .indLore, .indBat, .indTeamB {
+  margin: 2%;
+  padding: 1%;
+  border-radius: 25px 25px 100px 100px;
+  transition: all .5s;
+  align-items: center;
+  justify-content: space-evenly; }
+  .indCard img, .indLore img, .indBat img, .indTeamB img {
+    border-radius: 15px 15px 30px 30px; }
+  .indCard p, .indLore p, .indBat p, .indTeamB p {
+    margin: 0% 5%;
+    padding: 1%; }
+  .indCard:hover, .indLore:hover, .indBat:hover, .indTeamB:hover {
+    transform: scale(1.01, 1.01); }
+
+/*indLore*/
+.indLore {
+  color: #109b2c;
+  background-color: #9bf5ae;
+  grid-area: indLore; }
+  .indLore img {
+    width: 100%;
+    height: auto; }
+
+/*indBat*/
+.indBat {
+  color: #9d0a0a;
+  background-color: #f89595;
+  grid-area: indBat; }
+  .indBat img {
+    width: 100%;
+    height: auto; }
+
+/*indTeamB*/
+.indTeamB {
+  grid-area: indTeamB;
+  color: #038aa7;
+  background-color: #92eafd; }
+  .indTeamB img {
+    width: 100%;
+    height: auto; }
+
+/*indBest*/
+.indBest {
+  font-family: "Righteous", cursive;
+  font-size: 70%;
+  font-weight: lighter;
+  grid-area: indBest;
+  background-image: url(../img/indBestBG.jpg);
+  background-size: cover;
+  color: #9bf5ae;
+  justify-content: space-evenly;
+  align-items: center; }
+  .indBest .subTitle {
+    background-color: rgba(10, 5, 5, 0.85); }
+  .indBest .table {
+    width: 60%; }
+
+/*indRes*/
+.indRes {
+  grid-area: indRes;
+  background-image: url(../img/indResBG.jpg);
+  background-size: cover;
+  color: #f89595;
+  font-family: "Righteous", cursive;
+  font-size: 70%;
+  font-weight: lighter;
+  max-height: fit-content;
+  justify-content: space-around;
+  align-items: center; }
+
+/* footer */
+footer {
+  grid-area: footer;
+  color: #92eafd;
+  background-color: black; }
+
+@media screen and (min-width: 768px) {
+  /*nav*/
+  nav .menu_log {
+    font-family: "Righteous", cursive;
+    font-size: 89%;
+    font-weight: 500;
+    width: 70%; }
+  /* General */
+  .mainTitle {
+    border-radius: 73px 73px 73px 73px; }
+  .indPre {
+    font-size: 200%; }
+    .indPre .text, .indPre .text--justify, .indPre .text--center {
+      border-radius: 50px 50px 50px 50px; }
+  .indCard, .indLore, .indBat, .indTeamB {
+    font-size: 125%; }
+    .indCard img, .indLore img, .indBat img, .indTeamB img {
+      border-radius: 25px 25px 50px 50px; }
+  .indBest {
+    align-items: flex-end; } }
+
+@media screen and (min-width: 1024px) {
+  nav .menu_log {
+    font-family: "Righteous", cursive;
+    font-size: 120%;
+    font-weight: 500; }
+  .indPre {
+    font-size: 300%; }
+  .indCard, .indLore, .indBat, .indTeamB {
+    font-size: 200%; }
+  .indBest {
+    font-size: 150%;
+    align-items: flex-end; }
+  .indRes {
+    font-size: 150%; } }

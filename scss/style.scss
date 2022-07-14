@@ -1,0 +1,372 @@
+@import 'mixins', 'fontFamilies', 'colors';
+
+*{
+    @include marPad(0,0);
+}
+/*General*/
+body{
+    background-color: map-get($mainCol, primary);
+}
+
+.gridContainer{
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: repeat(3,auto);
+    grid-template-areas: "header"
+    "main"
+    "footer";
+}
+
+.gC--main{
+    display: grid;
+    grid-area: main;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 0.5fr 0.5fr;
+    grid-template-areas: "indPre indPre indPre"
+    "indLore indBat indTeamB"
+    "indBest indBest indBest"
+    "indRes indRes indRes";
+    width: 100%;
+    max-width: 100%;
+}
+
+.flexible--row{
+    display: flex;
+    flex-direction: row;
+}
+
+.flexible--rowWrap{
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.flexible--column{
+    display: flex;
+    flex-direction: column;
+}
+
+.flexible--columnReverse{
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.flexible--columnWrap{
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.text{
+    @include fonts($primaryFont, 75%, 500);
+    @include marPad(1%, 1%);
+}
+
+.text--justify{
+    @extend.text;
+    text-align: justify;
+}
+
+.text--center{
+    @extend.text;
+    text-align: center;
+}
+
+.mainTitle{
+    @include fonts($secondaryFont, 400%, 500);
+    padding: 5% 2%;
+    border-radius: 25px 25px 25px 25px;
+}
+
+.subMainTitle{
+    @include fonts($secondaryFont, 200%, 800);
+    text-align: center;  
+}
+
+.subTitle{
+    @include fonts($secondaryFont, 400%, 300);
+    text-align: center;
+    border-radius: 75px 75px 75px 75px;
+    @include marPad(1%, 2%);
+}
+
+.button{
+    text-decoration: none;
+    @include fonts($secondaryFont, 100%, 700);
+    border-radius: 75px 75px 75px 75px;
+    @include marPad(1%, 4%);
+    transition: all .1s;
+    &:hover{
+        transform: scale(1.1, 1.1);
+        box-shadow: 1px 1px 10px 5px map-get($darkMainCol, darkerPrimary);
+    }
+}
+
+.button--red{
+    @extend.button;
+    @include colAndBGCol(map-get($mainCol, mRed), map-get($darkMainCol, darkerPrimary));
+    &:hover{
+        @include colAndBGCol(map-get($mainCol, primary), map-get($darkMainCol, darkerRed));
+    }
+}
+
+.button--green{
+    @extend.button;
+    @include colAndBGCol(map-get($mainCol, mGreen), map-get($darkMainCol, darkerPrimary));
+    &:hover{
+        @include colAndBGCol(map-get($mainCol, primary), map-get($darkMainCol, darkerGreen));
+    }
+}
+
+.button--blue{
+    @extend.button;
+    @include colAndBGCol(map-get($mainCol, mBlue), map-get($darkMainCol, darkerPrimary));
+    &:hover{
+        @include colAndBGCol(map-get($mainCol, primary), map-get($darkMainCol, darkerBlue));
+    }
+}
+
+.table{
+    border-collapse: collapse;
+    @include sizes(80%, auto);
+    margin: 1%;
+    td,th{
+        border-top: 2px solid map-get($mainCol, darkerPrimary);
+        border-bottom: 2px solid map-get($mainCol, darkerPrimary);
+        padding: 1%;
+        background-color: map-get($transpMainCol, transPrimary);
+        text-align: center;
+    }
+
+    th{
+        border-bottom: 2px solid inherit;
+        border-top: 2px solid inherit;
+    }
+}
+
+/* header */
+
+header{
+    grid-area: header;
+    width: 100%;
+    position: sticky;
+    top:0px;
+    z-index: 1;
+    @include colAndBGCol(map-get($lightMainCol, lighterBlue), map-get($darkMainCol, darkerPrimary));
+}
+
+
+
+/*nav*/
+nav{
+    justify-content: space-between;
+    width: 95%;
+    padding: 2%;
+    .menu_log{
+        width: 70%;
+        justify-content: space-around;
+        @include fonts($primaryFont, 50%, 500);
+        .menu{
+            justify-content: space-between;
+            width: 50%;
+            list-style: none;
+
+            a{
+                color: map-get($lightMainCol, lighterBlue);
+                text-decoration: none;
+                border-radius: 75px 75px 75px 75px;
+                transition: all .2s;
+                &:hover{
+                    color: (map-get($mainCol, mPurple));
+                }
+            }
+        }
+
+        .log{
+            color: map-get($lightMainCol, lighterRed);
+            text-decoration: none;
+            padding: 1%;
+            transition: all .2s;
+            border-radius: 75px 75px 75px 75px;
+            &:hover{
+                transform: scale(1.1,1.1);
+                background-image: linear-gradient(90deg, map-get($lightMainCol, lighterRed), map-get($mainCol, mRed));
+                color: map-get($darkMainCol, darkerPrimary);
+            }
+        }
+    }
+    
+    
+}
+
+/*indPre*/
+.indPre{
+    grid-area: indPre;
+    max-width: 100%;
+    color: map-get($lightMainCol, lighterBlue);
+    justify-content: center;
+    align-items: center;
+    padding: 0% 10%;
+    background-image: url(../img/indPreBG.png);
+    background-size: cover;
+    .mainTitle{
+        background-color: map-get($transpMainCol, transPrimary);
+        margin: 2% 0%;
+        text-align: center;
+        
+    }
+
+    .text{
+        background-color: map-get($transpMainCol, transPrimary);
+        border-radius: 15px 15px 15px 15px;
+    }
+}
+
+/* indCard */
+
+.indCard{
+    @include marPad(2%, 1%);
+    //background-color: map-get($transpMainCol, transPrimary);
+    border-radius: 25px 25px 100px 100px;
+    transition: all .5s;
+    align-items: center;
+    justify-content: space-evenly;
+    img{
+        border-radius: 15px 15px 30px 30px;
+    }
+    p{
+        @include marPad(0% 5%, 1%);
+    }
+    &:hover{
+        transform: scale(1.01, 1.01);
+    }
+}
+
+/*indLore*/
+
+.indLore{
+    @extend.indCard;
+    @include colAndBGCol(map-get($darkMainCol, darkerGreen), (map-get($lightMainCol, lighterGreen)));
+    grid-area: indLore;
+    img{
+        @include sizes(100%, auto);
+    }
+}
+
+/*indBat*/
+
+.indBat{
+    @extend.indCard;
+    @include colAndBGCol(map-get($darkMainCol, darkerRed), (map-get($lightMainCol, lighterRed)));
+    grid-area: indBat;
+    img{
+        @include sizes(100%, auto);
+    }
+}
+
+/*indTeamB*/
+
+.indTeamB{
+    @extend.indCard;
+    grid-area: indTeamB;
+    @include colAndBGCol(map-get($darkMainCol, darkerBlue), (map-get($lightMainCol, lighterBlue)));
+    img{
+        @include sizes(100%, auto);
+    }
+}
+
+/*indBest*/
+
+.indBest{
+    @include fonts($primaryFont, 70%, lighter);
+    grid-area: indBest;
+    background-image: url(../img/indBestBG.jpg);
+    background-size: cover;
+    color: map-get($lightMainCol, lighterGreen);
+    justify-content: space-evenly;
+    align-items: center;
+    .subTitle{
+        background-color: map-get($transpMainCol, transPrimary);
+    }
+    .table{
+        width: 60%;
+    }
+}
+
+/*indRes*/
+
+.indRes{
+    grid-area: indRes;
+    background-image: url(../img/indResBG.jpg);
+    background-size: cover;
+    color: map-get($lightMainCol, lighterRed);
+    @include fonts($primaryFont, 70%, lighter);
+    max-height: fit-content;
+    justify-content: space-around;
+    align-items: center;
+    
+}
+
+
+
+/* footer */
+footer{
+    grid-area: footer;
+    @include colAndBGCol(map-get($lightMainCol, lighterBlue), map-get($darkMainCol, darkerPrimary))
+}
+
+@media screen and (min-width: 768px) {
+  /*nav*/ 
+  nav{
+    .menu_log{
+        @include fonts($primaryFont, 89%, 500);
+        width: 70%;
+    }
+  }
+
+  /* General */
+  .mainTitle{
+    border-radius: 73px 73px 73px 73px;
+  }   
+
+  .indPre{
+    font-size: 200%;
+    .text{
+        border-radius: 50px 50px 50px 50px;
+    }
+  }
+  .indCard{
+    font-size: 125%;
+    img{
+        border-radius: 25px 25px 50px 50px;
+    }
+  }
+  .indBest{
+    align-items: flex-end;
+  }
+}
+
+@media screen and (min-width: 1024px){
+    nav{
+        .menu_log{
+            @include fonts($primaryFont, 120%, 500);
+        }
+      }
+      
+      .indPre{
+        font-size: 300%;
+      }
+
+      .indCard{
+        font-size: 200%;
+      }
+
+      .indBest{
+        font-size: 150%;
+        align-items: flex-end;
+      }
+
+      .indRes{
+        font-size: 150%;
+      }
+      
+
+}

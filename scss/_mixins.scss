@@ -1,0 +1,20 @@
+@mixin sizes ($width, $height) {
+    width: $width;
+    height: $height;
+}
+
+@mixin marPad($mar, $pad) {
+    margin: $mar;
+    padding: $pad;
+}
+
+@mixin colAndBGCol($col, $BGCol){
+    color: $col;
+    background-color: $BGCol;
+}
+
+@mixin fonts($fami, $size, $weight) {
+    font-family: $fami;
+    font-size: $size;
+    font-weight: $weight;
+}

@@ -1,0 +1,7 @@
+$mainCol:(primary: #0a0505, mRed: #e50f0f, mBlue: #04c8f2, mGreen: #17e040, mPurple: #df3bfa); 
+$lightMainCol:(lighterPrimary: lighten(map-get($mainCol, primary), 30), lighterRed:lighten(map-get($mainCol, mRed), 30),lighterBlue:lighten(map-get($mainCol, mBlue), 30), lighterGreen:lighten(map-get($mainCol, mGreen), 30), lighterPurple:lighten(map-get($mainCol, mPurple), 30));
+$darkMainCol:(darkerPrimary: darken(map-get($mainCol, primary), 15), darkerRed: darken(map-get($mainCol, mRed), 15), darkerBlue: darken(map-get($mainCol, mBlue), 15), darkerGreen: darken(map-get($mainCol, mGreen), 15), darkerPurple: darken(map-get($mainCol, mPurple), 15));
+$transpMainCol:(transPrimary: rgba(10, 5, 5, 0.85));
+//$colTransp:(blackTransp: rgba(0, 0, 0, 0.75), primaryTransp: rgba(10, 35, 71, 0.15), darkerPrimaryTransp: rgba(7, 9, 27, 0.05),secondaryTransp: rgba(0, 204, 153, 0.15),darkerSecondaryTransp: rgba(30, 156, 160, 0.15),transp0: rgba(10, 35, 71,0));
+//$colorRedSoc:(youTube: #FF0000, spotify: #1DB954, twitter: #1DA1F2, instagram: #833AB4);
+//$visited: #485099; #140b0b
