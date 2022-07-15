@@ -14,6 +14,9 @@ class Attack{
             case 3: 
                 this.sDes = "(" + this.power*10 + ") (Probabilidad de curarte el estado)";
                 break;
+            case 4:
+                this.sDes = "(" + this.power*10 + ") (Probabilidad de paralizar al enemigo)";
+                break;
             default: 
                 this.sDes = "";
                 break;
@@ -30,6 +33,7 @@ class Attack{
             case 1: return Math.random() > 0.5;
             case 2: return Math.random() > 0.2;
             case 3: return Math.random() > 0.1;
+            case 4: return Math.random() > 0.3;
             default: return true;
         }
         
@@ -60,14 +64,29 @@ class Character {
 
 function attacks(attker, defder, att){
     alert(attker.chName + att.usedAttack());
-            sAtProb = att.attProb();
-            if(sAtProb){
-                if(attker.chStatus.type != 1){
+            if(att.attProb()){
+                switch (att.special){
+                    case 3:
+                        if(attker.chStatus.type != 0){
+                            alert(attker.chName + " dejo de estar " + attker.chStatus.desc);
+                            attker.chStatus.type = 0;
+                            attker.chStatus.desc = "";
+                        }
+                        break;
+                    /*case 5:
+                        if(attker.curHP/attker.chHP > 0.25){ //Tengo pensado que los personajes puedan tener un efecto de estado negativoy  uno positivo a la vez
+                            attker.curHP -= attker.chHP*0.25;
+                            attker
+                        }*/
+                    default:
+                        break;
+                }
+                if(attker.chStatus.type != 1 && (attker.chStatus.type != 4 || Math.random() > 0.5)){
                     defder.curHP -= att.power*attker.atc*(1-defder.def/100);
                     if (defder.chStatus.type == 0){
                         switch (att.special){
                             case 1: 
-                                alert(defder.chName + " esta confundido!");
+                                alert(defder.chName + " está confundido!");
                                 defder.chStatus.type = 1;
                                 defder.chStatus.desc = "confundido";
                                 break;
@@ -75,21 +94,28 @@ function attacks(attker, defder, att){
                                 alert(defder.chName + " pierde vida cada turno");
                                 defder.chStatus.desc = "extrangulado";
                                 defder.chStatus.type = 2;
-                            case 3:
-                                if(attker.chStatus.type != 0){
-                                    alert(attker.chName + " dejo de estar " + attker.chStatus.desc);
-                                    attker.chStatus.type = 0;
-                                    char.chStatus.desc = "";
-                                }
-                            default:; //caso 0
+                                break;
+                            case 4: alert(defder.chName + " está paralizado");
+                                defder.chStatus.desc = "paralizado";
+                                defder.chStatus.type = 4;
+                                break;
+                            default:
+                                break; //caso 0-3 no dependen de que el rival tenga o no un estado
                         }
                     } else if(att.special != 0){
-                        alert(defder.chName + " ya esta " + defder.chStatus.desc + ". No puede tener mas de un estado");
-                    } 
+                        alert(defder.chName + " ya está " + defder.chStatus.desc + ". No puede tener más de un estado");
+                    }
+                    
                 } else {
-                    attker.curHP -= att.power*attker.atc*(1-attker.def/100);
-                    alert(attker.chName + " se pego a si mismo");
+                    if(attker.chStatus.type == 1){
+                        attker.curHP -= att.power*attker.atc*(1-attker.def/100);
+                        alert(attker.chName + " se pegó a sí mismo");
+                    } else {
+                        alert(attker.chName + " se quedó paralizado!");
+                    }
+                        
                 } 
+                 
             }else alert(attker.chName + " fallo...");
 }
 
@@ -122,6 +148,9 @@ const arrChar = new Array();
 arrChar.push(new Character(220.0, 8.7, 9.6, 8.8, "Darth Vader", new Attack("Sable Oscuro", 9.5, 0, 0), new Attack("Extrangulamiento", 6, 0, 2))); //Crea Darth Vader
 arrChar.push(new Character(250.0, 9.1, 9, 8.5, "Obi-Wan Kenobi", new Attack("Empujon de la fuerza", 8, 0, 0), new Attack("Confusion", 0, 1, 1))); //Crea Obi-Wan
 arrChar.push(new Character(190.0, 9.3, 9, 9.5, "Yoda", new Attack("Sable Veloz", 9, 0, 0), new Attack("Conoce al Enemigo", 4, 0, 3))); //Crea Yoda
+arrChar.push(new Character(260.0, 9, 9.4, 9.1, "Darth Sidious", new Attack("El Poder del Lado Oscuro", 9.5, 0, 0), new Attack("Rayos de la Fuerza", 5, 0, 4))); //Crea Darth Sidious
+arrChar.push(new Character(275.0, 9.3, 9, 8.3, "Ben Kenobi", new Attack("Golpe de Luz", 8.5, 0, 0), new Attack("Estos no son los Droides que Buscas", 3, 1, 1,)));
+arrChar.push(new Character(220.0, 8.5, 9, 9.3, "Darth Maul", new Attack("Poder Descontrolado", 8.5, 0, 0), new Attack("Ira Extrema", 5, 0, 2)));
 
 
 arrChar.forEach(function(char){
@@ -131,7 +160,7 @@ arrChar.forEach(function(char){
 do{
     let chaSelec = "Seleccione un personaje: "
     arrChar.forEach(function(char, ind){
-        chaSelec += "\n" + (ind+1) + "- " + char.chName + ":\n - Vida: " + char.chHP + "\n - At: " + char.atc*10 + "\n - Def: " + char.def*10 + "\n - Vel: " + char.spd;
+        chaSelec += "\n" + (ind+1) + "- " + char.chName + ":\n - Vida: " + char.chHP + "\t - At: " + char.atc*10 + "\t - Def: " + char.def*10 + "\t - Vel: " + char.spd;
     });
     op = parseInt(prompt(chaSelec));
 } while (op > arrChar.length || op < 1);
