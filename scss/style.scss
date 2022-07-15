@@ -17,7 +17,7 @@ body{
     "footer";
 }
 
-.gC--main{
+.gC--mainInd{
     display: grid;
     grid-area: main;
     grid-template-columns: 1fr 1fr 1fr;
@@ -26,6 +26,17 @@ body{
     "indLore indBat indTeamB"
     "indBest indBest indBest"
     "indRes indRes indRes";
+    width: 100%;
+    max-width: 100%;
+}
+
+.gC--mainLor{
+    display: grid;
+    grid-area: main;
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "lorEp"
+    "lorSer";
     width: 100%;
     max-width: 100%;
 }
@@ -74,11 +85,14 @@ body{
     @include fonts($secondaryFont, 400%, 500);
     padding: 5% 2%;
     border-radius: 25px 25px 25px 25px;
+    text-align: center;
+    color: map-get($lightMainCol, lighterBlue);
 }
 
 .subMainTitle{
     @include fonts($secondaryFont, 200%, 800);
     text-align: center;  
+    @include marPad(1%, 1%);
 }
 
 .subTitle{
@@ -124,6 +138,14 @@ body{
     }
 }
 
+.button--purple{
+    @extend.button;
+    @include colAndBGCol(map-get($mainCol, mPurple), map-get($darkMainCol, darkerPrimary));
+    &:hover{
+        @include colAndBGCol(map-get($mainCol, primary), map-get($darkMainCol, darkerPurple));
+    }
+}
+
 .table{
     border-collapse: collapse;
     @include sizes(80%, auto);
@@ -139,6 +161,13 @@ body{
     th{
         border-bottom: 2px solid inherit;
         border-top: 2px solid inherit;
+    }
+}
+
+img{
+    transition: 1s;
+    &:hover{
+        transform: scale(1.05, 1.05);
     }
 }
 
@@ -174,8 +203,19 @@ nav{
                 text-decoration: none;
                 border-radius: 75px 75px 75px 75px;
                 transition: all .2s;
+                padding: 5%;
                 &:hover{
-                    color: (map-get($mainCol, mPurple));
+                    color: (map-get($darkMainCol, darkerPrimary));
+                    background-image: linear-gradient(90deg, map-get($lightMainCol, lighterBlue), map-get($mainCol, mBlue));;
+                    transform: scale(1.1,1.1);
+                }
+            }
+
+            .actual{
+                color: map-get($mainCol, mBlue);
+                &:hover{
+                    background-image: linear-gradient(90deg, map-get($mainCol, mBlue), map-get($darkMainCol, darkerBlue));;
+                    transform: scale(1.1,1.1);
                 }
             }
         }
@@ -304,7 +344,71 @@ nav{
     align-items: center;
     
 }
+.lorMainTit{
+    margin: 5%;
+    border-radius: 75px 75px 75px 75px;
+    background-image: linear-gradient(180deg, map-get($transpMainCol, transBlue), map-get($mainCol, primary));
+  }
 
+.lorEp{
+    grid-area: loreEp;
+    article{
+        div{
+            justify-content: center;
+            margin: 2%;
+        }
+        img{
+            @include marPad(1%, 2%);
+            border-radius: 15px 15px 15px 15px;
+            @include sizes(40%, auto);
+            background-color: map-get($transpMainCol, transPrimary);
+        }
+
+    }
+
+    .green{
+        @include colAndBGCol(map-get($lightMainCol, lighterGreen), map-get($darkMainCol, darkerGreen));
+    }
+    .blue{
+        @include colAndBGCol(map-get($lightMainCol, lighterBlue), map-get($darkMainCol, darkerBlue));
+    }
+    .red{
+        @include colAndBGCol(map-get($lightMainCol, lighterRed), map-get($darkMainCol, darkerRed));
+    }
+}
+
+.lorSer{
+    grid-area: loreSer;
+    .subMainTitle{
+        color: map-get($lightMainCol, lighterPurple);
+    }
+  
+    article{
+        div{
+            text-align: center;
+            align-items: center;
+            a{
+                @include colAndBGCol(map-get($lightMainCol, lighterPurple), map-get($darkMainCol, darkerPurple));
+                border-radius: 75px 75px 75px 75px;
+                padding: 2%;
+                text-decoration: none;
+                transition: all .2s;
+                &:hover{
+                    @include colAndBGCol(map-get($darkMainCol, darkerPurple), map-get($darkMainCol, darkerPrimary));
+                    transform: scale(1.1, 1.1);
+                    box-shadow: 1px 1px 10px 5px map-get($darkMainCol, darkerPrimary);
+                }
+            }
+        }
+    }
+        
+
+    img{
+        @include marPad(1%, 2%);
+        border-radius: 15px 15px 15px 15px;
+        @include sizes(80%, auto);
+    }
+}
 
 
 /* footer */
@@ -321,6 +425,7 @@ footer{
         width: 70%;
     }
   }
+
 
   /* General */
   .mainTitle{
@@ -341,6 +446,20 @@ footer{
   }
   .indBest{
     align-items: flex-end;
+  }
+
+  .lorEp{
+    font-size: 170%;
+  }
+  .lorSer{
+    font-size: 200%;
+    
+    article{
+        justify-content: space-around;
+        div{
+            width: 40%;
+        }
+    }
   }
 }
 
@@ -366,6 +485,17 @@ footer{
 
       .indRes{
         font-size: 150%;
+      }
+
+      .lorMainTit{
+        font-size: 200%;
+      }
+
+      .lorEp{
+        font-size: 250%;
+      }
+      .lorSer{
+        font-size: 300%;
       }
       
 

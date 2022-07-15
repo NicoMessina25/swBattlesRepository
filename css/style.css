@@ -12,12 +12,21 @@ body {
   grid-template-rows: repeat(3, auto);
   grid-template-areas: "header" "main" "footer"; }
 
-.gC--main {
+.gC--mainInd {
   display: grid;
   grid-area: main;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 0.5fr 0.5fr;
   grid-template-areas: "indPre indPre indPre" "indLore indBat indTeamB" "indBest indBest indBest" "indRes indRes indRes";
+  width: 100%;
+  max-width: 100%; }
+
+.gC--mainLor {
+  display: grid;
+  grid-area: main;
+  grid-template-columns: 100%;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: "lorEp" "lorSer";
   width: 100%;
   max-width: 100%; }
 
@@ -59,13 +68,17 @@ body {
   font-size: 400%;
   font-weight: 500;
   padding: 5% 2%;
-  border-radius: 25px 25px 25px 25px; }
+  border-radius: 25px 25px 25px 25px;
+  text-align: center;
+  color: #92eafd; }
 
 .subMainTitle {
   font-family: "Yanone Kaffeesatz", sans-serif;
   font-size: 200%;
   font-weight: 800;
-  text-align: center; }
+  text-align: center;
+  margin: 1%;
+  padding: 1%; }
 
 .subTitle {
   font-family: "Yanone Kaffeesatz", sans-serif;
@@ -76,7 +89,7 @@ body {
   margin: 1%;
   padding: 2%; }
 
-.button, .button--red, .button--green, .button--blue {
+.button, .button--red, .button--green, .button--blue, .button--purple {
   text-decoration: none;
   font-family: "Yanone Kaffeesatz", sans-serif;
   font-size: 100%;
@@ -85,7 +98,7 @@ body {
   margin: 1%;
   padding: 4%;
   transition: all .1s; }
-  .button:hover, .button--red:hover, .button--green:hover, .button--blue:hover {
+  .button:hover, .button--red:hover, .button--green:hover, .button--blue:hover, .button--purple:hover {
     transform: scale(1.1, 1.1);
     box-shadow: 1px 1px 10px 5px black; }
 
@@ -110,6 +123,13 @@ body {
     color: #0a0505;
     background-color: #038aa7; }
 
+.button--purple {
+  color: #df3bfa;
+  background-color: black; }
+  .button--purple:hover {
+    color: #0a0505;
+    background-color: #c306e3; }
+
 .table {
   border-collapse: collapse;
   width: 80%;
@@ -124,6 +144,11 @@ body {
   .table th {
     border-bottom: 2px solid inherit;
     border-top: 2px solid inherit; }
+
+img {
+  transition: 1s; }
+  img:hover {
+    transform: scale(1.05, 1.05); }
 
 /* header */
 header {
@@ -154,9 +179,17 @@ nav {
         color: #92eafd;
         text-decoration: none;
         border-radius: 75px 75px 75px 75px;
-        transition: all .2s; }
+        transition: all .2s;
+        padding: 5%; }
         nav .menu_log .menu a:hover {
-          color: #df3bfa; }
+          color: black;
+          background-image: linear-gradient(90deg, #92eafd, #04c8f2);
+          transform: scale(1.1, 1.1); }
+      nav .menu_log .menu .actual {
+        color: #04c8f2; }
+        nav .menu_log .menu .actual:hover {
+          background-image: linear-gradient(90deg, #04c8f2, #038aa7);
+          transform: scale(1.1, 1.1); }
     nav .menu_log .log {
       color: #f89595;
       text-decoration: none;
@@ -258,6 +291,59 @@ nav {
   justify-content: space-around;
   align-items: center; }
 
+.lorMainTit {
+  margin: 5%;
+  border-radius: 75px 75px 75px 75px;
+  background-image: linear-gradient(180deg, rgba(4, 200, 242, 0.85), #0a0505); }
+
+.lorEp {
+  grid-area: loreEp; }
+  .lorEp article div {
+    justify-content: center;
+    margin: 2%; }
+  .lorEp article img {
+    margin: 1%;
+    padding: 2%;
+    border-radius: 15px 15px 15px 15px;
+    width: 40%;
+    height: auto;
+    background-color: rgba(10, 5, 5, 0.85); }
+  .lorEp .green {
+    color: #9bf5ae;
+    background-color: #109b2c; }
+  .lorEp .blue {
+    color: #92eafd;
+    background-color: #038aa7; }
+  .lorEp .red {
+    color: #f89595;
+    background-color: #9d0a0a; }
+
+.lorSer {
+  grid-area: loreSer; }
+  .lorSer .subMainTitle {
+    color: #f7d0fe; }
+  .lorSer article div {
+    text-align: center;
+    align-items: center; }
+    .lorSer article div a {
+      color: #f7d0fe;
+      background-color: #c306e3;
+      border-radius: 75px 75px 75px 75px;
+      padding: 2%;
+      text-decoration: none;
+      transition: all .2s; }
+      .lorSer article div a:hover {
+        color: #c306e3;
+        background-color: black;
+        transform: scale(1.1, 1.1);
+        box-shadow: 1px 1px 10px 5px black; }
+  .lorSer img {
+    margin: 1%;
+    padding: 2%;
+    border-radius: 15px 15px 15px 15px;
+    width: 80%;
+    height: auto; }
+
 /* footer */
 footer {
   grid-area: footer;
@@ -283,7 +369,15 @@ footer {
     .indCard img, .indLore img, .indBat img, .indTeamB img {
       border-radius: 25px 25px 50px 50px; }
   .indBest {
-    align-items: flex-end; } }
+    align-items: flex-end; }
+  .lorEp {
+    font-size: 170%; }
+  .lorSer {
+    font-size: 200%; }
+    .lorSer article {
+      justify-content: space-around; }
+      .lorSer article div {
+        width: 40%; } }
 
 @media screen and (min-width: 1024px) {
   nav .menu_log {
@@ -298,4 +392,10 @@ footer {
     font-size: 150%;
     align-items: flex-end; }
   .indRes {
-    font-size: 150%; } }
+    font-size: 150%; }
+  .lorMainTit {
+    font-size: 200%; }
+  .lorEp {
+    font-size: 250%; }
+  .lorSer {
+    font-size: 300%; } }
