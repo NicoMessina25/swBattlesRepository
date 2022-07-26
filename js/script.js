@@ -102,9 +102,12 @@ class Character {
 function lowersHP(defder, power, atc, def){
     if (defder.chStatus.type != 16){
         if(defder.sustituteHP > 0){
-            defder.sustituteHP -= power*atc*(1-def/100);
+            defder.sustituteHP -= power*atc/def*4;
+            if (defder.sustituteHP <= 0){
+                defder.chStatus.desc = "";
+            }
         } else {
-            defder.curHP -= power*atc*(1-def/100);
+            defder.curHP -= power*atc/def*4;
         }
     } else alert(defder.chName + " se protegió");       
 }
@@ -313,6 +316,34 @@ function updStatus(char){
  
 }
 
+function changeChar(activeChar, charToSelec, charTeam, random){
+    let charOp;
+    activeChar.atc = activeChar.atcBase;
+    activeChar.def = activeChar.defBase;
+    activeChar.spd = activeChar.spdBase;
+    activeChar.modAtc = 0;
+    activeChar.modDef = 0;
+    activeChar.modSpd = 0;
+    if (!random){
+        let charOptions = "Selecciona el personaje: ";
+        charToSelec.forEach((char, i)=>{
+            charOptions += `\n ${i + 1} ${char.chName} (${Math.ceil(char.curHP/char.chHP*100)}%)`;
+        })
+        do{
+            charOp = parseInt(prompt(charOptions));
+        } while (charOp > charToSelec.length || charOp < 1);
+        charOp--;
+        player = charTeam.find((char)=> charToSelec[charOp].chName.toUpperCase() == char.chName.toUpperCase());
+        alert(`Se cambió a ${player.chName}! (${Math.ceil(player.curHP/player.chHP*100)}%)`);
+    } else {
+        charOp = Math.round(Math.random()*(charToSelec.length - 1));
+        cpu = charTeam.find((char)=> charToSelec[charOp].chName.toUpperCase() == char.chName.toUpperCase());
+        alert(`Se cambió a ${cpu.chName}! (${Math.ceil(cpu.curHP/cpu.chHP*100)}%)`);
+    }
+    
+    
+}
+
 
 let op;
 let player, cpu;
@@ -328,7 +359,7 @@ arrChar.push(new Character(200.0, 8.6, 9.5, 9, "Anakin Skywalker", new Attack("D
 arrChar.push(new Character(210.0, 8.4, 9.2, 9.1, "Ashoka Tano", new Attack("Doble Sable", 5.5, 0, 9, 1, 0.8), new Attack("Ataque Sorpresa", 5, 1, 5, 1, 0.3)));//Crea Ashoka Tano
 arrChar.push(new Character(260.0, 8.6, 9, 9.1, "Qui-Gon Jinn", new Attack("Liberación", 8, 0, 3, 1, 0.7), new Attack("Ataru - Qui-Gon", 7, 1, 5, 0.9, 0.5))); //Qui-Gon Jinn
 arrChar.push(new Character(240.0, 8.8, 9.4, 8.8, "Rey Skywalker", new Attack("Sanación de la Fuerza", 0, 0, 13, 1, 1), new Attack("Embestida", 9.5, 0, 5, 0.9, 0.2))); //Rey Skywalker
-arrChar.push(new Character(220.0, 9, 9.5, 9.2, "Luke Skywalker", new Attack("Golpe de Gracia", 8.5, 0, 2, 1, 0.3), new Attack("Ilusión de la Fuerza", 0, 0, 11, 1, 1))); //Luke Skywalker
+arrChar.push(new Character(220.0, 9, 9.5, 9.2, "Luke Skywalker", new Attack("Golpe de Gracia", 8.5, 0, 1, 1, 0.3), new Attack("Ilusión de la Fuerza", 0, 0, 11, 1, 1))); //Luke Skywalker
 arrChar.push(new Character(250.0, 8.5, 7.5, 7.5, "Leia Organa", new Attack("Primera Impresión", 6.5, 1, 5, 1, 0.5), new Attack("Servicio de Sanación", 0, 0, 12, 1, 1))); //Leia Organa
 arrChar.push(new Character(150.0, 7.9, 9, 9, "Han Solo", new Attack("No hay Trato", 7, 0, 9, 1, 0.6), new Attack("Bomba Secreta", 8, 0, 10, 1, 1))); //Han Solo
 arrChar.push(new Character(290.0, 8.5, 9, 7.1, "Chewbacca", new Attack("Rrwaahhggg", 12, 0, 14, 0.8, 1), new Attack("Hwaaurrgh ghaawwu huagg", 7, 0, 10, 1, 1))); //Chewbacca
@@ -351,72 +382,176 @@ arrChar.push(new Character(250.0, 8.9, 9.3, 8.6, "Savage Opress", new Attack("Go
 arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "Mother Talzin", new Attack("Hechizo Sanador", 0, 0, 13, 1, 1), new Attack("Sanación de las Hermanas", 6, 0, 12, 0.9, 1))); //Mother Talzin
 arrChar.push(new Character(250.0, 9.2, 9.5, 9.1, "Darth Bane", new Attack("Espíritu del Pasado", 0, 0, 11, 1, 1), new Attack("Poder Ancestral", 6, 0, 5, 0.9, 1))); //Darth Bane
 arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "StormTrooper", new Attack("Ráfaga de Disparos", 3, 0, 8, 0.95, 1), new Attack("Ataque Agresivo", 8.5, 0, 5, 1, 0.4))); //StormTrooper
-arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "Bossk", new Attack("MudaPiel", 0, 0, 8, 1, 1), new Attack("Regalo Explosivo", 7.5, 0, 10, 0.95, 1))); //Bossk
+arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "Bossk", new Attack("MudaPiel", 0, 0, 3, 1, 1), new Attack("Regalo Explosivo", 7.5, 0, 10, 0.95, 1))); //Bossk
 
 
 
-arrChar.forEach(function(char){
+/* arrChar.forEach(function(char){
     console.log(char);
-});
+}); */
 
-do{
-    let chaSelec = "Seleccione un personaje: "
-    arrChar.forEach(function(char, ind){
-        chaSelec += "\n" + (ind+1) + "- " + char.chName + ":\n - Vida: " + char.chHP + "\t - At: " + char.atc*10 + "\t - Def: " + char.def*10 + "\t - Vel: " + char.spd;
-    });
-    op = parseInt(prompt(chaSelec));
-} while (op > arrChar.length || op < 1);
+const playerTeam = new Array();
+const cpuTeam = new Array();
 
-if (!Number.isNaN(op)){
-    let nP = op-1;
-    let nC = Math.round(Math.random()*(arrChar.length - 1));
-    console.log(nC);
+let playerChar;
+let i = 0;
+let selectedChar = " ";
 
-    player = new Character(arrChar[nP].chHP, arrChar[nP].def, arrChar[nP].atc, arrChar[nP].spd, arrChar[nP].chName, arrChar[nP].att1, arrChar[nP].att2);
-    cpu = new Character(arrChar[nC].chHP, arrChar[nC].def, arrChar[nC].atc, arrChar[nC].spd, arrChar[nC].chName, arrChar[nC].att1, arrChar[nC].att2);
+while (i<3 && selectedChar){
+     do{
+        let chaSelec = "Seleccione el personaje " + (i+1) + " (escribe el nombre completo y sin repetir):\n"
+        arrChar.forEach(function(char){
+            chaSelec += " - " + char.chName;
+        });
+        selectedChar = prompt(chaSelec);
+        if (selectedChar){
+            playerChar = arrChar.find((char) => char.chName.toUpperCase() == selectedChar.toUpperCase());
+            console.log(playerChar);
+        }
+    } while ((!playerChar || playerTeam.some((char) => !playerChar.chName.localeCompare(char.chName))) && selectedChar);
 
-    alert("Elegiste a " + player.chName + "!");
-    alert("Te enfrentas a " + cpu.chName + "!");
+    if(selectedChar){
+        player = new Character(playerChar.chHP, playerChar.def, playerChar.atc, playerChar.spd, playerChar.chName, playerChar.att1, playerChar.att2);
 
-    let atCPU = false;
-    let atPowOp;
+        playerTeam.push(player);
+    }        
+    i++;
+}
+   
 
-
-    while (player.curHP > 0 && cpu.curHP>0){
-
-        let attP, attC;
+if (selectedChar){
+    let nC;
+    for(let i = 0; i<3; i++){
         do{
-            atPowOp = parseInt(prompt("Elige un ataque: \n 1- " + player.att1.nameAt + " " + player.att1.sDes + " \n 2- " + player.att2.nameAt + " " + player.att2.sDes));
-        } while (atPowOp > 2 || atPowOp < 1);
+            nC = Math.round(Math.random()*(arrChar.length - 1));
+        } while (cpuTeam.some((char) => !arrChar[nC].chName.localeCompare(char.chName)));
+        cpu = new Character(arrChar[nC].chHP, arrChar[nC].def, arrChar[nC].atc, arrChar[nC].spd, arrChar[nC].chName, arrChar[nC].att1, arrChar[nC].att2);
+        cpuTeam.push(cpu);
+    }
 
-        if (atPowOp == 1){
-            attP = player.att1;
-        } else attP = player.att2;
+    let team = "";
 
-        atCPU = Math.random() > 0.5;
+    playerTeam.forEach((char) => {
+        team += char.chName + " - ";
+    })
+    alert("Elegiste a " + team + "!");
 
-        if(atCPU){
-            attC = cpu.att1;
-        } else attC = cpu.att2;
+    team = "";
+    cpuTeam.forEach((char) => {
+        team += char.chName + " - ";
+    })
+    alert("Te enfrentas a " + team + "!");
+
+    let atOp;
+
+    player = playerTeam[0];
+    cpu = cpuTeam[0];
+    let charToSelecPlayer;
+    let charToSelecCpu;
+
+    while (playerTeam.reduce((hpT, char) => hpT += char.curHP, 0) > 0 && cpuTeam.reduce((hpT, char)=> hpT += char.curHP, 0) > 0){
+        let playerChanges;
+        let cpuChanges;
+        let attP, attC;
+        let opNumber = 2;
+
+        if (player.curHP == 0){
+            changeChar(player, charToSelecPlayer, playerTeam, false);
+        }
+
+        if(cpu.curHP == 0){
+            changeChar(cpu, charToSelecCpu, cpuTeam, true);
+        }
+
+        playerChanges = false;
+        cpuChanges = false;
+        
+        do{
+            let textToShow = "Elige un movimienyo: \n 1- " + player.att1.nameAt + " " + player.att1.sDes + " \n 2- " + player.att2.nameAt + " " + player.att2.sDes;
+            charToSelecPlayer = playerTeam.filter((char)=> char.curHP > 0 && player != char);
+            if(charToSelecPlayer.length > 0){
+                textToShow += "\n 3- Cambiar de Personaje";
+                opNumber++;
+            }
+            atOp = parseInt(prompt(textToShow));
+        } while ((atOp > opNumber || atOp < 1) || Number.isNaN(atOp));
+
+        switch (atOp){
+            case 1:  
+                attP = player.att1;
+                break;
+            case 2: 
+                attP = player.att2;
+                break;
+            case 3:
+                playerChanges = true;
+                break;
+            default:
+                break;
+        }
+
+        charToSelecCpu = cpuTeam.filter((char)=> char.curHP > 0 && cpu != char);
+
+        if(charToSelecCpu.length > 0){
+            atOp = Math.round(Math.random()*4 + 1);
+        } else {
+            atOp = Math.round(Math.random()*3 + 1);
+        }
+    
+        switch (atOp){
+            case 1: 
+            case 2:
+                attC = cpu.att1;
+                break;
+            case 3:
+            case 4:
+                attC = cpu.att2
+                break;
+            case 5:
+                cpuChanges = true;
+                break;
+            default:
+                break;
+        }
+
 
         let playFirs = Math.random() > 0.5;
 
-        if (attP.prio > attC.prio || attP.prio == attC.prio && player.spd > cpu.spd || attP.prio == attC.prio && player.spd == cpu.spd && playFirs){
-            alert("Atacas primero");
-            attacks(player, cpu, attP);
+        if (playerChanges || cpuChanges || attP.prio > attC.prio || attP.prio == attC.prio && player.spd > cpu.spd || attP.prio == attC.prio && player.spd == cpu.spd && playFirs){
+            if (playerChanges){
+                changeChar(player, charToSelecPlayer, playerTeam, false);
+            } else {
+                if (cpuChanges){
+                    changeChar(cpu, charToSelecCpu, cpuTeam, true);
+                }
+                alert("Atacas primero");
+                attacks(player, cpu, attP);
+            }
             
-            if (cpu.curHP > 0){
-                attacks(cpu, player, attC);
-            } 
+            if(!cpuChanges){
+                if (cpu.curHP > 0){
+                    attacks(cpu, player, attC);
+                } 
+            }
+           
             
 
         } else {
-            alert("El rival ataca primero");
-            attacks(cpu, player, attC);        
-            if (player.curHP > 0){
-                attacks(player, cpu, attP);
-            
-            }                        
+            if(cpuChanges){
+                changeChar(cpu, charToSelecCpu, cpuTeam, true);
+            } else{
+                if (playerChanges){
+                    changeChar(player, charToSelecPlayer, playerTeam, false);
+                }
+                alert("El rival ataca primero");
+                attacks(cpu, player, attC);  
+            }       
+            if(!playerChanges){
+                if (player.curHP > 0){
+                    attacks(player, cpu, attP);
+                
+                }                        
+            }
         }
 
         if (player.spd > cpu.spd || player.spd == cpu.spd && playFirs){
@@ -437,22 +572,21 @@ if (!Number.isNaN(op)){
             alert(cpu.chName + " se debilitó");
         }
 
-        alert(player.chName + " (HP: " + Math.ceil(player.curHP/player.chHP*100) + "%) Estado: -" + player.chStatus.desc + " (Tú)\n\n" + cpu.chName + " (HP: " + Math.ceil(cpu.curHP/cpu.chHP*100) + "%) Estado: -" + cpu.chStatus.desc + " (Rival)");
+        alert(`${player.chName} (HP: ${Math.ceil(player.curHP/player.chHP*100)}%) Estado: - ${player.chStatus.desc} (Tú)\n\n ${cpu.chName} (HP: ${Math.ceil(cpu.curHP/cpu.chHP*100)}%) Estado: - ${cpu.chStatus.desc} (Rival)`);
                 
     }             
 
     if(player.curHP > 0){
-        alert(player.chName + " gana!! (HP: " + Math.ceil(player.curHP/player.chHP*100) + "%)");
+        alert(`${player.chName} gana!! (HP: ${Math.ceil(player.curHP/player.chHP*100)}%) (Tú)`);
     } else if (cpu.curHP > 0){
-        alert(cpu.chName + " gana!! (HP: " + Math.ceil(cpu.curHP/cpu.chHP*100) + "%)");
+        alert(cpu.chName + " gana!! (HP: " + Math.ceil(cpu.curHP/cpu.chHP*100) + "%) (Rival)");
     } else {
         alert("Empate!!");
     }
 
-    console.log(player);
-    console.log(cpu);
+    console.log(playerTeam);
+    console.log(cpuTeam);
 
-    arrChar[op-1].curHP = arrChar[op-1].chHP;
 } else alert("Cancelaste");
 
 
