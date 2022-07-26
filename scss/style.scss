@@ -30,16 +30,28 @@ body{
     max-width: 100%;
 }
 
-.gC--mainLor{
+/* .gC--mainLor{
     display: grid;
     grid-area: main;
     grid-template-columns: 100%;
     grid-template-rows: 1fr 1fr;
-    grid-template-areas: "lorEp"
+    grid-template-areas:"lorEp"
     "lorSer";
     width: 100%;
     max-width: 100%;
 }
+
+.gC--mainTB{
+    display: grid;
+    grid-area: main;
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "yourTeams"
+    "builder";
+    width: 100%;
+    max-width: 100%;
+
+} */
 
 .flexible--row{
     display: flex;
@@ -89,6 +101,14 @@ body{
     color: map-get($lightMainCol, lighterBlue);
 }
 
+.mainTitle2{
+    @extend.mainTitle;
+    font-size: 250%;
+    margin: 5%;
+    border-radius: 75px 75px 75px 75px;
+    background-image: linear-gradient(180deg, map-get($transpMainCol, transBlue), map-get($mainCol, primary));
+  }
+
 .subMainTitle{
     @include fonts($secondaryFont, 200%, 800);
     text-align: center;  
@@ -106,6 +126,7 @@ body{
     text-decoration: none;
     @include fonts($secondaryFont, 100%, 700);
     border-radius: 75px 75px 75px 75px;
+    width: fit-content;
     @include marPad(1%, 4%);
     transition: all .1s;
     &:hover{
@@ -143,6 +164,46 @@ body{
     @include colAndBGCol(map-get($mainCol, mPurple), map-get($darkMainCol, darkerPrimary));
     &:hover{
         @include colAndBGCol(map-get($mainCol, primary), map-get($darkMainCol, darkerPurple));
+    }
+}
+
+.button2{
+    @extend.button;
+    @include fonts($primaryFont, 100%, inherit);
+    @include marPad(1%, 2%);
+    border: 2px solid map-get($darkMainCol, darkerPrimary);
+    transition: all .2s;
+}
+
+.button2--red{
+    @extend.button2;
+    @include colAndBGCol(map-get($lightMainCol, lighterRed), map-get($darkMainCol, darkerRed));
+    &:hover{
+        @include colAndBGCol(map-get($darkMainCol, darkerRed), map-get($darkMainCol, darkerPrimary));
+    }
+}
+
+.button2--green{
+    @extend.button2;
+    @include colAndBGCol(map-get($lightMainCol, lighterGreen), map-get($darkMainCol, darkerGreen));
+    &:hover{
+        @include colAndBGCol(map-get($darkMainCol,darkerGreen), map-get($darkMainCol, darkerPrimary));
+    }
+}
+
+.button2--blue{
+    @extend.button2;
+    @include colAndBGCol(map-get($lightMainCol, lighterBlue), map-get($darkMainCol, darkerBlue));
+    &:hover{
+        @include colAndBGCol(map-get($darkMainCol, darkerBlue), map-get($darkMainCol, darkerPrimary));
+    }
+}
+
+.button2--purple{
+    @extend.button2;
+    @include colAndBGCol(map-get($lightMainCol, lighterPurple), map-get($darkMainCol, darkerPurple));
+    &:hover{
+        @include colAndBGCol(map-get($darkMainCol, darkerPurple), map-get($darkMainCol, darkerPrimary));
     }
 }
 
@@ -344,11 +405,7 @@ nav{
     align-items: center;
     
 }
-.lorMainTit{
-    margin: 5%;
-    border-radius: 75px 75px 75px 75px;
-    background-image: linear-gradient(180deg, map-get($transpMainCol, transBlue), map-get($mainCol, primary));
-  }
+
 
 .lorEp{
     grid-area: loreEp;
@@ -387,18 +444,6 @@ nav{
         div{
             text-align: center;
             align-items: center;
-            a{
-                @include colAndBGCol(map-get($lightMainCol, lighterPurple), map-get($darkMainCol, darkerPurple));
-                border-radius: 75px 75px 75px 75px;
-                padding: 2%;
-                text-decoration: none;
-                transition: all .2s;
-                &:hover{
-                    @include colAndBGCol(map-get($darkMainCol, darkerPurple), map-get($darkMainCol, darkerPrimary));
-                    transform: scale(1.1, 1.1);
-                    box-shadow: 1px 1px 10px 5px map-get($darkMainCol, darkerPrimary);
-                }
-            }
         }
     }
         
@@ -407,6 +452,76 @@ nav{
         @include marPad(1%, 2%);
         border-radius: 15px 15px 15px 15px;
         @include sizes(80%, auto);
+    }
+}
+
+.tbYourTeams{
+    background-image: url(../img/yourTeamsBG.jpg);
+    background-size: cover;
+    align-items: center;
+    font-size: 80%;
+    div{
+        justify-content: center;
+        article{
+            @include colAndBGCol(map-get($lightMainCol, lighterGreen), map-get($transpMainCol, transPrimary));
+            text-align: center;
+            width: 90%;
+            border-radius: 40px 40px 40px 40px;
+            @include marPad(2%, 0%);
+            @include fonts($primaryFont, 100%, inherit);
+            .subMainTitle3{
+                font-size: 200%;
+            }
+
+            .chars{
+                justify-content: space-around;
+            }
+        }
+    }
+    
+}
+
+.tbBuilder{
+    @include fonts($primaryFont, 50%, 100);
+    justify-content: space-around;
+    .lightSide{
+        justify-content: space-around;
+        color: map-get($lightMainCol, lighterBlue);
+    }
+    .darkSide{
+        justify-content: space-around;
+        color: map-get($lightMainCol, lighterRed);
+        .charCard{
+            &:hover{
+                box-shadow: 1px 1px 10px 5px map-get($mainCol, mRed);
+            }
+        }
+    }
+    .charCard{
+        @include marPad(2%, 2%);
+        align-items: center;
+        text-align: center;
+        width: 25%;
+        border-radius: 15px 15px 15px 15px;
+        background-color: map-get($darkMainCol, darkerPrimary);
+        transition: all .5s;
+        .stats{
+            justify-content: center;
+            margin: 1%;
+            p{
+                margin: 2%;
+            }
+        }
+        img{
+            width: 100%;
+            height: auto;
+            border-radius: inherit;
+            margin: 1%;
+        }
+        &:hover{
+            transform: scale(1.2, 1.2);
+            box-shadow: 1px 1px 10px 5px map-get($mainCol, mBlue);
+        }
     }
 }
 
@@ -430,6 +545,9 @@ footer{
   /* General */
   .mainTitle{
     border-radius: 73px 73px 73px 73px;
+  }
+  .mainTitle2{
+    font-size: 500%;
   }   
 
   .indPre{
@@ -461,9 +579,26 @@ footer{
         }
     }
   }
+
+  .tbYourTeams{
+    div{
+        article{
+            width: 45%;
+        }
+    }
+  }
+
+  .tbBuilder{
+    font-size: 80%;
+  }
+
 }
 
 @media screen and (min-width: 1024px){
+    .mainTitle2{
+        font-size: 600%;
+      }
+
     nav{
         .menu_log{
             @include fonts($primaryFont, 120%, 500);
@@ -487,10 +622,6 @@ footer{
         font-size: 150%;
       }
 
-      .lorMainTit{
-        font-size: 200%;
-      }
-
       .lorEp{
         font-size: 250%;
       }
@@ -498,5 +629,14 @@ footer{
         font-size: 300%;
       }
       
+      .tbYourTeams{
+        font-size: 150%;
+      }
 
+      .tbBuilder{
+        font-size: 120%;
+        .charCard{
+            width: 15%;
+        }
+      }
 }

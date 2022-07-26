@@ -345,8 +345,8 @@ arrChar.push(new Character(200.0, 7.9, 8.5, 8.5, "Boba Fett", new Attack("Misil 
 arrChar.push(new Character(210.0, 7.9, 8.5, 8, "Moff Gideon", new Attack("Sable Oscuro", 7, 0, 9, 0.9, 0.6), new Attack("Predice al Enemigo", 3, 3, 15, 1, 1))); //Moff Gideon
 arrChar.push(new Character(200.0, 8.1, 9.5, 9.3, "Asajj Ventress", new Attack("Espada Doble", 5.5, 0, 9, 1, 0.95), new Attack("Sanación de Hermandad", 0, 0, 12, 1, 1))); //Asajj Ventress
 arrChar.push(new Character(220.0, 8.6, 8.3, 8.1, "Captain Phasma", new Attack("Subfusil Bláster", 3.5, 0, 8, 0.9, 1), new Attack("Escudo de Beskar - Phasma", 1.5, 1, 16, 0.5, 1))); //Captain Phasma
-arrChar.push(new Character(230.0, 8.2, 8.1, 8.5, "Kylo Ren", new Attack("Parálisis", 10, 0, 4, 0.85, 0.5), new Attack("Odio", 8.5, 1, 2, 0.9, 0.4))); //Kylo Ren
-arrChar.push(new Character(170.0, 8.2, 8.1, 8.5, "Grand Admiral Thrawn", new Attack("Preve el siguiente movimiento", 5, 1, 15, 1, 0.85), new Attack("Mejora las defensas", 0, 1, 6, 1, 1))); //Grand Admiral Thrawn
+arrChar.push(new Character(230.0, 8.2, 8.1, 8.5, "Kylo Ren", new Attack("Parálisis", 10, 0, 4, 0.75, 0.5), new Attack("Odio", 8.5, 1, 2, 0.9, 0.4))); //Kylo Ren
+arrChar.push(new Character(170.0, 8.2, 8.1, 8.5, "Grand Admiral Thrawn", new Attack("Preve el siguiente movimiento", 5, 1, 15, 1, 0.85), new Attack("Mejora las defensas", 8.5, 1, 6, 0.95, 0.7))); //Grand Admiral Thrawn
 arrChar.push(new Character(250.0, 8.9, 9.3, 8.6, "Savage Opress", new Attack("Golpes Agresivos", 3, 0, 8, 1, 1), new Attack("Furia", 15, 0, 14, 0.7, 1))); //Savage Opress
 arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "Mother Talzin", new Attack("Hechizo Sanador", 0, 0, 13, 1, 1), new Attack("Sanación de las Hermanas", 6, 0, 12, 0.9, 1))); //Mother Talzin
 arrChar.push(new Character(250.0, 9.2, 9.5, 9.1, "Darth Bane", new Attack("Espíritu del Pasado", 0, 0, 11, 1, 1), new Attack("Poder Ancestral", 6, 0, 5, 0.9, 1))); //Darth Bane

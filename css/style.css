@@ -21,15 +21,28 @@ body {
   width: 100%;
   max-width: 100%; }
 
-.gC--mainLor {
-  display: grid;
-  grid-area: main;
-  grid-template-columns: 100%;
-  grid-template-rows: 1fr 1fr;
-  grid-template-areas: "lorEp" "lorSer";
-  width: 100%;
-  max-width: 100%; }
+/* .gC--mainLor{
+    display: grid;
+    grid-area: main;
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:"lorEp"
+    "lorSer";
+    width: 100%;
+    max-width: 100%;
+}
 
+.gC--mainTB{
+    display: grid;
+    grid-area: main;
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "yourTeams"
+    "builder";
+    width: 100%;
+    max-width: 100%;
+
+} */
 .flexible--row {
   display: flex;
   flex-direction: row; }
@@ -63,7 +76,7 @@ body {
 .text--center {
   text-align: center; }
 
-.mainTitle {
+.mainTitle, .mainTitle2 {
   font-family: "Yanone Kaffeesatz", sans-serif;
   font-size: 400%;
   font-weight: 500;
@@ -71,6 +84,12 @@ body {
   border-radius: 25px 25px 25px 25px;
   text-align: center;
   color: #92eafd; }
+
+.mainTitle2 {
+  font-size: 250%;
+  margin: 5%;
+  border-radius: 75px 75px 75px 75px;
+  background-image: linear-gradient(180deg, rgba(4, 200, 242, 0.85), #0a0505); }
 
 .subMainTitle {
   font-family: "Yanone Kaffeesatz", sans-serif;
@@ -89,16 +108,17 @@ body {
   margin: 1%;
   padding: 2%; }
 
-.button, .button--red, .button--green, .button--blue, .button--purple {
+.button, .button--red, .button--green, .button--blue, .button--purple, .button2, .button2--red, .button2--green, .button2--blue, .button2--purple {
   text-decoration: none;
   font-family: "Yanone Kaffeesatz", sans-serif;
   font-size: 100%;
   font-weight: 700;
   border-radius: 75px 75px 75px 75px;
+  width: fit-content;
   margin: 1%;
   padding: 4%;
   transition: all .1s; }
-  .button:hover, .button--red:hover, .button--green:hover, .button--blue:hover, .button--purple:hover {
+  .button:hover, .button--red:hover, .button--green:hover, .button--blue:hover, .button--purple:hover, .button2:hover, .button2--red:hover, .button2--green:hover, .button2--blue:hover, .button2--purple:hover {
     transform: scale(1.1, 1.1);
     box-shadow: 1px 1px 10px 5px black; }
 
@@ -129,6 +149,43 @@ body {
   .button--purple:hover {
     color: #0a0505;
     background-color: #c306e3; }
+
+.button2, .button2--red, .button2--green, .button2--blue, .button2--purple {
+  font-family: "Righteous", cursive;
+  font-size: 100%;
+  font-weight: inherit;
+  margin: 1%;
+  padding: 2%;
+  border: 2px solid black;
+  transition: all .2s; }
+
+.button2--red {
+  color: #f89595;
+  background-color: #9d0a0a; }
+  .button2--red:hover {
+    color: #9d0a0a;
+    background-color: black; }
+
+.button2--green {
+  color: #9bf5ae;
+  background-color: #109b2c; }
+  .button2--green:hover {
+    color: #109b2c;
+    background-color: black; }
+
+.button2--blue {
+  color: #92eafd;
+  background-color: #038aa7; }
+  .button2--blue:hover {
+    color: #038aa7;
+    background-color: black; }
+
+.button2--purple {
+  color: #f7d0fe;
+  background-color: #c306e3; }
+  .button2--purple:hover {
+    color: #c306e3;
+    background-color: black; }
 
 .table {
   border-collapse: collapse;
@@ -211,7 +268,7 @@ nav {
   padding: 0% 10%;
   background-image: url(../img/indPreBG.png);
   background-size: cover; }
-  .indPre .mainTitle {
+  .indPre .mainTitle, .indPre .mainTitle2 {
     background-color: rgba(10, 5, 5, 0.85);
     margin: 2% 0%;
     text-align: center; }
@@ -291,11 +348,6 @@ nav {
   justify-content: space-around;
   align-items: center; }
 
-.lorMainTit {
-  margin: 5%;
-  border-radius: 75px 75px 75px 75px;
-  background-image: linear-gradient(180deg, rgba(4, 200, 242, 0.85), #0a0505); }
-
 .lorEp {
   grid-area: loreEp; }
   .lorEp article div {
@@ -325,24 +377,71 @@ nav {
   .lorSer article div {
     text-align: center;
     align-items: center; }
-    .lorSer article div a {
-      color: #f7d0fe;
-      background-color: #c306e3;
-      border-radius: 75px 75px 75px 75px;
-      padding: 2%;
-      text-decoration: none;
-      transition: all .2s; }
-      .lorSer article div a:hover {
-        color: #c306e3;
-        background-color: black;
-        transform: scale(1.1, 1.1);
-        box-shadow: 1px 1px 10px 5px black; }
   .lorSer img {
     margin: 1%;
     padding: 2%;
     border-radius: 15px 15px 15px 15px;
     width: 80%;
     height: auto; }
+
+.tbYourTeams {
+  background-image: url(../img/yourTeamsBG.jpg);
+  background-size: cover;
+  align-items: center;
+  font-size: 80%; }
+  .tbYourTeams div {
+    justify-content: center; }
+    .tbYourTeams div article {
+      color: #9bf5ae;
+      background-color: rgba(10, 5, 5, 0.85);
+      text-align: center;
+      width: 90%;
+      border-radius: 40px 40px 40px 40px;
+      margin: 2%;
+      padding: 0%;
+      font-family: "Righteous", cursive;
+      font-size: 100%;
+      font-weight: inherit; }
+      .tbYourTeams div article .subMainTitle3 {
+        font-size: 200%; }
+      .tbYourTeams div article .chars {
+        justify-content: space-around; }
+
+.tbBuilder {
+  font-family: "Righteous", cursive;
+  font-size: 50%;
+  font-weight: 100;
+  justify-content: space-around; }
+  .tbBuilder .lightSide {
+    justify-content: space-around;
+    color: #92eafd; }
+  .tbBuilder .darkSide {
+    justify-content: space-around;
+    color: #f89595; }
+    .tbBuilder .darkSide .charCard:hover {
+      box-shadow: 1px 1px 10px 5px #e50f0f; }
+  .tbBuilder .charCard {
+    margin: 2%;
+    padding: 2%;
+    align-items: center;
+    text-align: center;
+    width: 25%;
+    border-radius: 15px 15px 15px 15px;
+    background-color: black;
+    transition: all .5s; }
+    .tbBuilder .charCard .stats {
+      justify-content: center;
+      margin: 1%; }
+      .tbBuilder .charCard .stats p {
+        margin: 2%; }
+    .tbBuilder .charCard img {
+      width: 100%;
+      height: auto;
+      border-radius: inherit;
+      margin: 1%; }
+    .tbBuilder .charCard:hover {
+      transform: scale(1.2, 1.2);
+      box-shadow: 1px 1px 10px 5px #04c8f2; }
 
 /* footer */
 footer {
@@ -358,8 +457,10 @@ footer {
     font-weight: 500;
     width: 70%; }
   /* General */
-  .mainTitle {
+  .mainTitle, .mainTitle2 {
     border-radius: 73px 73px 73px 73px; }
+  .mainTitle2 {
+    font-size: 500%; }
   .indPre {
     font-size: 200%; }
     .indPre .text, .indPre .text--justify, .indPre .text--center {
@@ -377,9 +478,15 @@ footer {
     .lorSer article {
       justify-content: space-around; }
       .lorSer article div {
-        width: 40%; } }
+        width: 40%; }
+  .tbYourTeams div article {
+    width: 45%; }
+  .tbBuilder {
+    font-size: 80%; } }
 
 @media screen and (min-width: 1024px) {
+  .mainTitle2 {
+    font-size: 600%; }
   nav .menu_log {
     font-family: "Righteous", cursive;
     font-size: 120%;
@@ -393,9 +500,13 @@ footer {
     align-items: flex-end; }
   .indRes {
     font-size: 150%; }
-  .lorMainTit {
-    font-size: 200%; }
   .lorEp {
     font-size: 250%; }
   .lorSer {
-    font-size: 300%; } }
+    font-size: 300%; }
+  .tbYourTeams {
+    font-size: 150%; }
+  .tbBuilder {
+    font-size: 120%; }
+    .tbBuilder .charCard {
+      width: 15%; } }
