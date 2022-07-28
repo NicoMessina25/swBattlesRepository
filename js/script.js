@@ -521,6 +521,7 @@ btnAddTeam.addEventListener("click", ()=>{
                     <h3 class="subMainTitle3">${teamName}</h3>
                     <div id="chars" class="flexible--rowWrap chars">
                         ` + divNewChars.innerHTML + `
+                    </div>
                     <button class="button2--green">Edit Team</button>
                     <button class="button2--green">Delete Team</button>
                 </article>`;

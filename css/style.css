@@ -413,6 +413,8 @@ nav {
     font-size: 200%; }
   .team .chars, .newTeam .chars {
     justify-content: space-around; }
+  .team .charCard:hover, .newTeam .charCard:hover {
+    box-shadow: 1px 1px 10px 5px #17e040; }
 
 .tbBuilder {
   font-family: "Righteous", cursive;

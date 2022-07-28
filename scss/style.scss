@@ -490,6 +490,12 @@ nav{
         
     }
 
+    .charCard{
+        &:hover{
+            box-shadow: 1px 1px 10px 5px map-get($mainCol, mGreen);
+        }
+    }
+
 } 
 
 
