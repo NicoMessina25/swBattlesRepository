@@ -1,3 +1,7 @@
+const MAX_TEAMS = 5;
+const MAX_CHARACTERS = 3;
+
+
 class Attack{
     constructor(name, pow, prio, special, prob, probSpecEf){
         this.nameAt = name;
@@ -78,7 +82,7 @@ class Status{
 }
 
 class Character {
-    constructor(hpT, def, atc, spd, name, att1, att2){
+    constructor(hpT, def, atc, spd, name, id, side, att1, att2){
         this.chHP = hpT;
         this.curHP = hpT;
         this.atcBase = atc;
@@ -96,6 +100,18 @@ class Character {
         this.modSpd = 0;
         this.sustituteHP = 0;
         this.concenTurns = 0;
+        this.side = side;
+        this.id = id;
+    }
+}
+
+class Team{
+    constructor(name,size, chars, wins, plays){
+        this.name = name;
+        this.size = size;
+        this.chars = chars;
+        this.wins = wins;
+        this.plays = plays;
     }
 }
 
@@ -344,45 +360,66 @@ function changeChar(activeChar, charToSelec, charTeam, random){
     
 }
 
+function addCharToNewTeam(teamCharArray, charSelected, divNewChars, teams){
+    if (teamCharArray.length < MAX_CHARACTERS && !teamCharArray.some((char) => !charSelected.chName.localeCompare(char.chName))){
+        teamCharArray.push(new Character(charSelected.chHP, charSelected.def, charSelected.atc, charSelected.spd, charSelected.chName, charSelected.id, charSelected.side, charSelected.att1, charSelected.att2));
+        divNewChars.innerHTML += `
+        <div id="char${charSelected.id}Team${teams.length + 1}" class="charCard">
+            <h4 id="name${charSelected.id}Team${teams.length + 1}">${charSelected.chName}</h4>
+            <img id="imgChar" src="../img/tb${charSelected.id}.jpg" alt="${charSelected.id}">
+            <div id="stats${charSelected.id}Team${teams.length + 1}">
+                <p id="attackChar${teamCharArray.length}Team${teams.length + 1}">Attack: ${charSelected.atc}</p>
+                <p id="defenseChar${teamCharArray.length}Team${teams.length + 1}">Defense: ${charSelected.def}</p>
+                <p id="healthChar${teamCharArray.length}Team${teams.length + 1}">Health: ${charSelected.chHP}</p>
+                <p id="speedChar${teamCharArray.length}Team${teams.length + 1}">Speed: ${charSelected.spd}</p>
+            </div>
+        </div>`;
+    } else alert("El equipo es hasta 3 personajes y no puedes repetir");
+}
+
+const btnAddTeam = document.getElementById("btnAddTeam");
+const divYourTeams = document.getElementById("teams");
+const secBuilder = document.getElementById("builder");
+
 
 let op;
 let player, cpu;
 const arrChar = new Array();
 
-arrChar.push(new Character(220.0, 8.7, 9.6, 8.8, "Darth Vader", new Attack("Golpe Oscuro", 9.5, 0, 5, 1, 0.1), new Attack("Extrangulamiento", 6.5, 0, 2, 0.9, 0.3))); //Crea Darth Vader
-arrChar.push(new Character(250.0, 9.1, 9, 8.5, "Obi-Wan Kenobi", new Attack("Soresu - Obi-Wan", 8, 0, 7, 1, 0.2), new Attack("Confusión", 0, 2, 1, 0.5, 1))); //Crea Obi-Wan
-arrChar.push(new Character(190.0, 9.3, 9, 9.5, "Yoda", new Attack("Ataru", 9, 0, 7, 0.9, 0.3), new Attack("Conoce al Enemigo", 4, 0, 3, 0.95, 1))); //Crea Yoda
-arrChar.push(new Character(260.0, 9, 9.4, 9.1, "Darth Sidious", new Attack("El Poder del Lado Oscuro", 9.5, 0, 7, 0.95, 0.1), new Attack("Rayos de la Fuerza", 5, 0, 4, 1, 0.2))); //Crea Darth Sidious
-arrChar.push(new Character(275.0, 9.3, 9, 8.3, "Ben Kenobi", new Attack("Soresu - Ben", 8.5, 0, 6, 1, 0.5), new Attack("Estos no son los Droides que Buscas", 3, 2, 1, 0.9, 0.5))); //Crea Ben Kenobi
-arrChar.push(new Character(220.0, 8.5, 9, 9.3, "Darth Maul", new Attack("Poder Descontrolado", 6, 0, 9, 1, 0.5), new Attack("Ira Extrema", 5, 0, 2, 1, 0.3))); //Crea Darth Maul
-arrChar.push(new Character(200.0, 8.6, 9.5, 9, "Anakin Skywalker", new Attack("Djem So - Anakin", 12, 0, 14, 0.8, 1), new Attack("El Elegido...", 6, 0, 2, 1, 0.3)));//Crea Anakin Skywalker
-arrChar.push(new Character(210.0, 8.4, 9.2, 9.1, "Ashoka Tano", new Attack("Doble Sable", 5.5, 0, 9, 1, 0.8), new Attack("Ataque Sorpresa", 5, 1, 5, 1, 0.3)));//Crea Ashoka Tano
-arrChar.push(new Character(260.0, 8.6, 9, 9.1, "Qui-Gon Jinn", new Attack("Liberación", 8, 0, 3, 1, 0.7), new Attack("Ataru - Qui-Gon", 7, 1, 5, 0.9, 0.5))); //Qui-Gon Jinn
-arrChar.push(new Character(240.0, 8.8, 9.4, 8.8, "Rey Skywalker", new Attack("Sanación de la Fuerza", 0, 0, 13, 1, 1), new Attack("Embestida", 9.5, 0, 5, 0.9, 0.2))); //Rey Skywalker
-arrChar.push(new Character(220.0, 9, 9.5, 9.2, "Luke Skywalker", new Attack("Golpe de Gracia", 8.5, 0, 1, 1, 0.3), new Attack("Ilusión de la Fuerza", 0, 0, 11, 1, 1))); //Luke Skywalker
-arrChar.push(new Character(250.0, 8.5, 7.5, 7.5, "Leia Organa", new Attack("Primera Impresión", 6.5, 1, 5, 1, 0.5), new Attack("Servicio de Sanación", 0, 0, 12, 1, 1))); //Leia Organa
-arrChar.push(new Character(150.0, 7.9, 9, 9, "Han Solo", new Attack("No hay Trato", 7, 0, 9, 1, 0.6), new Attack("Bomba Secreta", 8, 0, 10, 1, 1))); //Han Solo
-arrChar.push(new Character(290.0, 8.5, 9, 7.1, "Chewbacca", new Attack("Rrwaahhggg", 12, 0, 14, 0.8, 1), new Attack("Hwaaurrgh ghaawwu huagg", 7, 0, 10, 1, 1))); //Chewbacca
-arrChar.push(new Character(230.0, 9.1, 8.9, 9.2, "Ezra Bridger", new Attack("Lucha Contra el Lado Oscuro", 3, 0, 15, 1, 1), new Attack("Estrategia Definitiva", 8.5, 0, 5, 1, 0.4))); //Ezra Bridger
-arrChar.push(new Character(260.0, 9.4, 8.7, 8.4, "Kanan Jarrus", new Attack("Escudo de la Fuerza", 0, 4, 16, 0.5, 1), new Attack("Ataque y Cobertura", 6, 0, 6, 0.9, 0.7))); //Kanan Jarrus
-arrChar.push(new Character(200.0, 8.4, 8, 7.5, "Padmé Amidala", new Attack("Disparos Múltiples", 3, 0, 8, 0.95, 1), new Attack("Disparo a Cubierto", 6.5, 0, 6, 1, 0.6))); //Padmé Amidala
-arrChar.push(new Character(270.0, 9.5, 8.9, 8.6, "Mace Windu", new Attack("Vaapad Ofensivo", 9, 0, 5, 0.95, 0.7), new Attack("Vapaad Defensivo", 5.5, 0, 6, 0.95, 0.8))); //Mace Windu
-arrChar.push(new Character(220.0, 8.2, 7.7, 8.2, "Clone Trooper", new Attack("Ráfaga de Disparos", 3, 0, 8, 0.95, 1), new Attack("Ataque Ágil", 4, 1, 7, 1, 0.4))); //Clone Trooper
-arrChar.push(new Character(250.0, 8.7, 8.5, 8.3, "The Mandalorian", new Attack("Escudo de Beskar - Mandalorian", 1, 4, 16, 0.5, 1), new Attack("Ataque Explosivo", 9, 0, 10, 0.9, 1))); //The Mandalorian
-arrChar.push(new Character(230.0, 8.6, 9.2, 9.1, "Count Dooku", new Attack("Makashi - Dooku", 10, 0, 7, 0.9, 0.1), new Attack("Ataque de Rayos", 6.5, 0, 4, 0.95, 0.4))); //Count Dooku
-arrChar.push(new Character(240.0, 8.9, 9.5, 8.3, "General Grievous", new Attack("Makashi - Grievous", 4.5, 0, 8, 0.8, 1), new Attack("Extrema Ofensiva", 12, 0, 14, 0.8, 1))); //General Grievous
-arrChar.push(new Character(210.0, 8, 8.4, 8, "Jango Fett", new Attack("Misil Teledirigido", 10, 0, 10, 0.85, 1), new Attack("Jett Pack", 4, 1, 7, 1, 0.7))); //Jango Fett
-arrChar.push(new Character(200.0, 7.9, 8.5, 8.5, "Boba Fett", new Attack("Misil Explosivo", 12, 0, 10, 0.75, 1), new Attack("Armadura de Beskar", 0, 1, 6, 1, 1))); //Boba Fett
-arrChar.push(new Character(210.0, 7.9, 8.5, 8, "Moff Gideon", new Attack("Sable Oscuro", 7, 0, 9, 0.9, 0.6), new Attack("Predice al Enemigo", 3, 3, 15, 1, 1))); //Moff Gideon
-arrChar.push(new Character(200.0, 8.1, 9.5, 9.3, "Asajj Ventress", new Attack("Espada Doble", 5.5, 0, 9, 1, 0.95), new Attack("Sanación de Hermandad", 0, 0, 12, 1, 1))); //Asajj Ventress
-arrChar.push(new Character(220.0, 8.6, 8.3, 8.1, "Captain Phasma", new Attack("Subfusil Bláster", 3.5, 0, 8, 0.9, 1), new Attack("Escudo de Beskar - Phasma", 1.5, 1, 16, 0.5, 1))); //Captain Phasma
-arrChar.push(new Character(230.0, 8.2, 8.1, 8.5, "Kylo Ren", new Attack("Parálisis", 10, 0, 4, 0.75, 0.5), new Attack("Odio", 8.5, 1, 2, 0.9, 0.4))); //Kylo Ren
-arrChar.push(new Character(170.0, 8.2, 8.1, 8.5, "Grand Admiral Thrawn", new Attack("Preve el siguiente movimiento", 5, 1, 15, 1, 0.85), new Attack("Mejora las defensas", 8.5, 1, 6, 0.95, 0.7))); //Grand Admiral Thrawn
-arrChar.push(new Character(250.0, 8.9, 9.3, 8.6, "Savage Opress", new Attack("Golpes Agresivos", 3, 0, 8, 1, 1), new Attack("Furia", 15, 0, 14, 0.7, 1))); //Savage Opress
-arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "Mother Talzin", new Attack("Hechizo Sanador", 0, 0, 13, 1, 1), new Attack("Sanación de las Hermanas", 6, 0, 12, 0.9, 1))); //Mother Talzin
-arrChar.push(new Character(250.0, 9.2, 9.5, 9.1, "Darth Bane", new Attack("Espíritu del Pasado", 0, 0, 11, 1, 1), new Attack("Poder Ancestral", 6, 0, 5, 0.9, 1))); //Darth Bane
-arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "StormTrooper", new Attack("Ráfaga de Disparos", 3, 0, 8, 0.95, 1), new Attack("Ataque Agresivo", 8.5, 0, 5, 1, 0.4))); //StormTrooper
-arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "Bossk", new Attack("MudaPiel", 0, 0, 3, 1, 1), new Attack("Regalo Explosivo", 7.5, 0, 10, 0.95, 1))); //Bossk
+arrChar.push(new Character(220.0, 8.7, 9.6, 8.8, "Darth Vader", "Vader", "Dark", new Attack("Golpe Oscuro", 9.5, 0, 5, 1, 0.1), new Attack("Extrangulamiento", 6.5, 0, 2, 0.9, 0.3))); //Crea Darth Vader
+arrChar.push(new Character(250.0, 9.1, 9, 8.5, "Obi-Wan Kenobi", "ObiWan", "Light", new Attack("Soresu - Obi-Wan", 8, 0, 7, 1, 0.2), new Attack("Confusión", 0, 2, 1, 0.5, 1))); //Crea Obi-Wan
+arrChar.push(new Character(190.0, 9.3, 9, 9.5, "Yoda", "Yoda", "Light", new Attack("Ataru", 9, 0, 7, 0.9, 0.3), new Attack("Conoce al Enemigo", 4, 0, 3, 0.95, 1))); //Crea Yoda
+arrChar.push(new Character(260.0, 9, 9.4, 9.1, "Darth Sidious", "Sidious", "Dark", new Attack("El Poder del Lado Oscuro", 9.5, 0, 7, 0.95, 0.1), new Attack("Rayos de la Fuerza", 5, 0, 4, 1, 0.2))); //Crea Darth Sidious
+arrChar.push(new Character(275.0, 9.3, 9, 8.3, "Ben Kenobi", "Ben", "Light", new Attack("Soresu - Ben", 8.5, 0, 6, 1, 0.5), new Attack("Estos no son los Droides que Buscas", 3, 2, 1, 0.9, 0.5))); //Crea Ben Kenobi
+arrChar.push(new Character(220.0, 8.5, 9, 9.3, "Darth Maul", "Maul", "Dark", new Attack("Poder Descontrolado", 6, 0, 9, 1, 0.5), new Attack("Ira Extrema", 5, 0, 2, 1, 0.3))); //Crea Darth Maul
+arrChar.push(new Character(200.0, 8.6, 9.5, 9, "Anakin Skywalker", "Anakin", "Light", new Attack("Djem So - Anakin", 12, 0, 14, 0.8, 1), new Attack("El Elegido...", 6, 0, 2, 1, 0.3)));//Crea Anakin Skywalker
+arrChar.push(new Character(210.0, 8.4, 9.2, 9.1, "Ahsoka Tano", "Ahsoka", "Light", new Attack("Doble Sable", 5.5, 0, 9, 1, 0.8), new Attack("Ataque Sorpresa", 5, 1, 5, 1, 0.3)));//Crea Ashoka Tano
+arrChar.push(new Character(260.0, 8.6, 9, 9.1, "Qui-Gon Jinn", "QuiGon", "Light", new Attack("Liberación", 8, 0, 3, 1, 0.7), new Attack("Ataru - Qui-Gon", 7, 1, 5, 0.9, 0.5))); //Qui-Gon Jinn
+arrChar.push(new Character(240.0, 8.8, 9.4, 8.8, "Rey Skywalker", "Rey", "Light", new Attack("Sanación de la Fuerza", 0, 0, 13, 1, 1), new Attack("Embestida", 9.5, 0, 5, 0.9, 0.2))); //Rey Skywalker
+arrChar.push(new Character(220.0, 9, 9.5, 9.2, "Luke Skywalker", "Luke", "Light", new Attack("Golpe de Gracia", 8.5, 0, 1, 1, 0.3), new Attack("Ilusión de la Fuerza", 0, 0, 11, 1, 1))); //Luke Skywalker
+arrChar.push(new Character(250.0, 8.5, 7.5, 7.5, "Leia Organa", "Leia", "Light", new Attack("Primera Impresión", 6.5, 1, 5, 1, 0.5), new Attack("Servicio de Sanación", 0, 0, 12, 1, 1))); //Leia Organa
+arrChar.push(new Character(150.0, 7.9, 9, 9, "Han Solo", "Han", "Light", new Attack("No hay Trato", 7, 0, 9, 1, 0.6), new Attack("Bomba Secreta", 8, 0, 10, 1, 1))); //Han Solo
+arrChar.push(new Character(290.0, 8.5, 9, 7.1, "Chewbacca", "Chew", "Light", new Attack("Rrwaahhggg", 12, 0, 14, 0.8, 1), new Attack("Hwaaurrgh ghaawwu huagg", 7, 0, 10, 1, 1))); //Chewbacca
+arrChar.push(new Character(230.0, 9.1, 8.9, 9.2, "Ezra Bridger", "Ezra", "Light", new Attack("Lucha Contra el Lado Oscuro", 3, 0, 15, 1, 1), new Attack("Estrategia Definitiva", 8.5, 0, 5, 1, 0.4))); //Ezra Bridger
+arrChar.push(new Character(260.0, 9.4, 8.7, 8.4, "Kanan Jarrus", "Kanan", "Light", new Attack("Escudo de la Fuerza", 0, 4, 16, 0.5, 1), new Attack("Ataque y Cobertura", 6, 0, 6, 0.9, 0.7))); //Kanan Jarrus
+arrChar.push(new Character(200.0, 8.4, 8, 7.5, "Padmé Amidala", "Padme", "Light", new Attack("Disparos Múltiples", 3, 0, 8, 0.95, 1), new Attack("Disparo a Cubierto", 6.5, 0, 6, 1, 0.6))); //Padmé Amidala
+arrChar.push(new Character(270.0, 9.5, 8.9, 8.6, "Mace Windu", "Mace", "Light", new Attack("Vaapad Ofensivo", 9, 0, 5, 0.95, 0.7), new Attack("Vapaad Defensivo", 5.5, 0, 6, 0.95, 0.8))); //Mace Windu
+arrChar.push(new Character(220.0, 8.2, 7.7, 8.2, "Clone Trooper", "Clone", "Light", new Attack("Ráfaga de Disparos", 3, 0, 8, 0.95, 1), new Attack("Ataque Ágil", 4, 1, 7, 1, 0.4))); //Clone Trooper
+arrChar.push(new Character(250.0, 8.7, 8.5, 8.3, "The Mandalorian", "Mando", "Light", new Attack("Escudo de Beskar - Mandalorian", 1, 4, 16, 0.5, 1), new Attack("Ataque Explosivo", 9, 0, 10, 0.9, 1))); //The Mandalorian
+arrChar.push(new Character(230.0, 8.6, 9.2, 9.1, "Count Dooku", "Dooku", "Dark", new Attack("Makashi - Dooku", 10, 0, 7, 0.9, 0.1), new Attack("Ataque de Rayos", 6.5, 0, 4, 0.95, 0.4))); //Count Dooku
+arrChar.push(new Character(240.0, 8.9, 9.5, 8.3, "General Grievous", "Grievous", "Dark", new Attack("Makashi - Grievous", 4.5, 0, 8, 0.8, 1), new Attack("Extrema Ofensiva", 12, 0, 14, 0.8, 1))); //General Grievous
+arrChar.push(new Character(210.0, 8, 8.4, 8, "Jango Fett", "Jango", "Dark", new Attack("Misil Teledirigido", 10, 0, 10, 0.85, 1), new Attack("Jett Pack", 4, 1, 7, 1, 0.7))); //Jango Fett
+arrChar.push(new Character(200.0, 7.9, 8.5, 8.5, "Boba Fett", "Boba", "Dark", new Attack("Misil Explosivo", 12, 0, 10, 0.75, 1), new Attack("Armadura de Beskar", 0, 1, 6, 1, 1))); //Boba Fett
+arrChar.push(new Character(210.0, 7.9, 8.5, 8, "Moff Gideon", "Gideon", "Dark", new Attack("Sable Oscuro", 7, 0, 9, 0.9, 0.6), new Attack("Predice al Enemigo", 3, 3, 15, 1, 1))); //Moff Gideon
+arrChar.push(new Character(200.0, 8.1, 9.5, 9.3, "Asajj Ventress", "Asajj", "Dark", new Attack("Espada Doble", 5.5, 0, 9, 1, 0.95), new Attack("Sanación de Hermandad", 0, 0, 12, 1, 1))); //Asajj Ventress
+arrChar.push(new Character(220.0, 8.6, 8.3, 8.1, "Captain Phasma", "Phasma", "Dark", new Attack("Subfusil Bláster", 3.5, 0, 8, 0.9, 1), new Attack("Escudo de Beskar - Phasma", 1.5, 1, 16, 0.5, 1))); //Captain Phasma
+arrChar.push(new Character(230.0, 8.2, 8.1, 8.5, "Kylo Ren", "Ren", "Dark", new Attack("Parálisis", 10, 0, 4, 0.75, 0.5), new Attack("Odio", 8.5, 0, 2, 0.9, 0.4))); //Kylo Ren
+arrChar.push(new Character(170.0, 8.2, 8.1, 8.5, "Grand Admiral Thrawn", "Thrawn", "Dark", new Attack("Preve el siguiente movimiento", 5, 1, 15, 1, 0.85), new Attack("Mejora las defensas", 8.5, 1, 6, 0.95, 0.7))); //Grand Admiral Thrawn
+arrChar.push(new Character(250.0, 8.9, 9.3, 8.6, "Savage Opress", "Savage", "Dark", new Attack("Golpes Agresivos", 3, 0, 8, 1, 1), new Attack("Furia", 15, 0, 14, 0.7, 1))); //Savage Opress
+arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "Mother Talzin", "Talzin", "Dark", new Attack("Hechizo Sanador", 0, 0, 13, 1, 1), new Attack("Sanación de las Hermanas", 6, 0, 12, 0.9, 1))); //Mother Talzin
+arrChar.push(new Character(250.0, 9.2, 9.5, 9.1, "Darth Bane", "Bane", "Dark", new Attack("Espíritu del Pasado", 0, 0, 11, 1, 1), new Attack("Poder Ancestral", 6, 0, 5, 0.9, 1))); //Darth Bane
+arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "StormTrooper", "Storm", "Dark", new Attack("Ráfaga de Disparos", 3, 0, 8, 0.95, 1), new Attack("Ataque Agresivo", 8.5, 0, 5, 1, 0.4))); //StormTrooper
+arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "Bossk", "Bossk", "Dark", new Attack("MudaPiel", 0, 0, 3, 1, 1), new Attack("Regalo Explosivo", 7.5, 0, 10, 0.95, 1))); //Bossk
 
 
 
@@ -392,10 +429,109 @@ arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "Bossk", new Attack("MudaPiel",
 
 const playerTeam = new Array();
 const cpuTeam = new Array();
+const teams = new Array();
 
 let playerChar;
 let i = 0;
 let selectedChar = " ";
+let teamCharArray;
+divYourTeams.innerHTML = " ";
+
+btnAddTeam.addEventListener("click", ()=>{
+    teamCharArray = new Array();
+    btnAddTeam.className = "invisible";
+    secBuilder.innerHTML = `
+    <article id="newTeam" class="newTeam" >
+        <label for="teamName">TeamName</label><br>
+        <input id="newTeamName" type="text" name="teamName" placeholder="New Team">
+        <div id="newChars" class="flexible--row chars"></div>
+    </article>
+    <button id="btnLightSide" class="button2--blue">Light Side</button>
+    <button id="btnConfirm" class="button2--purple">Confirm</button>
+    <button id="btnDarkSide" class="button2--red">Dark Side</button>
+    <article id="charSide" class="lightSide flexible--rowWrap"></article>`;
+
+    
+    const secNewTeam = document.getElementById("newTeam");
+    const btnLightSide = document.getElementById("btnLightSide");
+    const btnDarkSide = document.getElementById("btnDarkSide");
+    const btnConfirm = document.getElementById("btnConfirm");
+    const secCharSide = document.getElementById("charSide");
+    const divNewChars = document.getElementById("newChars");
+    
+    divNewChars.innerHTML = " ";
+    //teams.push(new Team(secNewTeam.firstChild.innerText, 0, new Array(), 0, 0));
+    btnLightSide.onclick = ()=>{
+        secCharSide.className = "lightSide flexible--rowWrap";
+        secCharSide.innerHTML = " ";
+        const lightSideCharacters = arrChar.filter((char) => char.side.toUpperCase() == "LIGHT");
+        lightSideCharacters.forEach((char)=>{
+            secCharSide.innerHTML += `<div id="char${char.id}" class="charCard flexible--column">
+            <h2 id="name${char.id}" class="tit">${char.chName}</h2>
+            <img src="../img/tb${char.id}.jpg" alt="${char.id}">
+            <div id="stats${char.id}" class="stats flexible--rowWrap">
+                <p id="attack${char.id}">Attack: ${char.atc}</p>
+                <p id="defense${char.id}">Defense: ${char.def}</p>
+                <p id="health${char.id}">Health: ${char.chHP}</p>
+                <p id="speed${char.id}">Speed: ${char.spd}</p>
+            </div>`
+        });
+        const charCards = document.querySelectorAll(".charCard");
+        charCards.forEach((card)=>{
+            card.addEventListener("click", ()=>{
+                charSelected = lightSideCharacters.find((char)=> card.getAttribute("id") == `char${char.id}`);
+                addCharToNewTeam(teamCharArray, charSelected, divNewChars, teams);
+                
+            });
+        });
+    };
+
+    btnDarkSide.onclick = ()=>{
+        secCharSide.className = "darkSide flexible--rowWrap";
+        secCharSide.innerHTML = " ";
+        const darkSideCharacters = arrChar.filter((char) => char.side.toUpperCase() == "DARK");
+        darkSideCharacters.forEach((char)=>{
+            secCharSide.innerHTML += `<div id="char${char.id}" class="charCard flexible--column">
+            <h2 id="name${char.id}" class="tit">${char.chName}</h2>
+            <img src="../img/tb${char.id}.jpg" alt="${char.id}">
+            <div id="stats${char.id}" class="stats flexible--rowWrap">
+                <p id="attack${char.id}">Attack: ${char.atc}</p>
+                <p id="defense${char.id}">Defense: ${char.def}</p>
+                <p id="health${char.id}">Health: ${char.chHP}</p>
+                <p id="speed${char.id}">Speed: ${char.spd}</p>
+            </div>`
+        });
+
+        const charCards = document.querySelectorAll(".charCard");
+        charCards.forEach((card)=>{
+            card.addEventListener("click", ()=>{
+                charSelected = darkSideCharacters.find((char)=> card.getAttribute("id") == `char${char.id}`);
+                addCharToNewTeam(teamCharArray, charSelected, divNewChars, teams);
+                divYourTeams
+            });
+        });
+    };
+
+    btnConfirm.addEventListener("click", ()=>{
+        if(teams.length < MAX_TEAMS && teamCharArray.length > 0){
+            let teamName = document.getElementById("newTeamName").value
+            teams.push(new Team(teamName, teamCharArray.length, teamCharArray, 0, 0));
+            divYourTeams.innerHTML += `
+            <article id="team${teams.length}" class="team">
+                    <h3 class="subMainTitle3">${teamName}</h3>
+                    <div id="chars" class="flexible--rowWrap chars">
+                        ` + divNewChars.innerHTML + `
+                    <button class="button2--green">Edit Team</button>
+                    <button class="button2--green">Delete Team</button>
+                </article>`;
+            secBuilder.innerHTML = " ";
+            btnAddTeam.className = "button2--green visible";
+        } else alert(`Solo se pueden crear hasta ${MAX_TEAMS} equipos y tienen que tener al menos un integrante`);
+    })
+
+});
+
+
 
 while (i<3 && selectedChar){
      do{
@@ -411,7 +547,7 @@ while (i<3 && selectedChar){
     } while ((!playerChar || playerTeam.some((char) => !playerChar.chName.localeCompare(char.chName))) && selectedChar);
 
     if(selectedChar){
-        player = new Character(playerChar.chHP, playerChar.def, playerChar.atc, playerChar.spd, playerChar.chName, playerChar.att1, playerChar.att2);
+        player = new Character(playerChar.chHP, playerChar.def, playerChar.atc, playerChar.spd, playerChar.chName, player.id, playerChar.side, playerChar.att1, playerChar.att2);
 
         playerTeam.push(player);
     }        
@@ -419,13 +555,13 @@ while (i<3 && selectedChar){
 }
    
 
-if (selectedChar){
+if (selectedChar){ 
     let nC;
     for(let i = 0; i<3; i++){
         do{
             nC = Math.round(Math.random()*(arrChar.length - 1));
         } while (cpuTeam.some((char) => !arrChar[nC].chName.localeCompare(char.chName)));
-        cpu = new Character(arrChar[nC].chHP, arrChar[nC].def, arrChar[nC].atc, arrChar[nC].spd, arrChar[nC].chName, arrChar[nC].att1, arrChar[nC].att2);
+        cpu = new Character(arrChar[nC].chHP, arrChar[nC].def, arrChar[nC].atc, arrChar[nC].spd, arrChar[nC].chName, arrChar[nC].id, arrChar[nC].side, arrChar[nC].att1, arrChar[nC].att2);
         cpuTeam.push(cpu);
     }
 
@@ -465,7 +601,7 @@ if (selectedChar){
 
         playerChanges = false;
         cpuChanges = false;
-        
+
         do{
             let textToShow = "Elige un movimienyo: \n 1- " + player.att1.nameAt + " " + player.att1.sDes + " \n 2- " + player.att2.nameAt + " " + player.att2.sDes;
             charToSelecPlayer = playerTeam.filter((char)=> char.curHP > 0 && player != char);
