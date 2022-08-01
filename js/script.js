@@ -82,7 +82,7 @@ class Status{
 }
 
 class Character {
-    constructor(hpT, def, atc, spd, name, id, side, att1, att2){
+    constructor(hpT, def, atc, spd, name, side, att1, att2){
         this.chHP = hpT;
         this.curHP = hpT;
         this.atcBase = atc;
@@ -101,7 +101,6 @@ class Character {
         this.sustituteHP = 0;
         this.concenTurns = 0;
         this.side = side;
-        this.id = id;
     }
 }
 
