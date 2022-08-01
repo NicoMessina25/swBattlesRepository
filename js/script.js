@@ -360,21 +360,6 @@ function changeChar(activeChar, charToSelec, charTeam, random){
     
 }
 
-/* function setDeleteCharListener(btn, teamCharArray, deleteCharsButtons, divCard, teamInd){
-    
-    btn.onclick= ()=>{
-        console.log("xd");
-        let ind = teamCharArray.indexOf(teamCharArray.find((char)=> `char${char.chName}Team${teamInd}` == divCard.getAttribute("id")));
-        
-
-        deleteCharsButtons.splice(ind, 1);
-        teamCharArray.splice(ind, 1);
-        divCards[ind].remove();
-    };
-        
-    
-} */
-
 function addCharToNewTeam(teamCharArray, charSelected, divNewChars, isEdit, teams){
     if (teamCharArray.length < MAX_CHARACTERS && !teamCharArray.some((char) => !charSelected.chName.localeCompare(char.chName))){
         let ind;
@@ -395,20 +380,17 @@ function addCharToNewTeam(teamCharArray, charSelected, divNewChars, isEdit, team
             <p id="speedChar${teamCharArray.length}Team${ind}">Speed: ${charSelected.spd}</p>
         </div>`
         divNewChars.append(divCard);
-        //newCharCards.push(divCard);
         let btnDel = document.createElement("button");
-        setButtonAttributes(btnDel, `char${charSelected.id}Team${ind}`, "button2--purple", "Delete"); // id = btnDel${charCards.indexOf(divCard)}Team${teams.length + 1}
+        setButtonAttributes(btnDel, `char${charSelected.id}Team${ind}`, "button2--purple", "Delete");
         btnDel.onclick = () => {
             teamCharArray.splice(teamCharArray.indexOf(teamCharArray.find((char) => `char${char.id}Team${ind}` == divCard.getAttribute("id"))), 1);
-            //deleteCharsButtons.splice(deleteButtons.indexOf(btnDel), 1);
-            //newCharCards.splice(newCharCards.indexOf(divCard), 1);
             divCard.remove();
             
         }
         divCard.append(btnDel);
         console.log(teamCharArray);
         console.log(charSelected);
-        //deleteCharsButtons.push(btnDel);
+
         
     } else alert("El equipo es hasta 3 personajes y no puedes repetir");
 }
@@ -430,14 +412,12 @@ function genHTMLTeamChars(team, ind){
     return htmlTeamChars;
 }
 
-function updateTeams(teams, divYourTeams, divTeams, editButtons){
+function updateTeams(teams, divYourTeams, divTeams, editButtons, deleteButtons){
     divYourTeams.innerHTML = " ";
     teams.forEach((team, ind) => {
         
         divTeams[ind].innerHTML =`
-                <h3 id="teamName${ind}" class="subMainTitle3">${team.name}</h3>
-    
-                <button id="deleteButton${ind}" class="button2--green">Delete Team</button>`;
+                <h3 id="teamName${ind}" class="subMainTitle3">${team.name}</h3>`;
         let divChars = document.createElement(`div`);
         divChars.setAttribute("id", `charsTeam${ind}`);
         divChars.setAttribute("class", "flexible--rowWrap chars");
@@ -458,14 +438,15 @@ function updateTeams(teams, divYourTeams, divTeams, editButtons){
         })
         divTeams[ind].append(divChars);
         divTeams[ind].append(editButtons[ind]);
+        divTeams[ind].append(deleteButtons[ind]);
         divYourTeams.append(divTeams[ind]);
     });
 }
 
-function setConfirmListener(btnConfirm, teams, divYourTeams, divTeams, editButtons){
+function setConfirmListener(btnConfirm, teams, divYourTeams, divTeams, editButtons, deleteButtons){
     btnConfirm.addEventListener("click", ()=>{
         if(teamCharArray.length > 0){
-            updateTeams(teams, divYourTeams, divTeams, editButtons);
+            updateTeams(teams, divYourTeams, divTeams, editButtons, deleteButtons);
             secBuilder.innerHTML = " ";
             btnAddTeam.className = "button2--green visible";
         } else alert("Your team must have at least 1 character");
@@ -485,7 +466,6 @@ const secBuilder = document.getElementById("builder");
 const newCharCards = new Array();
 const divTeams = new Array();
 const editButtons = new Array();
-const deleteCharsButtons = new Array();
 const deleteButtons = new Array();
 const btnLightSide = document.createElement("button");
 setButtonAttributes(btnLightSide, "btnLightSide", "button2--blue", "Light Side");
@@ -500,10 +480,6 @@ artCharSide.setAttribute("id", "charSide");
 const divNewChars = document.createElement("div");
 divNewChars.setAttribute("id", "newChars");
 divNewChars.setAttribute("class", "flexible--row chars");
-/* for(let i = 0; i < MAX_CHARACTERS; i++){
-    deleteCharsButtons.push(document.createElement("button"));
-    setButtonAttributes(deleteCharsButtons[i], `btnDeleteChar${i}`, "button2--purple", "Delete");
-} */
 let isEdit;
 
 let op;
@@ -547,9 +523,6 @@ arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "Bossk", "Bossk", "Dark", new A
 
 
 
-/* arrChar.forEach(function(char){
-    console.log(char);
-}); */
 
 const playerTeam = new Array();
 const cpuTeam = new Array();
@@ -585,6 +558,7 @@ btnLightSide.onclick = ()=>{
     artCharSide.className = "lightSide flexible--rowWrap";
     artCharSide.innerHTML = " ";
     const lightSideCharacters = arrChar.filter((char) => char.side.toUpperCase() == "LIGHT");
+    lightSideCharacters.sort((a, b)=> a.chName.localeCompare(b.chName));
     lightSideCharacters.forEach((char)=>{
         artCharSide.innerHTML += `
         <div id="char${char.id}" class="charCard flexible--column">
@@ -611,6 +585,7 @@ btnDarkSide.onclick = ()=>{
     artCharSide.className = "darkSide flexible--rowWrap";
     artCharSide.innerHTML = " ";
     const darkSideCharacters = arrChar.filter((char) => char.side.toUpperCase() == "DARK");
+    darkSideCharacters.sort((a, b)=> a.chName.localeCompare(b.chName));
     darkSideCharacters.forEach((char)=>{
         artCharSide.innerHTML += `<div id="char${char.id}" class="charCard flexible--column">
         <h2 id="name${char.id}" class="tit">${char.chName}</h2>
@@ -640,9 +615,12 @@ btnCreate.addEventListener("click", ()=>{
         teams.push(new Team(teamName, teamCharArray.length, teamCharArray, 0, 0));
         let divTeam = document.createElement("article");
         divTeam.setAttribute("class", "team");
+        /* divTeam.innerHTML = `
+            <h3 id="teamName${ind}" class="subMainTitle3">${team.name}</h3>`; */
         let btnEdi = document.createElement("button");
         setButtonAttributes(btnEdi, ``, "button2--green", "Edit Team");
-        
+        let btnDel = document.createElement("button");
+        setButtonAttributes(btnDel, "", "button2--red", "Delete Team");
     
         btnEdi.addEventListener("click", ()=>{
             if(btnAddTeam.className != "invisible" || confirm("Si continuas borrarás el equipo que estabas creando, ¿Desea continuar?")){
@@ -659,8 +637,6 @@ btnCreate.addEventListener("click", ()=>{
                 </article>`;
                 const editTeamName = document.getElementById(`newTeamName`);
                 editTeamName.value = teams[ind].name;
-                
-
                 
                 for(let i = 0; i < teamCharArray.length; i++){
                     let divCard = document.createElement("div");
@@ -682,18 +658,16 @@ btnCreate.addEventListener("click", ()=>{
                     btnDel.onclick = () => {
                         i = teamCharArray.indexOf(teamCharArray.find((c)=> `char${c.id}Team${ind}` == divCard.getAttribute("id")));
                         teamCharArray.splice(i, 1);
-                        //deleteCharsButtons.splice(deleteButtons.indexOf(btnDel), 1);
-                        //newCharCards.splice(newCharCards.indexOf(divCard), 1);
+            
                         divCard.remove();
-                        console.log(teamCharArray);
-                        console.log(i);
+
                     }
                     divCard.append(btnDel);
                     divNewChars.append(divCard);
                 } 
                 const secNewTeam = document.getElementById("newTeam");
                 secBuilder.append(btnLightSide);
-                setConfirmListener(btnConfirm, teams, divYourTeams, divTeams, editButtons); 
+                setConfirmListener(btnConfirm, teams, divYourTeams, divTeams, editButtons, deleteButtons); 
                 secBuilder.append(btnConfirm);
                 secBuilder.append(btnDarkSide);
                 artCharSide.innerHTML = " ";
@@ -701,25 +675,25 @@ btnCreate.addEventListener("click", ()=>{
                 secNewTeam.append(divNewChars);    
             }; 
         });
+
+        btnDel.addEventListener("click", ()=>{
+            let i = divTeams.indexOf(divTeam);
+            teams.splice(i, 1);
+            divTeams.splice(i, 1);
+            deleteButtons.splice(i, 1);
+            editButtons.splice(i, 1);
+
+            updateTeams(teams, divYourTeams, divTeams, editButtons,deleteButtons);
+        })
+
         editButtons.push(btnEdi);
+        deleteButtons.push(btnDel);
         divTeams.push(divTeam);
-        updateTeams(teams, divYourTeams, divTeams, editButtons);
+        updateTeams(teams, divYourTeams, divTeams, editButtons,deleteButtons);
         secBuilder.innerHTML = " ";
         btnAddTeam.className = "button2--green visible";
     } else alert(`Solo se pueden crear hasta ${MAX_TEAMS} equipos, tienen que tener al menos un integrante y un nombre`);
 });
-/*console.log(deleteCharsButtons);
- deleteCharsButtons.forEach((btn, ind)=>{
-    console.log("xd");
-    const divCards = divNewChars.querySelectorAll(".charCard");
-    btn.onclick = ()=>{
-        
-        teamCharArray.splice(ind, 1);
-        deleteCharsButtons.splice(ind, 1);
-        divCards[ind].remove();
-    };
-    
-}); */
 
 while (i<3 && selectedChar){
      do{
@@ -735,7 +709,7 @@ while (i<3 && selectedChar){
     } while ((!playerChar || playerTeam.some((char) => !playerChar.chName.localeCompare(char.chName))) && selectedChar);
 
     if(selectedChar){
-        player = new Character(playerChar.chHP, playerChar.def, playerChar.atc, playerChar.spd, playerChar.chName, player.id, playerChar.side, playerChar.att1, playerChar.att2);
+        player = new Character(playerChar.chHP, playerChar.def, playerChar.atc, playerChar.spd, playerChar.chName, playerChar.side, playerChar.att1, playerChar.att2);
 
         playerTeam.push(player);
     }        
@@ -749,7 +723,7 @@ if (selectedChar){
         do{
             nC = Math.round(Math.random()*(arrChar.length - 1));
         } while (cpuTeam.some((char) => !arrChar[nC].chName.localeCompare(char.chName)));
-        cpu = new Character(arrChar[nC].chHP, arrChar[nC].def, arrChar[nC].atc, arrChar[nC].spd, arrChar[nC].chName, arrChar[nC].id, arrChar[nC].side, arrChar[nC].att1, arrChar[nC].att2);
+        cpu = new Character(arrChar[nC].chHP, arrChar[nC].def, arrChar[nC].atc, arrChar[nC].spd, arrChar[nC].chName, arrChar[nC].side, arrChar[nC].att1, arrChar[nC].att2);
         cpuTeam.push(cpu);
     }
 

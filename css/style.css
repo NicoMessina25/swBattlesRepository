@@ -398,38 +398,6 @@ nav {
   .tbYourTeams div, .btleTeamSelect div {
     justify-content: center; }
 
-.team, .newTeam {
-  color: #9bf5ae;
-  background-color: rgba(10, 5, 5, 0.85);
-  text-align: center;
-  width: 90%;
-  border-radius: 40px 40px 40px 40px;
-  margin: 2%;
-  padding: 0%;
-  font-family: "Righteous", cursive;
-  font-size: 100%;
-  font-weight: inherit; }
-  .team .subMainTitle3, .newTeam .subMainTitle3 {
-    font-size: 200%; }
-  .team .chars, .newTeam .chars {
-    justify-content: space-around; }
-  .team .charCard:hover, .newTeam .charCard:hover {
-    box-shadow: 1px 1px 10px 5px #17e040; }
-
-.tbBuilder {
-  font-family: "Righteous", cursive;
-  font-size: 50%;
-  font-weight: 100;
-  justify-content: space-around; }
-  .tbBuilder .lightSide {
-    justify-content: space-around;
-    color: #92eafd; }
-  .tbBuilder .darkSide {
-    justify-content: space-around;
-    color: #f89595; }
-    .tbBuilder .darkSide .charCard:hover {
-      box-shadow: 1px 1px 10px 5px #e50f0f; }
-
 .charCard {
   margin: 2%;
   padding: 2%;
@@ -452,6 +420,47 @@ nav {
   .charCard:hover {
     transform: scale(1.2, 1.2);
     box-shadow: 1px 1px 10px 5px #04c8f2; }
+  .charCard:active {
+    transform: scale(110%);
+    background-color: #038aa7; }
+
+.team, .newTeam {
+  color: #9bf5ae;
+  background-color: rgba(10, 5, 5, 0.85);
+  text-align: center;
+  width: 90%;
+  border-radius: 40px 40px 40px 40px;
+  margin: 2%;
+  padding: 0%;
+  font-family: "Righteous", cursive;
+  font-size: 100%;
+  font-weight: inherit; }
+  .team .subMainTitle3, .newTeam .subMainTitle3 {
+    font-size: 200%; }
+  .team .chars, .newTeam .chars {
+    justify-content: space-around; }
+  .team .charCard:hover, .newTeam .charCard:hover {
+    box-shadow: 1px 1px 10px 5px #17e040;
+    cursor: auto; }
+  .team .charCard:active, .newTeam .charCard:active {
+    transform: scale(1.2);
+    background-color: rgba(10, 5, 5, 0.85); }
+
+.tbBuilder {
+  font-family: "Righteous", cursive;
+  font-size: 50%;
+  font-weight: 100;
+  justify-content: space-around; }
+  .tbBuilder .lightSide {
+    justify-content: space-around;
+    color: #92eafd; }
+  .tbBuilder .darkSide {
+    justify-content: space-around;
+    color: #f89595; }
+    .tbBuilder .darkSide .charCard:hover {
+      box-shadow: 1px 1px 10px 5px #e50f0f; }
+    .tbBuilder .darkSide .charCard:active {
+      background-color: #9d0a0a; }
 
 .newTeam {
   color: #f7d0fe; }
@@ -465,7 +474,11 @@ nav {
     font-weight: 500;
     padding: 1%; }
   .newTeam .charCard:hover {
-    box-shadow: 1px 1px 10px 5px #df3bfa; }
+    box-shadow: 1px 1px 10px 5px #df3bfa;
+    cursor: auto; }
+  .newTeam .charCard:active {
+    transform: scale(1.2);
+    background-color: rgba(10, 5, 5, 0.85); }
 
 .btleTeamSelect div article {
   color: #92eafd;

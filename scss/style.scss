@@ -474,50 +474,6 @@ nav{
     
 }
 
-.team{
-    @include colAndBGCol(map-get($lightMainCol, lighterGreen), map-get($transpMainCol, transPrimary));
-    text-align: center;
-    width: 90%;
-    border-radius: 40px 40px 40px 40px;
-    @include marPad(2%, 0%);
-    @include fonts($primaryFont, 100%, inherit);
-    .subMainTitle3{
-        font-size: 200%;
-    }
-
-    .chars{
-        justify-content: space-around;
-        
-    }
-
-    .charCard{
-        &:hover{
-            box-shadow: 1px 1px 10px 5px map-get($mainCol, mGreen);
-        }
-    }
-
-} 
-
-
-
-.tbBuilder{
-    @include fonts($primaryFont, 50%, 100);
-    justify-content: space-around;
-    .lightSide{
-        justify-content: space-around;
-        color: map-get($lightMainCol, lighterBlue);
-    }
-    .darkSide{
-        justify-content: space-around;
-        color: map-get($lightMainCol, lighterRed);
-        .charCard{
-            &:hover{
-                box-shadow: 1px 1px 10px 5px map-get($mainCol, mRed);
-            }
-        }
-    }
-}
-
 .charCard{
     @include marPad(2%, 2%);
     align-items: center;
@@ -542,8 +498,66 @@ nav{
     &:hover{
         transform: scale(1.2, 1.2);
         box-shadow: 1px 1px 10px 5px map-get($mainCol, mBlue);
+        //cursor:pointer;
+    }
+    &:active{
+        transform: scale(110%);
+        background-color: map-get($darkMainCol, darkerBlue);
     }
 }
+
+.team{
+    @include colAndBGCol(map-get($lightMainCol, lighterGreen), map-get($transpMainCol, transPrimary));
+    text-align: center;
+    width: 90%;
+    border-radius: 40px 40px 40px 40px;
+    @include marPad(2%, 0%);
+    @include fonts($primaryFont, 100%, inherit);
+    .subMainTitle3{
+        font-size: 200%;
+    }
+
+    .chars{
+        justify-content: space-around;
+        
+    }
+
+    .charCard{
+        &:hover{
+            box-shadow: 1px 1px 10px 5px map-get($mainCol, mGreen);
+            cursor: auto;
+        }
+        &:active{
+            transform: scale(1.2);
+            background-color: map-get($transpMainCol, transPrimary);
+        }
+    }
+
+} 
+
+
+
+.tbBuilder{
+    @include fonts($primaryFont, 50%, 100);
+    justify-content: space-around;
+    .lightSide{
+        justify-content: space-around;
+        color: map-get($lightMainCol, lighterBlue);
+    }
+    .darkSide{
+        justify-content: space-around;
+        color: map-get($lightMainCol, lighterRed);
+        .charCard{
+            &:hover{
+                box-shadow: 1px 1px 10px 5px map-get($mainCol, mRed);
+            }
+            &:active{
+                background-color: map-get($darkMainCol, darkerRed);
+            }
+        }
+    }
+}
+
 
 .newTeam{
     @extend.team;
@@ -559,6 +573,11 @@ nav{
     .charCard{
         &:hover{
             box-shadow: 1px 1px 10px 5px map-get($mainCol, mPurple);
+            cursor: auto;
+        }
+        &:active{
+            transform: scale(1.2);
+            background-color: map-get($transpMainCol, transPrimary);
         }
     }
     
