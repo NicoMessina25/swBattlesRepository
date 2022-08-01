@@ -82,7 +82,7 @@ class Status{
 }
 
 class Character {
-    constructor(hpT, def, atc, spd, name, side, att1, att2){
+    constructor(hpT, def, atc, spd, name, id, side, att1, att2){
         this.chHP = hpT;
         this.curHP = hpT;
         this.atcBase = atc;
@@ -101,6 +101,7 @@ class Character {
         this.sustituteHP = 0;
         this.concenTurns = 0;
         this.side = side;
+        this.id = id;
     }
 }
 
@@ -708,7 +709,7 @@ while (i<3 && selectedChar){
     } while ((!playerChar || playerTeam.some((char) => !playerChar.chName.localeCompare(char.chName))) && selectedChar);
 
     if(selectedChar){
-        player = new Character(playerChar.chHP, playerChar.def, playerChar.atc, playerChar.spd, playerChar.chName, playerChar.side, playerChar.att1, playerChar.att2);
+        player = new Character(playerChar.chHP, playerChar.def, playerChar.atc, playerChar.spd, playerChar.chName, playerChar.id, playerChar.side, playerChar.att1, playerChar.att2);
 
         playerTeam.push(player);
     }        
@@ -722,7 +723,7 @@ if (selectedChar){
         do{
             nC = Math.round(Math.random()*(arrChar.length - 1));
         } while (cpuTeam.some((char) => !arrChar[nC].chName.localeCompare(char.chName)));
-        cpu = new Character(arrChar[nC].chHP, arrChar[nC].def, arrChar[nC].atc, arrChar[nC].spd, arrChar[nC].chName, arrChar[nC].side, arrChar[nC].att1, arrChar[nC].att2);
+        cpu = new Character(arrChar[nC].chHP, arrChar[nC].def, arrChar[nC].atc, arrChar[nC].spd, arrChar[nC].chName, arrChar[nC].id, arrChar[nC].side, arrChar[nC].att1, arrChar[nC].att2);
         cpuTeam.push(cpu);
     }
 
