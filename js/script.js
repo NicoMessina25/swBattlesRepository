@@ -360,27 +360,151 @@ function changeChar(activeChar, charToSelec, charTeam, random){
     
 }
 
-function addCharToNewTeam(teamCharArray, charSelected, divNewChars, teams){
+/* function setDeleteCharListener(btn, teamCharArray, deleteCharsButtons, divCard, teamInd){
+    
+    btn.onclick= ()=>{
+        console.log("xd");
+        let ind = teamCharArray.indexOf(teamCharArray.find((char)=> `char${char.chName}Team${teamInd}` == divCard.getAttribute("id")));
+        
+
+        deleteCharsButtons.splice(ind, 1);
+        teamCharArray.splice(ind, 1);
+        divCards[ind].remove();
+    };
+        
+    
+} */
+
+function addCharToNewTeam(teamCharArray, charSelected, divNewChars, isEdit, teams){
     if (teamCharArray.length < MAX_CHARACTERS && !teamCharArray.some((char) => !charSelected.chName.localeCompare(char.chName))){
+        let ind;
+        if(isEdit){
+            ind = parseInt(divNewChars.getAttribute("id").slice(9));
+        } else ind = teams.length + 1; 
         teamCharArray.push(new Character(charSelected.chHP, charSelected.def, charSelected.atc, charSelected.spd, charSelected.chName, charSelected.id, charSelected.side, charSelected.att1, charSelected.att2));
-        divNewChars.innerHTML += `
-        <div id="char${charSelected.id}Team${teams.length + 1}" class="charCard">
-            <h4 id="name${charSelected.id}Team${teams.length + 1}">${charSelected.chName}</h4>
-            <img id="imgChar" src="../img/tb${charSelected.id}.jpg" alt="${charSelected.id}">
-            <div id="stats${charSelected.id}Team${teams.length + 1}">
-                <p id="attackChar${teamCharArray.length}Team${teams.length + 1}">Attack: ${charSelected.atc}</p>
-                <p id="defenseChar${teamCharArray.length}Team${teams.length + 1}">Defense: ${charSelected.def}</p>
-                <p id="healthChar${teamCharArray.length}Team${teams.length + 1}">Health: ${charSelected.chHP}</p>
-                <p id="speedChar${teamCharArray.length}Team${teams.length + 1}">Speed: ${charSelected.spd}</p>
-            </div>
-        </div>`;
+        let divCard = document.createElement("div");
+        divCard.setAttribute("id", `char${charSelected.id}Team${ind}`);
+        divCard.setAttribute("class", "charCard");
+        divCard.innerHTML = `
+        <h4 id="name${charSelected.id}Team${ind}">${charSelected.chName}</h4>
+        <img id="imgChar" src="../img/tb${charSelected.id}.jpg" alt="${charSelected.id}">
+        <div id="stats${charSelected.id}Team${ind}">
+            <p id="attackChar${teamCharArray.length}Team${ind}">Attack: ${charSelected.atc}</p>
+            <p id="defenseChar${teamCharArray.length}Team${ind}">Defense: ${charSelected.def}</p>
+            <p id="healthChar${teamCharArray.length}Team${ind}">Health: ${charSelected.chHP}</p>
+            <p id="speedChar${teamCharArray.length}Team${ind}">Speed: ${charSelected.spd}</p>
+        </div>`
+        divNewChars.append(divCard);
+        //newCharCards.push(divCard);
+        let btnDel = document.createElement("button");
+        setButtonAttributes(btnDel, `char${charSelected.id}Team${ind}`, "button2--purple", "Delete"); // id = btnDel${charCards.indexOf(divCard)}Team${teams.length + 1}
+        btnDel.onclick = () => {
+            teamCharArray.splice(teamCharArray.indexOf(teamCharArray.find((char) => `char${char.id}Team${ind}` == divCard.getAttribute("id"))), 1);
+            //deleteCharsButtons.splice(deleteButtons.indexOf(btnDel), 1);
+            //newCharCards.splice(newCharCards.indexOf(divCard), 1);
+            divCard.remove();
+            
+        }
+        divCard.append(btnDel);
+        console.log(teamCharArray);
+        console.log(charSelected);
+        //deleteCharsButtons.push(btnDel);
+        
     } else alert("El equipo es hasta 3 personajes y no puedes repetir");
+}
+
+function genHTMLTeamChars(team, ind){
+    let htmlTeamChars = " ";
+    team.chars.forEach((char, indChar) => {
+        htmlTeamChars += `<div id="char${char.id}Team${ind}" class="charCard">
+        <h4 id="name${char.id}Team${ind}">${char.chName}</h4>
+        <img id="imgChar" src="../img/tb${char.id}.jpg" alt="${char.id}">
+        <div id="stats${char.id}Team${ind}">
+            <p id="attackChar${indChar}Team${ind}">Attack: ${char.atc}</p>
+            <p id="defenseChar${indChar}Team${ind}">Defense: ${char.def}</p>
+            <p id="healthChar${indChar}Team${ind}">Health: ${char.chHP}</p>
+            <p id="speedChar${indChar}Team${ind}">Speed: ${char.spd}</p>
+        </div>
+    </div>`;
+    });
+    return htmlTeamChars;
+}
+
+function updateTeams(teams, divYourTeams, divTeams, editButtons){
+    divYourTeams.innerHTML = " ";
+    teams.forEach((team, ind) => {
+        
+        divTeams[ind].innerHTML =`
+                <h3 id="teamName${ind}" class="subMainTitle3">${team.name}</h3>
+    
+                <button id="deleteButton${ind}" class="button2--green">Delete Team</button>`;
+        let divChars = document.createElement(`div`);
+        divChars.setAttribute("id", `charsTeam${ind}`);
+        divChars.setAttribute("class", "flexible--rowWrap chars");
+        team.chars.forEach((char, indChar)=>{
+            let divCard = document.createElement("div");
+            divCard.setAttribute("id", `char${char.id}Team${ind}`);
+            divCard.setAttribute("class", "charCard");
+            divCard.innerHTML = `<h4 id="name${char.id}Team${ind}">${char.chName}</h4>
+            <img id="imgChar" src="../img/tb${char.id}.jpg" alt="${char.id}">
+            <div id="stats${char.id}Team${ind}">
+                <p id="attackChar${indChar}Team${ind}">Attack: ${char.atc}</p>
+                <p id="defenseChar${indChar}Team${ind}">Defense: ${char.def}</p>
+                <p id="healthChar${indChar}Team${ind}">Health: ${char.chHP}</p>
+                <p id="speedChar${indChar}Team${ind}">Speed: ${char.spd}</p>
+            </div>`;
+            
+            divChars.append(divCard);
+        })
+        divTeams[ind].append(divChars);
+        divTeams[ind].append(editButtons[ind]);
+        divYourTeams.append(divTeams[ind]);
+    });
+}
+
+function setConfirmListener(btnConfirm, teams, divYourTeams, divTeams, editButtons){
+    btnConfirm.addEventListener("click", ()=>{
+        if(teamCharArray.length > 0){
+            updateTeams(teams, divYourTeams, divTeams, editButtons);
+            secBuilder.innerHTML = " ";
+            btnAddTeam.className = "button2--green visible";
+        } else alert("Your team must have at least 1 character");
+            
+    });
+}
+
+function setButtonAttributes(button, btnId, btnClass, btnInnerText){
+    button.setAttribute("id", btnId);
+    button.setAttribute("class", btnClass);
+    button.innerText = btnInnerText;
 }
 
 const btnAddTeam = document.getElementById("btnAddTeam");
 const divYourTeams = document.getElementById("teams");
 const secBuilder = document.getElementById("builder");
-
+const newCharCards = new Array();
+const divTeams = new Array();
+const editButtons = new Array();
+const deleteCharsButtons = new Array();
+const deleteButtons = new Array();
+const btnLightSide = document.createElement("button");
+setButtonAttributes(btnLightSide, "btnLightSide", "button2--blue", "Light Side");
+const btnDarkSide = document.createElement("button");
+setButtonAttributes(btnDarkSide, "btnDarkSide", "button2--red", "Dark Side");
+const btnCreate = document.createElement("button");
+setButtonAttributes(btnCreate, "btnCreate", "button2--purple", "Create");
+const btnConfirm = document.createElement("button");
+setButtonAttributes(btnConfirm, "btnConfirm", "button2--purple", "Confirm");
+const artCharSide = document.createElement("article");
+artCharSide.setAttribute("id", "charSide");
+const divNewChars = document.createElement("div");
+divNewChars.setAttribute("id", "newChars");
+divNewChars.setAttribute("class", "flexible--row chars");
+/* for(let i = 0; i < MAX_CHARACTERS; i++){
+    deleteCharsButtons.push(document.createElement("button"));
+    setButtonAttributes(deleteCharsButtons[i], `btnDeleteChar${i}`, "button2--purple", "Delete");
+} */
+let isEdit;
 
 let op;
 let player, cpu;
@@ -431,6 +555,7 @@ const playerTeam = new Array();
 const cpuTeam = new Array();
 const teams = new Array();
 
+
 let playerChar;
 let i = 0;
 let selectedChar = " ";
@@ -444,95 +569,157 @@ btnAddTeam.addEventListener("click", ()=>{
     <article id="newTeam" class="newTeam" >
         <label for="teamName">TeamName</label><br>
         <input id="newTeamName" type="text" name="teamName" placeholder="New Team">
-        <div id="newChars" class="flexible--row chars"></div>
-    </article>
-    <button id="btnLightSide" class="button2--blue">Light Side</button>
-    <button id="btnConfirm" class="button2--purple">Confirm</button>
-    <button id="btnDarkSide" class="button2--red">Dark Side</button>
-    <article id="charSide" class="lightSide flexible--rowWrap"></article>`;
-
+    </article>`;
+    secBuilder.append(btnLightSide);
+    secBuilder.append(btnCreate);
+    secBuilder.append(btnDarkSide);
+    secBuilder.append(artCharSide);
+    isEdit = false;
     
     const secNewTeam = document.getElementById("newTeam");
-    const btnLightSide = document.getElementById("btnLightSide");
-    const btnDarkSide = document.getElementById("btnDarkSide");
-    const btnConfirm = document.getElementById("btnConfirm");
-    const secCharSide = document.getElementById("charSide");
-    const divNewChars = document.getElementById("newChars");
-    
+    secNewTeam.append(divNewChars);
     divNewChars.innerHTML = " ";
-    //teams.push(new Team(secNewTeam.firstChild.innerText, 0, new Array(), 0, 0));
-    btnLightSide.onclick = ()=>{
-        secCharSide.className = "lightSide flexible--rowWrap";
-        secCharSide.innerHTML = " ";
-        const lightSideCharacters = arrChar.filter((char) => char.side.toUpperCase() == "LIGHT");
-        lightSideCharacters.forEach((char)=>{
-            secCharSide.innerHTML += `<div id="char${char.id}" class="charCard flexible--column">
-            <h2 id="name${char.id}" class="tit">${char.chName}</h2>
-            <img src="../img/tb${char.id}.jpg" alt="${char.id}">
-            <div id="stats${char.id}" class="stats flexible--rowWrap">
-                <p id="attack${char.id}">Attack: ${char.atc}</p>
-                <p id="defense${char.id}">Defense: ${char.def}</p>
-                <p id="health${char.id}">Health: ${char.chHP}</p>
-                <p id="speed${char.id}">Speed: ${char.spd}</p>
-            </div>`
-        });
-        const charCards = document.querySelectorAll(".charCard");
-        charCards.forEach((card)=>{
-            card.addEventListener("click", ()=>{
-                charSelected = lightSideCharacters.find((char)=> card.getAttribute("id") == `char${char.id}`);
-                addCharToNewTeam(teamCharArray, charSelected, divNewChars, teams);
-                
-            });
-        });
-    };
-
-    btnDarkSide.onclick = ()=>{
-        secCharSide.className = "darkSide flexible--rowWrap";
-        secCharSide.innerHTML = " ";
-        const darkSideCharacters = arrChar.filter((char) => char.side.toUpperCase() == "DARK");
-        darkSideCharacters.forEach((char)=>{
-            secCharSide.innerHTML += `<div id="char${char.id}" class="charCard flexible--column">
-            <h2 id="name${char.id}" class="tit">${char.chName}</h2>
-            <img src="../img/tb${char.id}.jpg" alt="${char.id}">
-            <div id="stats${char.id}" class="stats flexible--rowWrap">
-                <p id="attack${char.id}">Attack: ${char.atc}</p>
-                <p id="defense${char.id}">Defense: ${char.def}</p>
-                <p id="health${char.id}">Health: ${char.chHP}</p>
-                <p id="speed${char.id}">Speed: ${char.spd}</p>
-            </div>`
-        });
-
-        const charCards = document.querySelectorAll(".charCard");
-        charCards.forEach((card)=>{
-            card.addEventListener("click", ()=>{
-                charSelected = darkSideCharacters.find((char)=> card.getAttribute("id") == `char${char.id}`);
-                addCharToNewTeam(teamCharArray, charSelected, divNewChars, teams);
-                divYourTeams
-            });
-        });
-    };
-
-    btnConfirm.addEventListener("click", ()=>{
-        if(teams.length < MAX_TEAMS && teamCharArray.length > 0){
-            let teamName = document.getElementById("newTeamName").value
-            teams.push(new Team(teamName, teamCharArray.length, teamCharArray, 0, 0));
-            divYourTeams.innerHTML += `
-            <article id="team${teams.length}" class="team">
-                    <h3 class="subMainTitle3">${teamName}</h3>
-                    <div id="chars" class="flexible--rowWrap chars">
-                        ` + divNewChars.innerHTML + `
-                    </div>
-                    <button class="button2--green">Edit Team</button>
-                    <button class="button2--green">Delete Team</button>
-                </article>`;
-            secBuilder.innerHTML = " ";
-            btnAddTeam.className = "button2--green visible";
-        } else alert(`Solo se pueden crear hasta ${MAX_TEAMS} equipos y tienen que tener al menos un integrante`);
-    })
-
 });
 
+btnLightSide.onclick = ()=>{
+    artCharSide.className = "lightSide flexible--rowWrap";
+    artCharSide.innerHTML = " ";
+    const lightSideCharacters = arrChar.filter((char) => char.side.toUpperCase() == "LIGHT");
+    lightSideCharacters.forEach((char)=>{
+        artCharSide.innerHTML += `
+        <div id="char${char.id}" class="charCard flexible--column">
+            <h2 id="name${char.id}" class="tit">${char.chName}</h2>
+            <img src="../img/tb${char.id}.jpg" alt="${char.id}">
+            <div id="stats${char.id}" class="stats flexible--rowWrap">
+                <p id="attack${char.id}">Attack: ${char.atc}</p>
+                <p id="defense${char.id}">Defense: ${char.def}</p>
+                <p id="health${char.id}">Health: ${char.chHP}</p>
+                <p id="speed${char.id}">Speed: ${char.spd}</p>
+            </div>
+        </div>`
+    });
+    const charCards = document.querySelectorAll(".charCard");
+    charCards.forEach((card)=>{
+        card.addEventListener("click", ()=>{
+            charSelected = lightSideCharacters.find((char)=> card.getAttribute("id") == `char${char.id}`);
+            addCharToNewTeam(teamCharArray, charSelected, divNewChars, isEdit, teams);
+        });
+    });
+};
 
+btnDarkSide.onclick = ()=>{
+    artCharSide.className = "darkSide flexible--rowWrap";
+    artCharSide.innerHTML = " ";
+    const darkSideCharacters = arrChar.filter((char) => char.side.toUpperCase() == "DARK");
+    darkSideCharacters.forEach((char)=>{
+        artCharSide.innerHTML += `<div id="char${char.id}" class="charCard flexible--column">
+        <h2 id="name${char.id}" class="tit">${char.chName}</h2>
+        <img src="../img/tb${char.id}.jpg" alt="${char.id}">
+        <div id="stats${char.id}" class="stats flexible--rowWrap">
+            <p id="attack${char.id}">Attack: ${char.atc}</p>
+            <p id="defense${char.id}">Defense: ${char.def}</p>
+            <p id="health${char.id}">Health: ${char.chHP}</p>
+            <p id="speed${char.id}">Speed: ${char.spd}</p>
+        </div>`
+    });
+
+    
+
+    const charCards = document.querySelectorAll(".charCard");
+    charCards.forEach((card)=>{
+        card.addEventListener("click", ()=>{
+            charSelected = darkSideCharacters.find((char)=> card.getAttribute("id") == `char${char.id}`);
+            addCharToNewTeam(teamCharArray, charSelected, divNewChars, isEdit, teams);
+        });
+    });
+}
+
+btnCreate.addEventListener("click", ()=>{
+    let teamName = document.getElementById("newTeamName").value
+    if(teams.length < MAX_TEAMS && teamCharArray.length > 0 && teamName.trim() != ""){
+        teams.push(new Team(teamName, teamCharArray.length, teamCharArray, 0, 0));
+        let divTeam = document.createElement("article");
+        divTeam.setAttribute("class", "team");
+        let btnEdi = document.createElement("button");
+        setButtonAttributes(btnEdi, ``, "button2--green", "Edit Team");
+        
+    
+        btnEdi.addEventListener("click", ()=>{
+            if(btnAddTeam.className != "invisible" || confirm("Si continuas borrarás el equipo que estabas creando, ¿Desea continuar?")){
+                isEdit = true;
+                let ind = divTeams.indexOf(divTeam);
+                teamCharArray = teams[ind].chars;
+                divNewChars.innerHTML = " ";
+                divNewChars.setAttribute("id", `charsTeam${ind}`);
+                btnAddTeam.className = "invisible";
+                secBuilder.innerHTML = `
+                <article id="newTeam" class="newTeam" >
+                    <label for="teamName">TeamName</label><br>
+                    <input id="newTeamName" type="text" name="teamName" placeholder="New Team">
+                </article>`;
+                const editTeamName = document.getElementById(`newTeamName`);
+                editTeamName.value = teams[ind].name;
+                
+
+                
+                for(let i = 0; i < teamCharArray.length; i++){
+                    let divCard = document.createElement("div");
+                    divCard.setAttribute("id", `char${teamCharArray[i].id}Team${ind}`);
+                    divCard.setAttribute("class", "charCard");
+                    
+                    let char = teams[ind].chars[i];
+                    
+                    divCard.innerHTML = `<h4 id="name${char.id}Team${ind}">${char.chName}</h4>
+                    <img id="imgChar" src="../img/tb${char.id}.jpg" alt="${char.id}">
+                    <div id="stats${char.id}Team${ind}">
+                        <p id="attackChar${i}Team${ind}">Attack: ${char.atc}</p>
+                        <p id="defenseChar${i}Team${ind}">Defense: ${char.def}</p>
+                        <p id="healthChar${i}Team${ind}">Health: ${char.chHP}</p>
+                        <p id="speedChar${i}Team${ind}">Speed: ${char.spd}</p>
+                    </div>`;
+                    let btnDel = document.createElement("button");
+                    setButtonAttributes(btnDel, ``, "button2--purple", "Delete");
+                    btnDel.onclick = () => {
+                        i = teamCharArray.indexOf(teamCharArray.find((c)=> `char${c.id}Team${ind}` == divCard.getAttribute("id")));
+                        teamCharArray.splice(i, 1);
+                        //deleteCharsButtons.splice(deleteButtons.indexOf(btnDel), 1);
+                        //newCharCards.splice(newCharCards.indexOf(divCard), 1);
+                        divCard.remove();
+                        console.log(teamCharArray);
+                        console.log(i);
+                    }
+                    divCard.append(btnDel);
+                    divNewChars.append(divCard);
+                } 
+                const secNewTeam = document.getElementById("newTeam");
+                secBuilder.append(btnLightSide);
+                setConfirmListener(btnConfirm, teams, divYourTeams, divTeams, editButtons); 
+                secBuilder.append(btnConfirm);
+                secBuilder.append(btnDarkSide);
+                artCharSide.innerHTML = " ";
+                secBuilder.append(artCharSide);
+                secNewTeam.append(divNewChars);    
+            }; 
+        });
+        editButtons.push(btnEdi);
+        divTeams.push(divTeam);
+        updateTeams(teams, divYourTeams, divTeams, editButtons);
+        secBuilder.innerHTML = " ";
+        btnAddTeam.className = "button2--green visible";
+    } else alert(`Solo se pueden crear hasta ${MAX_TEAMS} equipos, tienen que tener al menos un integrante y un nombre`);
+});
+/*console.log(deleteCharsButtons);
+ deleteCharsButtons.forEach((btn, ind)=>{
+    console.log("xd");
+    const divCards = divNewChars.querySelectorAll(".charCard");
+    btn.onclick = ()=>{
+        
+        teamCharArray.splice(ind, 1);
+        deleteCharsButtons.splice(ind, 1);
+        divCards[ind].remove();
+    };
+    
+}); */
 
 while (i<3 && selectedChar){
      do{
