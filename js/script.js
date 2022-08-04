@@ -1,6 +1,13 @@
 const MAX_TEAMS = 5;
 const MAX_CHARACTERS = 3;
 
+class User{
+    constructor(userName, password, teams){
+        this.userName = userName;
+        this.password = password;
+        this.teams = teams;
+    }
+}
 
 class Attack{
     constructor(name, pow, prio, special, prob, probSpecEf){
@@ -68,7 +75,7 @@ class Attack{
     }
 
     usedAttack(){
-        return " uso " + this.nameAt;
+        return " usó " + this.nameAt;
     }
         
 }
@@ -106,12 +113,12 @@ class Character {
 }
 
 class Team{
-    constructor(name,size, chars, wins, plays){
+    constructor(name,size, chars, wins, games){
         this.name = name;
         this.size = size;
         this.chars = chars;
         this.wins = wins;
-        this.plays = plays;
+        this.games = games;
     }
 }
 
@@ -125,11 +132,11 @@ function lowersHP(defder, power, atc, def){
         } else {
             defder.curHP -= power*atc/def*4;
         }
-    } else alert(defder.chName + " se protegió");       
+    } else textareaBattleLog.value += `\n\n${defder.chName} se protegió`;       
 }
 
-function attacks(attker, defder, att){
-    alert(attker.chName + att.usedAttack());
+function attacks(attker, defder, att, textareaBattleLog){
+    textareaBattleLog.value += `\n\n${attker.chName} ${att.usedAttack()}`;
             if(att.prob >= Math.random()){
                 if((attker.chStatus.type != 1 && attker.chStatus.type != 4) || Math.random() > 0.5){
                     lowersHP(defder, att.power, attker.atc, defder.def);
@@ -138,13 +145,13 @@ function attacks(attker, defder, att){
                         switch(att.special){
                             case 3: //cura estado
                                     if(attker.chStatus.type != 0 && attker.chStatus.type != 12){
-                                        alert(attker.chName + " dejo de estar " + attker.chStatus.desc);
+                                        textareaBattleLog.value += `\n\n${attker.chName} dejo de estar ${attker.chStatus.desc}`;
                                         attker.chStatus.type = 0;
                                         attker.chStatus.desc = "";
                                     }
                                     break;
                             case 5: //sube ataque
-                                alert(attker.chName + " se subio el ataque");
+                                textareaBattleLog.value += `\n\n${attker.chName} se subio el ataque`;
                                 attker.modAtc++;
                                 if(attker.modAtc >= 0){
                                     attker.atc = attker.atcBase*(1 + attker.modAtc*0.5); 
@@ -153,7 +160,7 @@ function attacks(attker, defder, att){
                                 }
                                 break;
                             case 6: //sub defensa
-                                alert(attker.chName + " se subio la defensa");
+                                textareaBattleLog.value += `\n\n${attker.chName} se subio la defensa`;
                                 attker.modDef++;
                                 if(attker.modDef >= 0){
                                     attker.def = attker.defBase*(1 + attker.modDef*0.5); 
@@ -162,7 +169,7 @@ function attacks(attker, defder, att){
                                 }
                                 break;
                             case 7: //sube velocidad
-                                alert(attker.chName + " se subio la velocidad");
+                                textareaBattleLog.value += `\n\n${attker.chName} se subio la velocidad`;
                                 attker.modSpd++;
                                 if(attker.modSpd >= 0){
                                     attker.spd = attker.spdBase*(1 + attker.modSpd*0.5); 
@@ -176,16 +183,16 @@ function attacks(attker, defder, att){
                                     lowersHP(defder, att.power, attker.atc, defder.def);
                                     hitTimes++;
                                 }
-                                alert(attker.chName + " pegó " + hitTimes + " vez/veces");
+                                textareaBattleLog.value += `\n\n${attker.chName} pegó ${hitTimes} vez/veces`;
                                 break;
                             case 9: //doble golpe
                                 lowersHP(defder, att.power, attker.atc, defder.def);
-                                alert(attker.chName + " pegó 2 veces");
+                                textareaBattleLog.value += `\n\n${attker.chName} pegó 2 veces`;
                                 break;
                             case 10: //ataques con un daño extra
                                 extraPower = Math.random()*5;
                                 lowersHP(defder, extraPower, attker.atc, defder.def);
-                                alert(attker.chName + " pegó con un " + parseInt(extraPower*10) + " extra de poder");
+                                textareaBattleLog.value += `\n\n${attker.chName} pegó con un ${parseInt(extraPower*10)} extra de poder`;
                                 break;
                             case 11: //sustituto
                                 if(attker.sustituteHP <= 0){
@@ -194,10 +201,10 @@ function attacks(attker, defder, att){
                                         attker.sustituteHP = attker.chHP*0.25;
                                         attker.chStatus.desc = "sustituto";
                                     } else{
-                                        alert(attker.chName + " no tiene vida suficiente para el sustituto");
+                                        textareaBattleLog.value += `\n\n${attker.chName} no tiene vida suficiente para el sustituto`;
                                     }
                                 } else {
-                                    alert(attker.chName + " ya tiene un sustituto activo");
+                                    textareaBattleLog.value += `\n\n${attker.chName} ya tiene un sustituto activo`;
                                 }  
                                 break;
                             case 12: // curacion por turnos
@@ -205,7 +212,7 @@ function attacks(attker, defder, att){
                                     attker.chStatus.type = 12;
                                     attker.chStatus.desc = "curado por cada turno"; 
                                 } else {
-                                    alert(attker.chName + " ya está " + attker.chStatus.desc);
+                                    textareaBattleLog.value += `\n\n${attker.chName} ya está ${attker.chStatus.desc}`;
                                 }
                                 break;
                             case 13: //cura 33%
@@ -213,26 +220,26 @@ function attacks(attker, defder, att){
                                 if (attker.curHP > attker.chHP){
                                     attker.curHP = attker.chHP
                                 }
-                                alert(attker.chName + " se curó un 33% de vida");
+                                textareaBattleLog.value += `\n\n${attker.chName} se curó un 33% de vida`;
                                 break;
                             case 14: //daño de retroceso
                                 lowersHP(attker, att.power*0.25, attker.atc, defder.def);
-                                alert(attker.chName + " perdió vida por retroceso");
+                                textareaBattleLog.value += `\n\n${attker.chName} perdió vida por retroceso`;
                                 break;
                             case 15: //previene  un estado
                                 if(attker.chStatus.type == 0){
                                     attker.chStatus.type = 15;
                                     attker.concenTurns = 3;
                                     attker.chStatus.desc = "concentrado";
-                                    alert(attker.chName + " está concentrado");
+                                    textareaBattleLog.value += `\n\n${attker.chName} está concentrado`;
                                 } else {
-                                    alert(attker.chName + " ya está " + attker.chStatus.desc);
+                                    textareaBattleLog.value += `\n\n${attker.chName} ya está ${attker.chStatus.desc}`;
                                 }
                                 break;
                             case 16: //protección
                                 attker.chStatus.type = 16;
                                 attker.chStatus.desc = "protegido";
-                                alert(attker.chName + " está protegido");
+                                textareaBattleLog.value += `\n\n${attker.chName} está protegido`;
                                 break;
                             default:
                                 break; 
@@ -241,7 +248,7 @@ function attacks(attker, defder, att){
                         switch(att.special){
                             case 8:
                             case 9:
-                                alert(attker.chName + " pegó una vez");
+                                textareaBattleLog.value += `\n\n${attker.chName} pegó 1 vez`;
                                 break;
                             default:
                                 break;
@@ -250,17 +257,18 @@ function attacks(attker, defder, att){
                     if (defder.chStatus.type == 0 || defder.chStatus.type == 12){
                         if(specialEffect){
                             switch (att.special){
-                                case 1: 
-                                    alert(defder.chName + " está confundido!");
+                                case 1:
+                                    textareaBattleLog.value += `\n\n${defder.chName} está confundido!`; 
                                     defder.chStatus.type = 1;
                                     defder.chStatus.desc = "confundido";
                                     break;
                                 case 2: 
-                                    alert(defder.chName + " pierde vida cada turno");
+                                    textareaBattleLog.value += `\n\n${defder.chName} pierde vida cada turno`;
                                     defder.chStatus.desc = "extrangulado";
                                     defder.chStatus.type = 2;
                                     break;
-                                case 4: alert(defder.chName + " está paralizado");
+                                case 4: 
+                                    textareaBattleLog.value += `\n\n${defder.chName} está paralizado`;
                                     defder.chStatus.desc = "paralizado";
                                     defder.chStatus.type = 4;
                                     break;
@@ -271,58 +279,58 @@ function attacks(attker, defder, att){
                     } else if(att.special in [1,2,4]){
                         if(defder.chStatus.type == 15){
                             defder.chStatus.type = 0;
-                            alert(defder.chName + " previno el estado pero perdió la concentración");
+                            textareaBattleLog.value += `\n\n${attker.chName} previno el estado pero perdió la concentración`;
                         } else {
-                            alert(defder.chName + " ya está " + defder.chStatus.desc + ". No puede tener más de un estado");
+                            textareaBattleLog.value += `\n\n${attker.chName} ya está ${defder.chStatus.desc}. No puede tener más de un estado`;
                         }
                     }
                     
                 } else {
                     if(attker.chStatus.type == 1){
                         attker.curHP -= att.power*attker.atc*(1-attker.def/100);
-                        alert(attker.chName + " se pegó a sí mismo");
+                        textareaBattleLog.value += `\n\n${attker.chName} se pegó a sí mismo`;
                     } else if(defder.chStatus.type == 16){
-                        alert(defder.chName + " se protegió");
+                        textareaBattleLog.value += `\n\n${attker.chName} se protegió`;
                         defder.chStatus.type = 0; 
                     } 
                     else {
-                        alert(attker.chName + " se quedó paralizado!");
+                        textareaBattleLog.value += `\n\n${attker.chName} se quedó paralizado!`;
                     }
                         
                 } 
-            }else alert(attker.chName + " fallo...");
+            }else textareaBattleLog.value += `\n\n${attker.chName} fallo...`;
 }
 
-function updStatus(char){
+function updStatus(char, textareaBattleLog){
     if (char.curHP > 0){
         switch (char.chStatus.type){ //para cuando haya otros status
             case 1: 
                 if (Math.random() > 0.5){
-                    alert(char.chName + " se libero de la confusion");
+                    textareaBattleLog.value += `\n\n${char.chName} se liberó de la confusión`;
                     char.chStatus.type = 0;
                     char.chStatus.desc = "";
-                } else alert(char.chName + " sigue confundido");
+                } else textareaBattleLog.value += `\n\n${char.chName} sigue confuncido`;
                 break;
             case 2: 
                 char.curHP -= 0.05*char.chHP;
-                alert(char.chName + " perdio vida por el extrangulamiento");
+                textareaBattleLog.value += `\n\n${char.chName} perdió vida por el extrangulamiento`;
                 break;
             case 12:
                 char.curHP -= 0.05*char.chHP;
-                alert(char.chName + " ganó vida por la curación por turnos");
+                textareaBattleLog.value += `\n\n${char.chName} ganó vida por la curación por turnos`;
                 break;
             case 15:
                 char.concenTurns--;
                 if (char.concenTurns == 0){
                     char.chStatus.type = 0;
                     char.chStatus.desc = "";
-                    alert(char.chName + " perdió la concetración");
+                    textareaBattleLog.value += `\n\n${char.chName} perdió la concetración`;
                 }
                 break;
             case 16:
                 char.chStatus.type = 0;
                 char.chStatus.desc = "";
-                alert(char.chName + " dejó de estar protegido");
+                textareaBattleLog.value += `\n\n${char.chName} dejó de estar protegido`;
                 break;
             default:
                 break;
@@ -330,34 +338,6 @@ function updStatus(char){
     }
         
  
-}
-
-function changeChar(activeChar, charToSelec, charTeam, random){
-    let charOp;
-    activeChar.atc = activeChar.atcBase;
-    activeChar.def = activeChar.defBase;
-    activeChar.spd = activeChar.spdBase;
-    activeChar.modAtc = 0;
-    activeChar.modDef = 0;
-    activeChar.modSpd = 0;
-    if (!random){
-        let charOptions = "Selecciona el personaje: ";
-        charToSelec.forEach((char, i)=>{
-            charOptions += `\n ${i + 1} ${char.chName} (${Math.ceil(char.curHP/char.chHP*100)}%)`;
-        })
-        do{
-            charOp = parseInt(prompt(charOptions));
-        } while (charOp > charToSelec.length || charOp < 1);
-        charOp--;
-        player = charTeam.find((char)=> charToSelec[charOp].chName.toUpperCase() == char.chName.toUpperCase());
-        alert(`Se cambió a ${player.chName}! (${Math.ceil(player.curHP/player.chHP*100)}%)`);
-    } else {
-        charOp = Math.round(Math.random()*(charToSelec.length - 1));
-        cpu = charTeam.find((char)=> charToSelec[charOp].chName.toUpperCase() == char.chName.toUpperCase());
-        alert(`Se cambió a ${cpu.chName}! (${Math.ceil(cpu.curHP/cpu.chHP*100)}%)`);
-    }
-    
-    
 }
 
 function addCharToNewTeam(teamCharArray, charSelected, divNewChars, isEdit, teams){
@@ -388,8 +368,6 @@ function addCharToNewTeam(teamCharArray, charSelected, divNewChars, isEdit, team
             
         }
         divCard.append(btnDel);
-        console.log(teamCharArray);
-        console.log(charSelected);
 
         
     } else alert("El equipo es hasta 3 personajes y no puedes repetir");
@@ -415,7 +393,6 @@ function genHTMLTeamChars(team, ind){
 function updateTeams(teams, divYourTeams, divTeams, editButtons, deleteButtons){
     divYourTeams.innerHTML = " ";
     teams.forEach((team, ind) => {
-        
         divTeams[ind].innerHTML =`
                 <h3 id="teamName${ind}" class="subMainTitle3">${team.name}</h3>`;
         let divChars = document.createElement(`div`);
@@ -443,12 +420,14 @@ function updateTeams(teams, divYourTeams, divTeams, editButtons, deleteButtons){
     });
 }
 
-function setConfirmListener(btnConfirm, teams, divYourTeams, divTeams, editButtons, deleteButtons){
+function setConfirmListener(btnConfirm, loggedUser, teamCharArray, divYourTeams, divTeams, editButtons, deleteButtons){
     btnConfirm.addEventListener("click", ()=>{
         if(teamCharArray.length > 0){
-            updateTeams(teams, divYourTeams, divTeams, editButtons, deleteButtons);
+            updateTeams(loggedUser.teams, divYourTeams, divTeams, editButtons, deleteButtons);
+            localStorage.setItem(`user${loggedUser.userName}`, JSON.stringify(loggedUser));
+            sessionStorage.setItem(`loggedUser`, JSON.stringify(loggedUser));
             secBuilder.innerHTML = " ";
-            btnAddTeam.className = "button2--green visible";
+            tbYourTeams.appendChild(btnAddTeam);
         } else alert("Your team must have at least 1 character");
             
     });
@@ -460,9 +439,97 @@ function setButtonAttributes(button, btnId, btnClass, btnInnerText){
     button.innerText = btnInnerText;
 }
 
-const btnAddTeam = document.getElementById("btnAddTeam");
+function cancel(modal){
+    modal.remove();
+}
+
+function logIn(btnNavLogIn, btnNavUser, userName, nav){
+    btnNavLogIn.remove();
+    btnNavUser.innerText = `${userName}`;
+    nav.append(btnNavUser);
+}
+
+function parseAtt(att){
+    return new Attack(att.nameAt, att.power, att.prio, att.special, att.prob, att.probSpecEf);
+}
+
+function cpuAction(cpu, cpuTeam, charToSelecCpu){
+    charToSelecCpu = cpuTeam.filter((char)=> char.curHP > 0 && cpu != char);
+
+    if(charToSelecCpu.length > 0){
+        atOp = Math.round(Math.random()*4 + 1);
+    } else {
+        atOp = Math.round(Math.random()*3 + 1);
+    }
+
+    switch (atOp){
+        case 1: 
+        case 2:
+            return cpu.att1;
+        case 3:
+        case 4:
+            return cpu.att2
+        case 5:
+            cpu.atc = cpu.atcBase;
+            cpu.def = cpu.defBase;
+            cpu.spd = cpu.spdBase;
+            cpu.modAtc = 0;
+            cpu.modDef = 0;
+            cpu.modSpd = 0;
+            return null;
+        default:
+            return null;
+    }
+}
+
+function getNewCharCpu(cpu, charToSelecCpu, cpuTeam){
+    charToSelecCpu = cpuTeam.filter((char)=> char.curHP > 0 && cpu != char);
+    let charOp = Math.round(Math.random()*(charToSelecCpu.length - 1));
+    return cpuTeam.find((char)=> charToSelecCpu[charOp].chName.toUpperCase() == char.chName.toUpperCase());
+}
+
+function resetTeam(teamCharArray){
+    teamCharArray.forEach((char)=>{
+        char.curHP = char.chHP;
+        char.atc = char.atcBase;
+        char.def = char.defBase;
+        char.spd = char.spdBase;
+        char.modAtc = 0;
+        char.modDef = 0;
+        char.modSpd = 0;
+        char.chStatus.desc = "";
+        char.chStatus.type = 0;
+    });
+}
+
+function parseTeam(team){
+    return new Team(team.name, team.size, team.chars, team.wins, team.games);
+}
+
+const tableBestTeams = document.getElementById("tableBestTeams");
+const btnAddTeam = document.createElement("button");
+setButtonAttributes(btnAddTeam, "btnAddTeam", "button2--green", "Add Team");
+const btnNeedsLogIn = document.createElement("button");
+setButtonAttributes(btnNeedsLogIn, "btnNeedsLogIn", "button2--red", "You must log in");
+const main = document.getElementById("main");
+const tbYourTeams = document.getElementById("tbYourTeams");
+const secYourBTeams = document.getElementById("yourBTeams");
+const secSelectYourTeam = document.getElementById("selectYourTeam");
 const divYourTeams = document.getElementById("teams");
 const secBuilder = document.getElementById("builder");
+const nav = document.getElementById("nav");
+const btnNavLogIn = document.createElement("button");
+setButtonAttributes(btnNavLogIn, "log", "log", "Log In");
+const btnNavUser = document.createElement("button");
+setButtonAttributes(btnNavUser, "navUser", "userOp", "");
+const btnLogSignIn = document.getElementById("btnLogSignIn");
+const btnLogOut = document.getElementById("btnLogOut");
+const btnCancelIn = document.getElementById("btnCancelIn");
+const btnCancelOut = document.getElementById("btnCancelOut");
+const modalLogSignIn = document.getElementById("modalLogSignIn");
+modalLogSignIn.remove();
+const modalLogOut = document.getElementById("modalLogOut");
+modalLogOut.remove();
 const newCharCards = new Array();
 const divTeams = new Array();
 const editButtons = new Array();
@@ -480,11 +547,40 @@ artCharSide.setAttribute("id", "charSide");
 const divNewChars = document.createElement("div");
 divNewChars.setAttribute("id", "newChars");
 divNewChars.setAttribute("class", "flexible--row chars");
-let isEdit;
+const btnStartBattle = document.createElement("button");
+setButtonAttributes(btnStartBattle, "btnStart", "button--green", "Battle!!"); 
+const secBattle = document.getElementById("secBattle");
+const btnExit = document.createElement("button");
+setButtonAttributes(btnExit, "btnExit", "button--purple", "Exit");
+const btnCancelSwitch = document.createElement("button");
+setButtonAttributes(btnCancelSwitch, "btnCancelSwitch", "button3--red", "Cancel");
+const divEnemy = document.getElementById("divEnemy");
+const btnEndBattle = document.getElementById("btnEndBattle");
+const divAtOptions = document.createElement("div");
+divAtOptions.setAttribute("id", "atOptions");
+divAtOptions.setAttribute("class", "atOptions flexible--column");
+const btnAtt1 = document.createElement("button");
+setButtonAttributes(btnAtt1, "btnAtt1", "button3--blue", "");
+const btnAtt2 = document.createElement("button");
+setButtonAttributes(btnAtt2, "btnAtt2", "button3--blue", "");
+const btnSwitch = document.createElement("button");
+setButtonAttributes(btnSwitch, "btnSwitch", "button3--blue", "");
+const textareaBattleLog = document.getElementById("textareaBattleLog");
+const arrChar = new Array();
 
+
+nav.append(btnNavLogIn);
+
+let isEdit;
 let op;
 let player, cpu;
-const arrChar = new Array();
+let contTurns;
+let cpuChanges;
+let charToSelecPlayer;
+let charToSelecCpu;
+let attC;
+let btnsChar;
+
 
 arrChar.push(new Character(220.0, 8.7, 9.6, 8.8, "Darth Vader", "Vader", "Dark", new Attack("Golpe Oscuro", 9.5, 0, 5, 1, 0.1), new Attack("Extrangulamiento", 6.5, 0, 2, 0.9, 0.3))); //Crea Darth Vader
 arrChar.push(new Character(250.0, 9.1, 9, 8.5, "Obi-Wan Kenobi", "ObiWan", "Light", new Attack("Soresu - Obi-Wan", 8, 0, 7, 1, 0.2), new Attack("Confusión", 0, 2, 1, 0.5, 1))); //Crea Obi-Wan
@@ -514,7 +610,7 @@ arrChar.push(new Character(210.0, 7.9, 8.5, 8, "Moff Gideon", "Gideon", "Dark", 
 arrChar.push(new Character(200.0, 8.1, 9.5, 9.3, "Asajj Ventress", "Asajj", "Dark", new Attack("Espada Doble", 5.5, 0, 9, 1, 0.95), new Attack("Sanación de Hermandad", 0, 0, 12, 1, 1))); //Asajj Ventress
 arrChar.push(new Character(220.0, 8.6, 8.3, 8.1, "Captain Phasma", "Phasma", "Dark", new Attack("Subfusil Bláster", 3.5, 0, 8, 0.9, 1), new Attack("Escudo de Beskar - Phasma", 1.5, 1, 16, 0.5, 1))); //Captain Phasma
 arrChar.push(new Character(230.0, 8.2, 8.1, 8.5, "Kylo Ren", "Ren", "Dark", new Attack("Parálisis", 10, 0, 4, 0.75, 0.5), new Attack("Odio", 8.5, 0, 2, 0.9, 0.4))); //Kylo Ren
-arrChar.push(new Character(170.0, 8.2, 8.1, 8.5, "Grand Admiral Thrawn", "Thrawn", "Dark", new Attack("Preve el siguiente movimiento", 5, 1, 15, 1, 0.85), new Attack("Mejora las defensas", 8.5, 1, 6, 0.95, 0.7))); //Grand Admiral Thrawn
+arrChar.push(new Character(170.0, 8.2, 8.1, 8.5, "Grand Admiral Thrawn", "Thrawn", "Dark", new Attack("Preve el siguiente movimiento", 5, 1, 15, 1, 0.85), new Attack("Mejora las defensas", 8.5, 0, 6, 0.95, 0.7))); //Grand Admiral Thrawn
 arrChar.push(new Character(250.0, 8.9, 9.3, 8.6, "Savage Opress", "Savage", "Dark", new Attack("Golpes Agresivos", 3, 0, 8, 1, 1), new Attack("Furia", 15, 0, 14, 0.7, 1))); //Savage Opress
 arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "Mother Talzin", "Talzin", "Dark", new Attack("Hechizo Sanador", 0, 0, 13, 1, 1), new Attack("Sanación de las Hermanas", 6, 0, 12, 0.9, 1))); //Mother Talzin
 arrChar.push(new Character(250.0, 9.2, 9.5, 9.1, "Darth Bane", "Bane", "Dark", new Attack("Espíritu del Pasado", 0, 0, 11, 1, 1), new Attack("Poder Ancestral", 6, 0, 5, 0.9, 1))); //Darth Bane
@@ -524,20 +620,394 @@ arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "Bossk", "Bossk", "Dark", new A
 
 
 
-const playerTeam = new Array();
-const cpuTeam = new Array();
-const teams = new Array();
+let playerTeam;
+let cpuTeam = new Array();
+let teams = new Array();
 
 
 let playerChar;
 let i = 0;
 let selectedChar = " ";
 let teamCharArray;
-divYourTeams.innerHTML = " ";
+let loggedUser = JSON.parse(sessionStorage.getItem("loggedUser"));
+
+if(divYourTeams){
+    divYourTeams.innerHTML = " ";
+    secBuilder.innerHTML = " "; 
+}
+
+const loadToYourTeams = () =>{
+    let divTeam = document.createElement("article");
+    divTeam.setAttribute("class", "team");
+
+    let btnEdi = document.createElement("button");
+    setButtonAttributes(btnEdi, ``, "button2--green", "Edit Team");
+    let btnDel = document.createElement("button");
+    setButtonAttributes(btnDel, "", "button2--red", "Delete Team");
+
+    btnEdi.addEventListener("click", ()=>{
+        if(secBuilder.innerHTML == " " || confirm("Si continuas borrarás el equipo que estabas creando, ¿Desea continuar?")){
+            isEdit = true;
+            let ind = divTeams.indexOf(divTeam);
+            teamCharArray = loggedUser.teams[ind].chars;
+            divNewChars.innerHTML = " ";
+            divNewChars.setAttribute("id", `charsTeam${ind}`);
+            btnAddTeam.remove();
+            secBuilder.innerHTML = `
+            <article id="newTeam" class="newTeam" >
+                <label for="teamName">TeamName</label><br>
+                <input id="newTeamName" type="text" name="teamName" placeholder="New Team">
+            </article>`;
+            const editTeamName = document.getElementById(`newTeamName`);
+            editTeamName.value = loggedUser.teams[ind].name;
+            
+            for(let i = 0; i < teamCharArray.length; i++){
+                let divCard = document.createElement("div");
+                let char = loggedUser.teams[ind].chars[i];
+                divCard.setAttribute("id", `char${char.id}Team${ind}`);
+                divCard.setAttribute("class", "charCard");
+
+                divCard.innerHTML = `<h4 id="name${char.id}Team${ind}">${char.chName}</h4>
+                <img id="imgChar" src="../img/tb${char.id}.jpg" alt="${char.id}">
+                <div id="stats${char.id}Team${ind}">
+                    <p id="attackChar${i}Team${ind}">Attack: ${char.atc}</p>
+                    <p id="defenseChar${i}Team${ind}">Defense: ${char.def}</p>
+                    <p id="healthChar${i}Team${ind}">Health: ${char.chHP}</p>
+                    <p id="speedChar${i}Team${ind}">Speed: ${char.spd}</p>
+                </div>`;
+                let btnDel = document.createElement("button");
+                setButtonAttributes(btnDel, ``, "button2--purple", "Delete");
+                btnDel.onclick = () => {
+                    i = teamCharArray.indexOf(teamCharArray.find((c)=> `char${c.id}Team${ind}` == divCard.getAttribute("id")));
+                    teamCharArray.splice(i, 1);
+        
+                    divCard.remove();
+
+                }
+                divCard.append(btnDel);
+                divNewChars.append(divCard);
+            } 
+            const secNewTeam = document.getElementById("newTeam");
+            secBuilder.append(btnLightSide);
+            setConfirmListener(btnConfirm, loggedUser, teamCharArray, divYourTeams, divTeams, editButtons, deleteButtons); 
+            secBuilder.append(btnConfirm);
+            secBuilder.append(btnDarkSide);
+            artCharSide.innerHTML = " ";
+            secBuilder.append(artCharSide);
+            secNewTeam.append(divNewChars);    
+        }; 
+    });
+
+    btnDel.addEventListener("click", ()=>{
+        let i = divTeams.indexOf(divTeam);
+        loggedUser.teams.splice(i, 1);
+        divTeams.splice(i, 1);
+        deleteButtons.splice(i, 1);
+        editButtons.splice(i, 1);
+        localStorage.setItem(`user${loggedUser.userName}`, JSON.stringify(loggedUser));
+        sessionStorage.setItem(`loggedUser`, JSON.stringify(loggedUser));
+        updateTeams(loggedUser.teams, divYourTeams, divTeams, editButtons,deleteButtons);
+    })
+
+    editButtons.push(btnEdi);
+    deleteButtons.push(btnDel);
+    divTeams.push(divTeam);
+    tbYourTeams.appendChild(btnAddTeam);
+}
+
+const loadUser = (loggedUser) =>{
+    logIn(btnNavLogIn, btnNavUser, loggedUser.userName, nav);
+    btnNeedsLogIn.remove();
+    if(divYourTeams){
+        loggedUser.teams.forEach(()=>{
+             loadToYourTeams();
+        });
+        tbYourTeams.append(btnAddTeam);
+        updateTeams(loggedUser.teams, divYourTeams, divTeams, editButtons,deleteButtons);
+    }
+    if(tableBestTeams){
+        let teamsToSort = loggedUser.teams.filter((team)=> team.games != 0);
+        teamsToSort.sort((a, b) => b.wins/b.games - a.wins/a.games);
+        let i = 0;
+        while (i < 3 && i < teamsToSort.length){
+            let teamName = document.getElementById(`tableTeam${i+1}`);
+            let winRate = document.getElementById(`winRate${i+1}`);
+            let games = document.getElementById(`games${i+1}`);
+            teamName.innerText = teamsToSort[i].name;
+            winRate.innerText = parseFloat((teamsToSort[i].wins/teamsToSort[i].games).toFixed(2));
+            games.innerText = teamsToSort[i].games;
+            i++;
+        }
+    }
+    if(secSelectYourTeam){
+        loggedUser.teams.forEach((team, ind)=>{
+            let artTeam = document.createElement("article");
+            artTeam.setAttribute("id", `team${ind}`);
+            artTeam.setAttribute("class", "selectTeam");
+
+            artTeam.innerHTML = `
+            <h3 id="nameTeam${ind}" class="subMainTitle3">Team1</h3>
+            <div id="charsTeam${ind}" class="flexible--row chars">`;
+            secSelectYourTeam.appendChild(artTeam);
+            const editTeamName = document.getElementById(`nameTeam${ind}`);
+            editTeamName.innerText = team.name;
+
+            const divChars = document.getElementById(`charsTeam${ind}`);
+
+            for(let i = 0; i < team.chars.length; i++){
+                let divCard = document.createElement("div");
+                let char = team.chars[i];
+                divCard.setAttribute("id", `char${char.id}Team${ind}`);
+                divCard.setAttribute("class", "charCard");
+
+                divCard.innerHTML = `<h4 id="name${char.id}Team${ind}">${char.chName}</h4>
+                <img id="imgChar" src="../img/tb${char.id}.jpg" alt="${char.id}">
+                <div id="stats${char.id}Team${ind}">
+                    <p id="attackChar${i}Team${ind}">Attack: ${char.atc}</p>
+                    <p id="defenseChar${i}Team${ind}">Defense: ${char.def}</p>
+                    <p id="healthChar${i}Team${ind}">Health: ${char.chHP}</p>
+                    <p id="speedChar${i}Team${ind}">Speed: ${char.spd}</p>
+                </div>`;
+
+                divChars.append(divCard);
+            }
+
+            let btnSel = document.createElement("button");
+            setButtonAttributes(btnSel, `btnSelTeam${ind}`, "button2--blue", "Select Team");
+
+            btnSel.addEventListener("click", ()=>{                
+                playerTeam = team;
+                resetTeam(playerTeam.chars);
+    
+                let artSelectedTeam = document.querySelector(".selectedTeam");
+
+                if(artSelectedTeam){
+                    artSelectedTeam.classList.remove("selectedTeam");
+                    let btnSelected = document.getElementById(`btnSelT${artSelectedTeam.getAttribute("id").slice(1)}`);
+                    btnSelected.innerText = "Select Team";
+                    btnSelected.className = "button2--blue";
+                    btnStartBattle.remove();
+                }                
+                
+                artTeam.classList.add("selectedTeam");
+                artTeam.appendChild(btnStartBattle);
+                btnSel.innerText = "Selected";
+                btnSel.className = "button2--green";
+            });
+
+            artTeam.appendChild(btnSel);
+        });
+        secBattle.remove();
+    }
+}
+
+const updBattleScene = (character, charToSelec, team, name) =>{
+    let HPPercentage = Math.ceil(character.curHP*100/character.chHP);
+    let hName = document.getElementById(`name${name}`);
+    hName.innerText = character.chName;
+
+    let progressHP = document.getElementById(`prog${name}`);
+    progressHP.style = `width: ${HPPercentage}%;`;
+
+    document.getElementById(`span${name}`).innerText = `${HPPercentage}%`;
+    if (character.chStatus.desc.trim() != ""){
+        document.getElementById(`pStatusDesc${name}`).innerText = `Estado: ${character.chStatus.desc}`;
+    } else document.getElementById(`pStatusDesc${name}`).innerText = "";
+    
+    document.getElementById(`img${name}`).setAttribute("src", `../img/tb${character.id}.jpg`);
+
+    let divSubtitutes = document.getElementById(`divSubtitutes${name}`);
+    divSubtitutes.innerHTML = " ";
+    charToSelec = team.filter((char)=> char.curHP > 0 && character != char);
+    charToSelec.forEach((char)=>{
+        divSubtitutes.innerHTML += `
+            <div class="flexible--column">
+                <p>${char.chName}</p>
+                <div class="progress">
+                    <div class="progressBar" style="width: ${Math.ceil(char.curHP*100/char.chHP)}%;></div>
+                    <div class="progressBarPrev"></div>
+                </div>
+            </div>`;
+    });
+}
+
+const turnStarts = (player, cpu, attP, attC, charToSelecPlayer, charToSelecCpu, playerTeam, cpuTeam, playerChanges, cpuChanges, textareaBattleLog, contTurns, btnSwitch)=>{
+    textareaBattleLog.value += `\n\n---------- Turn ${contTurns} ---------`;
+    let playFirs = Math.random() > 0.5;
+
+    if (playerChanges || cpuChanges || attP.prio > attC.prio || attP.prio == attC.prio && player.spd > cpu.spd || attP.prio == attC.prio && player.spd == cpu.spd && playFirs){
+        if (playerChanges){
+            textareaBattleLog.value += `\n\nSe cambió a ${player.chName}`;
+        } else {
+            if (cpuChanges){
+                textareaBattleLog.value += `\n\nSe cambió a ${cpu.chName}! (${Math.ceil(cpu.curHP/cpu.chHP*100)}%)`;
+                updBattleScene(cpu, charToSelecCpu, cpuTeam, "Cpu");
+            }
+            textareaBattleLog.value += "\n\nAtacas primero";
+            attacks(player, cpu, attP, textareaBattleLog);
+        }
+        
+        if(!cpuChanges){
+            if (cpu.curHP > 0){
+                attacks(cpu, player, attC, textareaBattleLog);
+            } 
+        }
+       
+        
+
+    } else {
+        if(cpuChanges){
+            textareaBattleLog.value += `\n\nSe cambió a ${cpu.chName}! (${Math.ceil(cpu.curHP/cpu.chHP*100)}%)`;
+            updBattleScene(cpu, charToSelecCpu, cpuTeam, "Cpu");
+        } else{
+            if (playerChanges){
+                textareaBattleLog.value += `\n\nSe cambió a ${player.chName}`;
+            }
+            textareaBattleLog.value += `\n\nEl rival ataca primero`;
+            attacks(cpu, player, attC, textareaBattleLog);
+        }       
+        if(!playerChanges){
+            if (player.curHP > 0){
+                attacks(player, cpu, attP, textareaBattleLog);
+            }                        
+        }
+    }
+
+    if (player.spd > cpu.spd || player.spd == cpu.spd && playFirs){
+        updStatus(player, textareaBattleLog);
+        updStatus(cpu, textareaBattleLog); 
+    } else {
+        updStatus(cpu, textareaBattleLog); 
+        updStatus(player, textareaBattleLog);
+    }
+        
+
+    if(player.curHP < 0){
+        player.curHP = 0;
+        textareaBattleLog.value += `\n\n${player.chName} se debilitó`;
+
+      
+        btnSwitch.click();
+     
+        
+    }
+    if (cpu.curHP < 0){
+        cpu.curHP = 0;
+        textareaBattleLog.value += `\n\n${cpu.chName} se debilitó`;
+  
+    }
+
+    updBattleScene(player, charToSelecPlayer, playerTeam, "User");
+    updBattleScene(cpu, charToSelecCpu, cpuTeam, "Cpu");  
+
+ 
+    textareaBattleLog.scrollTo(0,textareaBattleLog.scrollHeight);//
+
+}
+
+if(loggedUser){
+    loadUser(loggedUser);
+} else{
+    if(divYourTeams){
+        tbYourTeams.append(btnNeedsLogIn);
+    } else if(tableBestTeams){
+        secYourBTeams.append(btnNeedsLogIn);
+    } else if (secSelectYourTeam){
+        secSelectYourTeam.append(btnNeedsLogIn);
+        secBattle.remove();
+    }
+}
+
+
+
+btnNavLogIn.addEventListener("click", ()=>{
+    main.prepend(modalLogSignIn);
+    document.getElementById("inputUserName").value = "";
+    document.getElementById("inputPass").value = "";
+});
+
+btnNeedsLogIn.onclick = ()=>{
+    btnNavLogIn.click();
+}
+
+btnNavUser.addEventListener("click", ()=>{
+    main.prepend(modalLogOut);
+})
+
+btnCancelIn.onclick = () => {
+    cancel(modalLogSignIn);
+}
+
+btnCancelOut.onclick = () =>{
+    cancel(modalLogOut);
+    sessionStorage.removeItem("loggedUser");
+}
+
+btnLogSignIn.addEventListener("click", ()=>{
+    let userName = document.getElementById("inputUserName").value;
+    let pass = document.getElementById("inputPass").value;
+    let exists = false;
+    let signedUser;
+    let i = 0;
+    while(i < localStorage.length && !exists){
+        let key = localStorage.key(i);
+        signedUser = JSON.parse(localStorage.getItem(key));
+        exists = signedUser.userName == userName;
+        i++;
+    }
+    if(userName.trim() != "" && pass != "" && !exists){
+        signedUser = new User(userName, pass, new Array());
+        localStorage.setItem(`user${userName}`, JSON.stringify(signedUser));
+        btnCancelIn.click();
+        sessionStorage.setItem("loggedUser", JSON.stringify(signedUser));
+        loggedUser = signedUser;
+        loadUser(loggedUser);
+    } else if (exists){
+        if(signedUser.password == pass){
+            btnCancelIn.click();
+            sessionStorage.setItem("loggedUser", JSON.stringify(signedUser));
+            teams = signedUser.teams;
+            loggedUser = signedUser;
+            loadUser(loggedUser);
+            
+        } else alert("Contraseña Incorrecta");
+    } else alert("Debe ingresar un nombre o una contraseña");
+});
+
+btnLogOut.addEventListener("click", ()=>{
+    btnCancelOut.click();
+    btnNavUser.remove();
+    nav.append(btnNavLogIn);
+    if(divYourTeams){
+        divYourTeams.innerHTML = " ";
+        tbYourTeams.appendChild(btnNeedsLogIn);
+        if(secBuilder.innerHTML.trim() != ""){
+            secBuilder.innerHTML = " ";
+        } else btnAddTeam.remove();
+    }
+    if(tableBestTeams){
+        secYourBTeams.appendChild(btnNeedsLogIn);
+        for(let i = 0; i<3; i++){
+            let teamName = document.getElementById(`tableTeam${i+1}`);
+            let winRate = document.getElementById(`winRate${i+1}`);
+            let games = document.getElementById(`games${i+1}`);
+            teamName.innerText = " ------ ";
+            winRate.innerText = " ------ ";
+            games.innerText = " ------ ";
+        }
+    }
+    if(secSelectYourTeam){
+        secSelectYourTeam.innerHTML = " ";
+        secBattle.remove();
+        main.append(secSelectYourTeam);
+        secSelectYourTeam.append(btnNeedsLogIn);
+    }
+})
+
 
 btnAddTeam.addEventListener("click", ()=>{
     teamCharArray = new Array();
-    btnAddTeam.className = "invisible";
+    btnAddTeam.remove();
     secBuilder.innerHTML = `
     <article id="newTeam" class="newTeam" >
         <label for="teamName">TeamName</label><br>
@@ -604,120 +1074,36 @@ btnDarkSide.onclick = ()=>{
     charCards.forEach((card)=>{
         card.addEventListener("click", ()=>{
             charSelected = darkSideCharacters.find((char)=> card.getAttribute("id") == `char${char.id}`);
-            addCharToNewTeam(teamCharArray, charSelected, divNewChars, isEdit, teams);
+            addCharToNewTeam(teamCharArray, charSelected, divNewChars, isEdit, loggedUser.teams);
         });
     });
 }
 
 btnCreate.addEventListener("click", ()=>{
     let teamName = document.getElementById("newTeamName").value
-    if(teams.length < MAX_TEAMS && teamCharArray.length > 0 && teamName.trim() != ""){
-        teams.push(new Team(teamName, teamCharArray.length, teamCharArray, 0, 0));
-        let divTeam = document.createElement("article");
-        divTeam.setAttribute("class", "team");
-        /* divTeam.innerHTML = `
-            <h3 id="teamName${ind}" class="subMainTitle3">${team.name}</h3>`; */
-        let btnEdi = document.createElement("button");
-        setButtonAttributes(btnEdi, ``, "button2--green", "Edit Team");
-        let btnDel = document.createElement("button");
-        setButtonAttributes(btnDel, "", "button2--red", "Delete Team");
-    
-        btnEdi.addEventListener("click", ()=>{
-            if(btnAddTeam.className != "invisible" || confirm("Si continuas borrarás el equipo que estabas creando, ¿Desea continuar?")){
-                isEdit = true;
-                let ind = divTeams.indexOf(divTeam);
-                teamCharArray = teams[ind].chars;
-                divNewChars.innerHTML = " ";
-                divNewChars.setAttribute("id", `charsTeam${ind}`);
-                btnAddTeam.className = "invisible";
-                secBuilder.innerHTML = `
-                <article id="newTeam" class="newTeam" >
-                    <label for="teamName">TeamName</label><br>
-                    <input id="newTeamName" type="text" name="teamName" placeholder="New Team">
-                </article>`;
-                const editTeamName = document.getElementById(`newTeamName`);
-                editTeamName.value = teams[ind].name;
-                
-                for(let i = 0; i < teamCharArray.length; i++){
-                    let divCard = document.createElement("div");
-                    divCard.setAttribute("id", `char${teamCharArray[i].id}Team${ind}`);
-                    divCard.setAttribute("class", "charCard");
-                    
-                    let char = teams[ind].chars[i];
-                    
-                    divCard.innerHTML = `<h4 id="name${char.id}Team${ind}">${char.chName}</h4>
-                    <img id="imgChar" src="../img/tb${char.id}.jpg" alt="${char.id}">
-                    <div id="stats${char.id}Team${ind}">
-                        <p id="attackChar${i}Team${ind}">Attack: ${char.atc}</p>
-                        <p id="defenseChar${i}Team${ind}">Defense: ${char.def}</p>
-                        <p id="healthChar${i}Team${ind}">Health: ${char.chHP}</p>
-                        <p id="speedChar${i}Team${ind}">Speed: ${char.spd}</p>
-                    </div>`;
-                    let btnDel = document.createElement("button");
-                    setButtonAttributes(btnDel, ``, "button2--purple", "Delete");
-                    btnDel.onclick = () => {
-                        i = teamCharArray.indexOf(teamCharArray.find((c)=> `char${c.id}Team${ind}` == divCard.getAttribute("id")));
-                        teamCharArray.splice(i, 1);
-            
-                        divCard.remove();
-
-                    }
-                    divCard.append(btnDel);
-                    divNewChars.append(divCard);
-                } 
-                const secNewTeam = document.getElementById("newTeam");
-                secBuilder.append(btnLightSide);
-                setConfirmListener(btnConfirm, teams, divYourTeams, divTeams, editButtons, deleteButtons); 
-                secBuilder.append(btnConfirm);
-                secBuilder.append(btnDarkSide);
-                artCharSide.innerHTML = " ";
-                secBuilder.append(artCharSide);
-                secNewTeam.append(divNewChars);    
-            }; 
-        });
-
-        btnDel.addEventListener("click", ()=>{
-            let i = divTeams.indexOf(divTeam);
-            teams.splice(i, 1);
-            divTeams.splice(i, 1);
-            deleteButtons.splice(i, 1);
-            editButtons.splice(i, 1);
-
-            updateTeams(teams, divYourTeams, divTeams, editButtons,deleteButtons);
-        })
-
-        editButtons.push(btnEdi);
-        deleteButtons.push(btnDel);
-        divTeams.push(divTeam);
-        updateTeams(teams, divYourTeams, divTeams, editButtons,deleteButtons);
+    if(loggedUser.teams.length < MAX_TEAMS && teamCharArray.length > 0 && teamName.trim() != ""){
+        loggedUser.teams.push(new Team(teamName, teamCharArray.length, teamCharArray, 0, 0));
+        
+        loadToYourTeams();
+        updateTeams(loggedUser.teams, divYourTeams, divTeams, editButtons,deleteButtons);
+        localStorage.setItem(`user${loggedUser.userName}`, JSON.stringify(loggedUser));
+        sessionStorage.setItem(`loggedUser`, JSON.stringify(loggedUser));
         secBuilder.innerHTML = " ";
-        btnAddTeam.className = "button2--green visible";
     } else alert(`Solo se pueden crear hasta ${MAX_TEAMS} equipos, tienen que tener al menos un integrante y un nombre`);
 });
 
-while (i<3 && selectedChar){
-     do{
-        let chaSelec = "Seleccione el personaje " + (i+1) + " (escribe el nombre completo y sin repetir):\n"
-        arrChar.forEach(function(char){
-            chaSelec += " - " + char.chName;
-        });
-        selectedChar = prompt(chaSelec);
-        if (selectedChar){
-            playerChar = arrChar.find((char) => char.chName.toUpperCase() == selectedChar.toUpperCase());
-            console.log(playerChar);
-        }
-    } while ((!playerChar || playerTeam.some((char) => !playerChar.chName.localeCompare(char.chName))) && selectedChar);
-
-    if(selectedChar){
-        player = new Character(playerChar.chHP, playerChar.def, playerChar.atc, playerChar.spd, playerChar.chName, playerChar.id, playerChar.side, playerChar.att1, playerChar.att2);
-
-        playerTeam.push(player);
-    }        
-    i++;
-}
+btnStartBattle.addEventListener("click", ()=>{
+    loggedUser.teams.find(team => playerTeam.name == team.name).games += 1;
+    sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
+    localStorage.setItem(`user${loggedUser.userName}`, JSON.stringify(loggedUser));
+    secSelectYourTeam.remove();
+    main.append(secBattle); 
    
+    
+    textareaBattleLog.value = "";
+    contTurns = 0;
 
-if (selectedChar){ 
+    cpuTeam = new Array();
     let nC;
     for(let i = 0; i<3; i++){
         do{
@@ -727,165 +1113,194 @@ if (selectedChar){
         cpuTeam.push(cpu);
     }
 
-    let team = "";
 
-    playerTeam.forEach((char) => {
-        team += char.chName + " - ";
-    })
-    alert("Elegiste a " + team + "!");
-
-    team = "";
-    cpuTeam.forEach((char) => {
-        team += char.chName + " - ";
-    })
-    alert("Te enfrentas a " + team + "!");
-
-    let atOp;
-
-    player = playerTeam[0];
+    player = playerTeam.chars[0];
     cpu = cpuTeam[0];
-    let charToSelecPlayer;
-    let charToSelecCpu;
-
-    while (playerTeam.reduce((hpT, char) => hpT += char.curHP, 0) > 0 && cpuTeam.reduce((hpT, char)=> hpT += char.curHP, 0) > 0){
-        let playerChanges;
-        let cpuChanges;
-        let attP, attC;
-        let opNumber = 2;
-
-        if (player.curHP == 0){
-            changeChar(player, charToSelecPlayer, playerTeam, false);
-        }
-
-        if(cpu.curHP == 0){
-            changeChar(cpu, charToSelecCpu, cpuTeam, true);
-        }
-
-        playerChanges = false;
-        cpuChanges = false;
-
-        do{
-            let textToShow = "Elige un movimienyo: \n 1- " + player.att1.nameAt + " " + player.att1.sDes + " \n 2- " + player.att2.nameAt + " " + player.att2.sDes;
-            charToSelecPlayer = playerTeam.filter((char)=> char.curHP > 0 && player != char);
-            if(charToSelecPlayer.length > 0){
-                textToShow += "\n 3- Cambiar de Personaje";
-                opNumber++;
-            }
-            atOp = parseInt(prompt(textToShow));
-        } while ((atOp > opNumber || atOp < 1) || Number.isNaN(atOp));
-
-        switch (atOp){
-            case 1:  
-                attP = player.att1;
-                break;
-            case 2: 
-                attP = player.att2;
-                break;
-            case 3:
-                playerChanges = true;
-                break;
-            default:
-                break;
-        }
-
-        charToSelecCpu = cpuTeam.filter((char)=> char.curHP > 0 && cpu != char);
-
-        if(charToSelecCpu.length > 0){
-            atOp = Math.round(Math.random()*4 + 1);
-        } else {
-            atOp = Math.round(Math.random()*3 + 1);
-        }
+    attC = null;
     
-        switch (atOp){
-            case 1: 
-            case 2:
-                attC = cpu.att1;
-                break;
-            case 3:
-            case 4:
-                attC = cpu.att2
-                break;
-            case 5:
-                cpuChanges = true;
-                break;
-            default:
-                break;
-        }
 
+    charToSelecPlayer = playerTeam.chars.filter((char)=> char.curHP > 0 && player != char);
+    charToSelecCpu = cpuTeam.filter((char)=> char.curHP > 0 && cpu != char);
 
-        let playFirs = Math.random() > 0.5;
+    updBattleScene(player, charToSelecPlayer, playerTeam.chars, "User");
+    let divUser = document.getElementById("divUser");
+    divUser.append(divAtOptions);
+    divAtOptions.append(btnAtt1);
+    divAtOptions.append(btnAtt2);
+    divAtOptions.append(btnSwitch);
+    /* divAtOptions.innerHTML = `
+        <button id="btnAtt1" class="button3--blue"><h4>${player.att1.nameAt}</h4><p>${player.att1.sDes}</p></button>
+        <button id="btnAtt2" class="button3--blue"><h4>${player.att2.nameAt}</h4><p>${player.att2.sDes}</p></button>
+        <button id="btnSwitch" class="button3--blue"><h4>Switch Character</h4></button>`; */
+    updBattleScene(cpu, charToSelecCpu, cpuTeam, "Cpu");
+    
+   btnAtt1.innerHTML = `<h4>${player.att1.nameAt}</h4><p>${player.att1.sDes}</p>`;
+   btnAtt2.innerHTML = `<h4>${player.att2.nameAt}</h4><p>${player.att2.sDes}</p>`;
+   btnSwitch.innerHTML = `<h4>Switch Character</h4>`;
+    
+});
 
-        if (playerChanges || cpuChanges || attP.prio > attC.prio || attP.prio == attC.prio && player.spd > cpu.spd || attP.prio == attC.prio && player.spd == cpu.spd && playFirs){
-            if (playerChanges){
-                changeChar(player, charToSelecPlayer, playerTeam, false);
-            } else {
-                if (cpuChanges){
-                    changeChar(cpu, charToSelecCpu, cpuTeam, true);
-                }
-                alert("Atacas primero");
-                attacks(player, cpu, attP);
-            }
-            
-            if(!cpuChanges){
-                if (cpu.curHP > 0){
-                    attacks(cpu, player, attC);
-                } 
-            }
-           
-            
-
-        } else {
-            if(cpuChanges){
-                changeChar(cpu, charToSelecCpu, cpuTeam, true);
-            } else{
-                if (playerChanges){
-                    changeChar(player, charToSelecPlayer, playerTeam, false);
-                }
-                alert("El rival ataca primero");
-                attacks(cpu, player, attC);  
-            }       
-            if(!playerChanges){
-                if (player.curHP > 0){
-                    attacks(player, cpu, attP);
-                
-                }                        
-            }
-        }
-
-        if (player.spd > cpu.spd || player.spd == cpu.spd && playFirs){
-            updStatus(player);
-            updStatus(cpu); 
-        } else {
-            updStatus(cpu); 
-            updStatus(player);
-        }
-            
-
-        if(player.curHP < 0){
-            player.curHP = 0;
-            alert(player.chName + " se debilitó");
-        }
-        if (cpu.curHP < 0){
-            cpu.curHP = 0;
-            alert(cpu.chName + " se debilitó");
-        }
-
-        alert(`${player.chName} (HP: ${Math.ceil(player.curHP/player.chHP*100)}%) Estado: - ${player.chStatus.desc} (Tú)\n\n ${cpu.chName} (HP: ${Math.ceil(cpu.curHP/cpu.chHP*100)}%) Estado: - ${cpu.chStatus.desc} (Rival)`);
-                
-    }             
-
-    if(player.curHP > 0){
-        alert(`${player.chName} gana!! (HP: ${Math.ceil(player.curHP/player.chHP*100)}%) (Tú)`);
-    } else if (cpu.curHP > 0){
-        alert(cpu.chName + " gana!! (HP: " + Math.ceil(cpu.curHP/cpu.chHP*100) + "%) (Rival)");
-    } else {
-        alert("Empate!!");
+btnAtt1.addEventListener("click", ()=>{
+    cpuChanges = false;
+    contTurns++;
+    attC = cpuAction(cpu, cpuTeam, charToSelecCpu);
+    if(!attC){
+        cpuChanges = true;
+        cpu = getNewCharCpu(cpu, charToSelecCpu, cpuTeam);
     }
+    attP = parseAtt(player.att1);
+    turnStarts(player, cpu, attP, attC, charToSelecPlayer, charToSelecCpu, playerTeam.chars, cpuTeam, false, cpuChanges, textareaBattleLog, contTurns, btnSwitch);
+    if(cpu.curHP == 0){
+        if(cpuTeam.reduce((hpT, char) => hpT += char.curHP, 0) > 0){
+            cpu = getNewCharCpu(cpu, charToSelecCpu, cpuTeam);
+            textareaBattleLog.value += `\n\nSe cambió a ${cpu.chName}! (${Math.ceil(cpu.curHP/cpu.chHP*100)}%)`;
+            updBattleScene(cpu, charToSelecCpu, cpuTeam, "Cpu");
+        } else btnEndBattle.click();
+    }
+});
 
-    console.log(playerTeam);
-    console.log(cpuTeam);
+btnAtt2.addEventListener("click", ()=>{
+    cpuChanges = false;
+    contTurns++;
+    attC = cpuAction(cpu, cpuTeam, charToSelecCpu);
+    if(!attC){
+        cpuChanges = true;
+        cpu = getNewCharCpu(cpu, charToSelecCpu, cpuTeam);
+    }
+    attP = parseAtt(player.att2);
+    turnStarts(player, cpu, attP, attC, charToSelecPlayer, charToSelecCpu, playerTeam.chars, cpuTeam, false, cpuChanges, textareaBattleLog, contTurns, btnSwitch);
+    if(cpu.curHP == 0){
+        if(cpuTeam.reduce((hpT, char) => hpT += char.curHP, 0) > 0){
+            cpu = getNewCharCpu(cpu, charToSelecCpu, cpuTeam);
+            textareaBattleLog.value += `\n\nSe cambió a ${cpu.chName}! (${Math.ceil(cpu.curHP/cpu.chHP*100)}%)`;
+            updBattleScene(cpu, charToSelecCpu, cpuTeam, "Cpu");
+        } else btnEndBattle.click();
+    
+       
+    }
+});
 
-} else alert("Cancelaste");
+btnSwitch.addEventListener("click", ()=>{
+    contTurns++;
+    btnsChar = new Array();
+    btnAtt1.remove();
+    btnAtt2.remove();
+    btnSwitch.remove();
+    if(playerTeam.chars.reduce((hpT, char) => hpT += char.curHP,0) > 0){
+        charToSelecPlayer.forEach((char, ind)=>{
+            
+            btnsChar.push(document.createElement(`button`))
+            //divAtOptions.innerHTML += `<button id="btnChar${ind}" class="button3--blue">${char.chName}</button>`;
+            setButtonAttributes(btnsChar[ind],`btnChar${ind}`, "button3--blue", `${char.chName}`);
+            divAtOptions.append(btnsChar[ind]);
+
+            if(char.chStatus.desc.trim() != ""){
+                btnsChar[ind].innerText += ` - Estado: ${char.chStatus.desc}`;
+            }
 
 
-//*/
+            btnsChar[ind].addEventListener("click", ()=>{
+                cpuChanges = false;
+                attC = cpuAction(cpu, cpuTeam, charToSelecCpu);
+                if(!attC){
+                    cpuChanges = true;
+                    cpu = getNewCharCpu(cpu, charToSelecCpu, cpuTeam);
+                }
+                let playerSwitchedHP = player.curHP;
+                player.atc = player.atcBase;
+                player.def = player.defBase;
+                player.spd = player.spdBase;
+                player.modAtc = 0;
+                player.modDef = 0;
+                player.modSpd = 0;
+                player = playerTeam.chars.find((character)=> charToSelecPlayer[ind].chName.toUpperCase() == character.chName.toUpperCase());
+                charToSelecPlayer = playerTeam.chars.filter((char)=> char.curHP > 0 && player != char);
+                updBattleScene(player, charToSelecPlayer, playerTeam.chars, "User");
+                
+                if(playerSwitchedHP > 0){
+                    turnStarts(player, cpu, null, attC, charToSelecPlayer, charToSelecCpu, playerTeam.chars, cpuTeam, true, cpuChanges, textareaBattleLog, contTurns, btnSwitch);
+                    if(cpu.curHP == 0){
+                        if(cpuTeam.reduce((hpT, char) => hpT += char.curHP, 0) > 0){
+                            cpu = getNewCharCpu(cpu, charToSelecCpu, cpuTeam);
+                            textareaBattleLog.value += `\n\nSe cambió a ${cpu.chName}! (${Math.ceil(cpu.curHP/cpu.chHP*100)}%)`;
+                        } else btnEndBattle.click();
+                        
+                    }
+                } else {
+                    textareaBattleLog.value += `\n\nSe cambió a ${player.chName}`;
+                }
+                    
+
+
+                btnCancelSwitch.remove();
+                btnsChar.forEach((btn)=>{
+                    btn.remove();
+                });
+
+                btnAtt1.innerHTML = `<h4>${player.att1.nameAt}</h4><p>${player.att1.sDes}</p>`;
+                btnAtt2.innerHTML = `<h4>${player.att2.nameAt}</h4><p>${player.att2.sDes}</p>`;
+                divAtOptions.append(btnAtt1);
+                divAtOptions.append(btnAtt2);
+                divAtOptions.append(btnSwitch);
+            });
+        });
+        if(player.curHP > 0){
+            divAtOptions.append(btnCancelSwitch);
+        }
+    } else {
+        btnEndBattle.click();
+    }    
+    
+});
+
+btnCancelSwitch.addEventListener("click", ()=>{
+    btnCancelSwitch.remove();
+    let btnChars = document.querySelectorAll(".button3--blue");
+    btnChars.forEach((btn)=>{
+        btn.remove();
+    });
+    divAtOptions.append(btnAtt1);
+    divAtOptions.append(btnAtt2);
+    divAtOptions.append(btnSwitch);
+});
+
+
+if(btnEndBattle){
+    btnEndBattle.addEventListener("click", ()=>{
+        btnEndBattle.remove();
+        btnAtt1.remove();
+        btnAtt2.remove();
+        btnSwitch.remove();
+        btnsChar.forEach((btn)=>btn.remove());
+        btnCancelSwitch.remove();
+        divEnemy.append(btnExit);
+        let playerTHP = playerTeam.chars.reduce((hpT, char)=> hpT += char.curHP, 0);
+        let cpuTHP = cpuTeam.reduce((hpT, char)=> hpT += char.curHP, 0);
+        if(playerTHP > 0 && cpuTHP == 0){
+            textareaBattleLog.value += `\n\n\ ----- Result ---- \n\n${loggedUser.userName} has won!!!`;
+            loggedUser.teams.find(team => playerTeam.name == team.name).wins++;
+            resetTeam(playerTeam.chars);
+            sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
+            localStorage.setItem(`user${loggedUser.userName}`, JSON.stringify(loggedUser));
+        } else if ((playerTHP > 0 && cpuTHP > 0 && confirm("If you leave, you will lose the battle...")) || (playerTHP == 0 && cpuTHP > 0)){
+            textareaBattleLog.value += `\n\n\ ----- Result ---- \n\n${loggedUser.userName} has lost...`;
+        } else if(cpuTHP == 0){
+            textareaBattleLog.value += `\n\n\ ----- Result ---- \n\nIt's a draw!!!`; 
+        } else {
+            btnExit.remove();
+            divEnemy.append(btnEndBattle);
+        }
+        textareaBattleLog.scrollTo(0,textareaBattleLog.scrollHeight);
+        
+    });
+}
+
+
+btnExit.addEventListener("click", ()=>{
+    btnExit.remove();
+    divEnemy.append(btnEndBattle);
+    resetTeam(playerTeam.chars);
+    divAtOptions.remove();
+    secBattle.remove();
+    main.append(secSelectYourTeam);
+});

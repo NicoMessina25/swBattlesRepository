@@ -13,7 +13,7 @@
 <body>
     <div class="gridContainer">
         <header>
-            <nav class="flexible--row">
+            <nav id="nav" class="flexible--row">
                 <div id="logo">
                     <a href="../index.html">
                     <img src="" alt="LogoSWB"></a>
@@ -25,12 +25,23 @@
                         <li><a href="teamBuilder.html">TeamBuilder</a></li>
                         <li><a href="battles.html">Battles!</a></li>
                     </ul>
-                    <a href="#" class="log">Log In</a>
                 </div>
                 
             </nav>
         </header>
-        <main>
+        <main id="main">
+            <section id="modalLogSignIn" class="logIn flexible--column">
+                <label for="userName">User Name</label>
+                <input type="text" name="userName" id="inputUserName" placeholder="player1234">           
+                <label for="pass">Password</label>
+                <input type="password" name="pass" id="inputPass">
+                <button id="btnLogSignIn" class="button2--blue">Log In/Sign In</button>
+                <button id="btnCancelIn" class="button2--red">Cancel</button>
+            </section>
+            <section id="modalLogOut" class="logOut">
+                <button id="btnLogOut" class="button2--red">Log Out</button>
+                <button id="btnCancelOut" class="button2--green">Cancel</button>
+            </section>
             <div class="lorMainTit">
                 <h1 class="mainTitle2">The Story of Star Wars</h1>
             </div>
@@ -135,6 +146,6 @@
             <div></div>
         </footer>
     </div>
-    <!-- <script src="../js/script.js"></script> -->
+    <script src="../js/script.js"></script>
 </body>
 </html>

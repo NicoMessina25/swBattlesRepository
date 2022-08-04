@@ -63,6 +63,11 @@ body{
     flex-flow: row wrap;
 }
 
+.flexible--rowReverse{
+    display: flex;
+    flex-direction: row-reverse;
+}
+
 .flexible--column{
     display: flex;
     flex-direction: column;
@@ -207,6 +212,36 @@ body{
     }
 }
 
+.button3{
+    @extend.button;
+    @include fonts($primaryFont, 100%, inherit);
+    @include marPad(1%, 3%);
+    border: 3px solid map-get($darkMainCol, darkerPrimary);
+    transition: all .2s;
+    border-radius: 5px 5px 5px 5px ;
+    &:hover{
+        transform: scale(1.0, 1.0)
+    }
+}
+
+.button3--blue{
+    @extend.button3;
+    @include colAndBGCol(map-get($mainCol, primary), map-get($lightMainCol, lighterBlue));
+    &:hover{
+        border: 3px solid map-get($darkMainCol, darkerBlue);
+        @include colAndBGCol(map-get($lightMainCol, lighterBlue), map-get($darkMainCol, darkerPrimary));
+    }
+}
+
+.button3--red{
+    @extend.button3;
+    @include colAndBGCol(map-get($mainCol, primary), map-get($lightMainCol, lighterRed));
+    &:hover{
+        border: 3px solid map-get($darkMainCol, darkerRed);
+        @include colAndBGCol(map-get($lightMainCol, lighterRed), map-get($darkMainCol, darkerPrimary));
+    }
+}
+
 .table{
     border-collapse: collapse;
     @include sizes(80%, auto);
@@ -217,6 +252,15 @@ body{
         padding: 1%;
         background-color: map-get($transpMainCol, transPrimary);
         text-align: center;
+        a{
+            text-decoration: none;
+            color: inherit;
+            transition: all .2s;
+            &:hover{
+                transform: scale(1.2);
+                color: map-get($darkMainCol, darkerGreen);
+            }
+        }
     }
 
     th{
@@ -231,6 +275,14 @@ img{
         transform: scale(1.05, 1.05);
     }
 }
+
+input{
+    @include colAndBGCol(inherit, map-get($darkMainCol, darkerPrimary));
+    border: 1px solid map-get($mainCol, secondary);
+    border-radius: 5%;
+    @include fonts($primaryFont, 100%, 500);
+    padding: 1%;
+};
 
 .visible{
     visibility: visible;
@@ -288,22 +340,52 @@ nav{
                 }
             }
         }
-
-        .log{
-            color: map-get($lightMainCol, lighterRed);
-            text-decoration: none;
-            padding: 1%;
-            transition: all .2s;
-            border-radius: 75px 75px 75px 75px;
-            &:hover{
-                transform: scale(1.1,1.1);
-                background-image: linear-gradient(90deg, map-get($lightMainCol, lighterRed), map-get($mainCol, mRed));
-                color: map-get($darkMainCol, darkerPrimary);
-            }
-        }
     }
     
     
+}
+
+/* logIn */
+.log{
+    @include fonts($primaryFont, 50%, 500);
+    @include colAndBGCol(map-get($lightMainCol, lighterRed), inherit);
+    text-decoration: none;
+    padding: 1%;
+    transition: all .2s;
+    border-radius: 75px 75px 75px 75px;
+    &:hover{
+        transform: scale(1.1,1.1);
+        background-image: linear-gradient(90deg, map-get($lightMainCol, lighterRed), map-get($mainCol, mRed));
+        color: map-get($darkMainCol, darkerPrimary);
+    }
+}
+
+.userOp{
+    @extend.log;
+    @include colAndBGCol(map-get($lightMainCol, lighterGreen), inherit);
+    &:hover{
+        background-image: linear-gradient(90deg, map-get($lightMainCol, lighterGreen), map-get($mainCol, mGreen));
+    }
+}
+
+
+.logIn{
+    position: fixed;
+    @include fonts($primaryFont, 75%, 300);
+    right: 0;
+    z-index: 2;
+    border-radius: 15px 15px 15px 15px;
+    align-items: center;
+    @include marPad(1%, 2%);
+    @include colAndBGCol(map-get($mainCol, primary), map-get($lightMainCol, lighterRed));
+    input{
+        color: map-get($lightMainCol, lighterRed);
+    }
+}
+
+.logOut{
+    @extend.logIn;
+    background-color: map-get($darkMainCol, darkerPrimary);
 }
 
 /*indPre*/
@@ -562,14 +644,6 @@ nav{
 .newTeam{
     @extend.team;
     color: map-get($lightMainCol, lighterPurple);
-    input{
-        @include colAndBGCol(inherit, map-get($darkMainCol, darkerPrimary));
-        border: 1px solid map-get($mainCol, secondary);
-        border-radius: 5%;
-        @include fonts($primaryFont, 100%, 500);
-        padding: 1%;
-    };
-
     .charCard{
         &:hover{
             box-shadow: 1px 1px 10px 5px map-get($mainCol, mPurple);
@@ -583,8 +657,43 @@ nav{
     
 }
 
+.selectTeam{
+    @extend.team;
+    color: map-get($lightMainCol, lighterBlue);
+    transition: all .3s;
+    &:hover{
+        transform: scale(1.1, 1.1);
+        //cursor: pointer;
+        box-shadow: 1px 1px 10px 5px map-get($mainCol, mBlue);;
+    }
+
+    .charCard{
+    
+        &:hover{
+            transform: none;
+            box-shadow: none;
+            //cursor: pointer;
+        }
+        &:active{
+            transform: none;
+            background-color: map-get($transpMainCol, transPrimary);
+        }
+    }
+}
+
+.selectedTeam{
+    color: map-get($lightMainCol, lighterGreen);
+    transform: scale(1.1, 1.1);
+    box-shadow: 1px 1px 10px 5px map-get($mainCol, mGreen);
+    &:hover{
+        box-shadow: 1px 1px 10px 5px map-get($mainCol, mGreen); 
+    }
+
+}
+
 .btleTeamSelect{
     @extend.tbYourTeams;
+    justify-content: center;
     div{
         article{
             @include colAndBGCol(map-get($lightMainCol, lighterBlue), map-get($transpMainCol, transPrimary));
@@ -593,12 +702,144 @@ nav{
     
 }
 
+.battleScene{
+    @include fonts($primaryFont, 55%, 400);
+    justify-content: space-between;
+    background-image: url("../img/bttleSceBG.jpg");
+    background-size: cover;
+    width: 100%;
+    height: auto;
+
+    .divEnemy{
+        justify-content: space-between;
+        button{
+            height: fit-content;
+            padding: 1%;
+            margin: 2%;
+        }
+    }
+
+    .battleCard{
+        @include colAndBGCol(map-get($lightMainCol, lighterBlue), map-get($darkMainCol, darkerPrimary));
+        justify-content: space-around;
+        border-radius: 20px 20px 20px 20px;
+        width: 70%;
+        height: auto;
+        
+        padding: 1%;
+        img{
+            @include marPad(1%, 0.5%);
+            width: 30%;
+            height: auto;
+            border-radius: 20px 20px 20px 20px;
+        }
+
+        .cardInfo{
+            justify-content: space-evenly;
+            width: 60%;
+
+            
+
+            .progress{
+                width: 100%;
+                display: flex;
+                text-align: center;
+                @include colAndBGCol(map-get($mainCol, primary), map-get($lightMainCol, lighterRed));
+                height: 15px;
+                .progressBar{
+                    background-color: map-get($darkMainCol, darkerGreen);
+                    width: 40%;
+                    height: inherit;
+                }
+                .progressBarPrev{
+                    @extend.progressBar;
+                    width: 0%;
+                    background-color: map-get($lightMainCol, lighterGreen);
+                }
+
+                
+            }
+
+            .subtitutes{
+                justify-content: space-evenly;
+                font-size: 15%;
+                div{
+                    text-align: center;
+                    width: 33%;
+                    .progress{
+                        width: 100%;
+                        height: 5px;
+                    }
+                }
+                
+            }
+        }
+
+        
+        
+    }
+
+    .battleCardUser{
+        @extend.battleCard;
+        align-self: flex-end;
+        margin: 6% 2% 1% 2%;
+    }
+    
+    .battleCardEnemy{
+        @extend.battleCard;
+        justify-self: flex-end;
+        margin: 1% 2% 6% 2%;
+    }
+
+    .atOptions{
+        align-items: center;
+        width: 30%;
+        margin: 6% 2% 1% 2%;
+        .button3{
+            font-size:5px;
+            width: 100%;
+        }
+    }
+}
+
+.battleLog{
+    @include colAndBGCol(map-get($lightMainCol, lighterBlue), map-get($mainCol, primary));
+    align-items: center;
+    textarea{
+        @include fonts($primaryFont, 100%, 500);
+        @include colAndBGCol(map-get($lightMainCol, lighterBlue), map-get($darkMainCol, darkerPrimary));
+        width: auto;
+        height: 100%;
+        border-radius: 5px 5px 5px 5px;
+    }
+}
+
+
+
 /* footer */
 footer{
     grid-area: footer;
     @include colAndBGCol(map-get($lightMainCol, lighterBlue), map-get($darkMainCol, darkerPrimary))
 }
 
+@media screen and (min-width: 420px) {
+    .battleScene{
+        .battleCard{
+            .cardInfo{
+                .subtitutes{
+                   font-size: 80%; 
+                }
+                
+            }
+        }
+        .atOptions{
+            .button3{
+                font-size: 100%;
+            }
+            
+        }
+    }
+}
 @media screen and (min-width: 768px) {
   /*nav*/ 
   nav{
@@ -607,6 +848,15 @@ footer{
         width: 70%;
     }
   }
+
+  .log{
+    font-size: 89%;
+    }
+
+  .logIn{
+    font-size: 89%;
+
+    }
 
 
   /* General */
@@ -646,19 +896,35 @@ footer{
         }
     }
   }
-
   .tbYourTeams{
-    div{
-        article{
-            width: 45%;
-        }
+    .team{
+        width: 45%;
     }
   }
+
+  .selectTeam{
+    width: 45%;
+  }
+  
 
   .tbBuilder{
     font-size: 80%;
   }
 
+  .secBattle{
+    flex-direction: row;
+    .battleScene{
+        font-size: 100%;
+        .battleCard{
+            width: 50%;
+        }
+
+        .atOptions{
+            width: 45%;
+        }
+    }
+  }
+    
 }
 
 @media screen and (min-width: 1024px){
@@ -671,39 +937,50 @@ footer{
             @include fonts($primaryFont, 120%, 500);
         }
       }
+    .log{
+        font-size: 120%;
+    }
+
+    .logIn{
+        font-size: 120%;
+    
+    }
       
-      .indPre{
-        font-size: 300%;
-      }
+    .indPre{
+    font-size: 300%;
+    }
 
-      .indCard{
-        font-size: 200%;
-      }
+    .indCard{
+    font-size: 200%;
+    }
 
-      .indBest{
-        font-size: 150%;
-        align-items: flex-end;
-      }
+    .indBest{
+    font-size: 150%;
+    align-items: flex-end;
+    }
 
-      .indRes{
-        font-size: 150%;
-      }
+    .indRes{
+    font-size: 150%;
+    }
 
-      .lorEp{
-        font-size: 250%;
-      }
-      .lorSer{
-        font-size: 300%;
-      }
-      
-      .tbYourTeams{
-        font-size: 150%;
-      }
+    .lorEp{
+    font-size: 250%;
+    }
+    .lorSer{
+    font-size: 300%;
+    }
+    
+    .tbYourTeams{
+    font-size: 150%;
+    }
 
-      .tbBuilder{
+    .tbBuilder{
         font-size: 120%;
         .charCard{
             width: 15%;
         }
+    }
+    .battleScene{
+        font-size: 125%;        
       }
 }

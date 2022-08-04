@@ -51,6 +51,10 @@ body {
   display: flex;
   flex-flow: row wrap; }
 
+.flexible--rowReverse {
+  display: flex;
+  flex-direction: row-reverse; }
+
 .flexible--column {
   display: flex;
   flex-direction: column; }
@@ -108,7 +112,7 @@ body {
   margin: 1%;
   padding: 2%; }
 
-.button, .button--red, .button--green, .button--blue, .button--purple, .button2, .button2--red, .button2--green, .button2--blue, .button2--purple {
+.button, .button--red, .button--green, .button--blue, .button--purple, .button2, .button2--red, .button2--green, .button2--blue, .button2--purple, .button3, .button3--blue, .button3--red {
   text-decoration: none;
   font-family: "Yanone Kaffeesatz", sans-serif;
   font-size: 100%;
@@ -118,7 +122,7 @@ body {
   margin: 1%;
   padding: 4%;
   transition: all .1s; }
-  .button:hover, .button--red:hover, .button--green:hover, .button--blue:hover, .button--purple:hover, .button2:hover, .button2--red:hover, .button2--green:hover, .button2--blue:hover, .button2--purple:hover {
+  .button:hover, .button--red:hover, .button--green:hover, .button--blue:hover, .button--purple:hover, .button2:hover, .button2--red:hover, .button2--green:hover, .button2--blue:hover, .button2--purple:hover, .button3:hover, .button3--blue:hover, .button3--red:hover {
     transform: scale(1.1, 1.1);
     box-shadow: 1px 1px 10px 5px black; }
 
@@ -187,6 +191,34 @@ body {
     color: #c306e3;
     background-color: black; }
 
+.button3, .button3--blue, .button3--red {
+  font-family: "Righteous", cursive;
+  font-size: 100%;
+  font-weight: inherit;
+  margin: 1%;
+  padding: 3%;
+  border: 3px solid black;
+  transition: all .2s;
+  border-radius: 5px 5px 5px 5px; }
+  .button3:hover, .button3--blue:hover, .button3--red:hover {
+    transform: scale(1, 1); }
+
+.button3--blue {
+  color: #0a0505;
+  background-color: #92eafd; }
+  .button3--blue:hover {
+    border: 3px solid #038aa7;
+    color: #92eafd;
+    background-color: black; }
+
+.button3--red {
+  color: #0a0505;
+  background-color: #f89595; }
+  .button3--red:hover {
+    border: 3px solid #9d0a0a;
+    color: #f89595;
+    background-color: black; }
+
 .table {
   border-collapse: collapse;
   width: 80%;
@@ -198,6 +230,13 @@ body {
     padding: 1%;
     background-color: rgba(10, 5, 5, 0.85);
     text-align: center; }
+    .table td a, .table th a {
+      text-decoration: none;
+      color: inherit;
+      transition: all .2s; }
+      .table td a:hover, .table th a:hover {
+        transform: scale(1.2);
+        color: #109b2c; }
   .table th {
     border-bottom: 2px solid inherit;
     border-top: 2px solid inherit; }
@@ -206,6 +245,16 @@ img {
   transition: 1s; }
   img:hover {
     transform: scale(1.05, 1.05); }
+
+input {
+  color: inherit;
+  background-color: black;
+  border: 1px solid;
+  border-radius: 5%;
+  font-family: "Righteous", cursive;
+  font-size: 100%;
+  font-weight: 500;
+  padding: 1%; }
 
 .visible {
   visibility: visible; }
@@ -253,16 +302,47 @@ nav {
         nav .menu_log .menu .actual:hover {
           background-image: linear-gradient(90deg, #04c8f2, #038aa7);
           transform: scale(1.1, 1.1); }
-    nav .menu_log .log {
-      color: #f89595;
-      text-decoration: none;
-      padding: 1%;
-      transition: all .2s;
-      border-radius: 75px 75px 75px 75px; }
-      nav .menu_log .log:hover {
-        transform: scale(1.1, 1.1);
-        background-image: linear-gradient(90deg, #f89595, #e50f0f);
-        color: black; }
+
+/* logIn */
+.log, .userOp {
+  font-family: "Righteous", cursive;
+  font-size: 50%;
+  font-weight: 500;
+  color: #f89595;
+  background-color: inherit;
+  text-decoration: none;
+  padding: 1%;
+  transition: all .2s;
+  border-radius: 75px 75px 75px 75px; }
+  .log:hover, .userOp:hover {
+    transform: scale(1.1, 1.1);
+    background-image: linear-gradient(90deg, #f89595, #e50f0f);
+    color: black; }
+
+.userOp {
+  color: #9bf5ae;
+  background-color: inherit; }
+  .userOp:hover {
+    background-image: linear-gradient(90deg, #9bf5ae, #17e040); }
+
+.logIn, .logOut {
+  position: fixed;
+  font-family: "Righteous", cursive;
+  font-size: 75%;
+  font-weight: 300;
+  right: 0;
+  z-index: 2;
+  border-radius: 15px 15px 15px 15px;
+  align-items: center;
+  margin: 1%;
+  padding: 2%;
+  color: #0a0505;
+  background-color: #f89595; }
+  .logIn input, .logOut input {
+    color: #f89595; }
+
+.logOut {
+  background-color: black; }
 
 /*indPre*/
 .indPre {
@@ -424,7 +504,7 @@ nav {
     transform: scale(110%);
     background-color: #038aa7; }
 
-.team, .newTeam {
+.team, .newTeam, .selectTeam {
   color: #9bf5ae;
   background-color: rgba(10, 5, 5, 0.85);
   text-align: center;
@@ -435,14 +515,14 @@ nav {
   font-family: "Righteous", cursive;
   font-size: 100%;
   font-weight: inherit; }
-  .team .subMainTitle3, .newTeam .subMainTitle3 {
+  .team .subMainTitle3, .newTeam .subMainTitle3, .selectTeam .subMainTitle3 {
     font-size: 200%; }
-  .team .chars, .newTeam .chars {
+  .team .chars, .newTeam .chars, .selectTeam .chars {
     justify-content: space-around; }
-  .team .charCard:hover, .newTeam .charCard:hover {
+  .team .charCard:hover, .newTeam .charCard:hover, .selectTeam .charCard:hover {
     box-shadow: 1px 1px 10px 5px #17e040;
     cursor: auto; }
-  .team .charCard:active, .newTeam .charCard:active {
+  .team .charCard:active, .newTeam .charCard:active, .selectTeam .charCard:active {
     transform: scale(1.2);
     background-color: rgba(10, 5, 5, 0.85); }
 
@@ -464,15 +544,6 @@ nav {
 
 .newTeam {
   color: #f7d0fe; }
-  .newTeam input {
-    color: inherit;
-    background-color: black;
-    border: 1px solid;
-    border-radius: 5%;
-    font-family: "Righteous", cursive;
-    font-size: 100%;
-    font-weight: 500;
-    padding: 1%; }
   .newTeam .charCard:hover {
     box-shadow: 1px 1px 10px 5px #df3bfa;
     cursor: auto; }
@@ -480,15 +551,126 @@ nav {
     transform: scale(1.2);
     background-color: rgba(10, 5, 5, 0.85); }
 
-.btleTeamSelect div article {
+.selectTeam {
   color: #92eafd;
-  background-color: rgba(10, 5, 5, 0.85); }
+  transition: all .3s; }
+  .selectTeam:hover {
+    transform: scale(1.1, 1.1);
+    box-shadow: 1px 1px 10px 5px #04c8f2; }
+  .selectTeam .charCard:hover {
+    transform: none;
+    box-shadow: none; }
+  .selectTeam .charCard:active {
+    transform: none;
+    background-color: rgba(10, 5, 5, 0.85); }
+
+.selectedTeam {
+  color: #9bf5ae;
+  transform: scale(1.1, 1.1);
+  box-shadow: 1px 1px 10px 5px #17e040; }
+  .selectedTeam:hover {
+    box-shadow: 1px 1px 10px 5px #17e040; }
+
+.btleTeamSelect {
+  justify-content: center; }
+  .btleTeamSelect div article {
+    color: #92eafd;
+    background-color: rgba(10, 5, 5, 0.85); }
+
+.battleScene {
+  font-family: "Righteous", cursive;
+  font-size: 55%;
+  font-weight: 400;
+  justify-content: space-between;
+  background-image: url("../img/bttleSceBG.jpg");
+  background-size: cover;
+  width: 100%;
+  height: auto; }
+  .battleScene .divEnemy {
+    justify-content: space-between; }
+    .battleScene .divEnemy button {
+      height: fit-content;
+      padding: 1%;
+      margin: 2%; }
+  .battleScene .battleCard, .battleScene .battleCardUser, .battleScene .battleCardEnemy {
+    color: #92eafd;
+    background-color: black;
+    justify-content: space-around;
+    border-radius: 20px 20px 20px 20px;
+    width: 70%;
+    height: auto;
+    padding: 1%; }
+    .battleScene .battleCard img, .battleScene .battleCardUser img, .battleScene .battleCardEnemy img {
+      margin: 1%;
+      padding: 0.5%;
+      width: 30%;
+      height: auto;
+      border-radius: 20px 20px 20px 20px; }
+    .battleScene .battleCard .cardInfo, .battleScene .battleCardUser .cardInfo, .battleScene .battleCardEnemy .cardInfo {
+      justify-content: space-evenly;
+      width: 60%; }
+      .battleScene .battleCard .cardInfo .progress, .battleScene .battleCardUser .cardInfo .progress, .battleScene .battleCardEnemy .cardInfo .progress {
+        width: 100%;
+        display: flex;
+        text-align: center;
+        color: #0a0505;
+        background-color: #f89595;
+        height: 15px; }
+        .battleScene .battleCard .cardInfo .progress .progressBar, .battleScene .battleCardUser .cardInfo .progress .progressBar, .battleScene .battleCardEnemy .cardInfo .progress .progressBar, .battleScene .battleCard .cardInfo .progress .progressBarPrev, .battleScene .battleCardUser .cardInfo .progress .progressBarPrev, .battleScene .battleCardEnemy .cardInfo .progress .progressBarPrev {
+          background-color: #109b2c;
+          width: 40%;
+          height: inherit; }
+        .battleScene .battleCard .cardInfo .progress .progressBarPrev, .battleScene .battleCardUser .cardInfo .progress .progressBarPrev, .battleScene .battleCardEnemy .cardInfo .progress .progressBarPrev {
+          width: 0%;
+          background-color: #9bf5ae; }
+      .battleScene .battleCard .cardInfo .subtitutes, .battleScene .battleCardUser .cardInfo .subtitutes, .battleScene .battleCardEnemy .cardInfo .subtitutes {
+        justify-content: space-evenly;
+        font-size: 15%; }
+        .battleScene .battleCard .cardInfo .subtitutes div, .battleScene .battleCardUser .cardInfo .subtitutes div, .battleScene .battleCardEnemy .cardInfo .subtitutes div {
+          text-align: center;
+          width: 33%; }
+          .battleScene .battleCard .cardInfo .subtitutes div .progress, .battleScene .battleCardUser .cardInfo .subtitutes div .progress, .battleScene .battleCardEnemy .cardInfo .subtitutes div .progress {
+            width: 100%;
+            height: 5px; }
+  .battleScene .battleCardUser {
+    align-self: flex-end;
+    margin: 6% 2% 1% 2%; }
+  .battleScene .battleCardEnemy {
+    justify-self: flex-end;
+    margin: 1% 2% 6% 2%; }
+  .battleScene .atOptions {
+    align-items: center;
+    width: 30%;
+    margin: 6% 2% 1% 2%; }
+    .battleScene .atOptions .button3, .battleScene .atOptions .button3--blue, .battleScene .atOptions .button3--red {
+      font-size: 5px;
+      width: 100%; }
+
+.battleLog {
+  color: #92eafd;
+  background-color: #0a0505;
+  align-items: center; }
+  .battleLog textarea {
+    font-family: "Righteous", cursive;
+    font-size: 100%;
+    font-weight: 500;
+    color: #92eafd;
+    background-color: black;
+    width: auto;
+    height: 100%;
+    border-radius: 5px 5px 5px 5px; }
 
 /* footer */
 footer {
   grid-area: footer;
   color: #92eafd;
   background-color: black; }
+
+@media screen and (min-width: 420px) {
+  .battleScene .battleCard .cardInfo .subtitutes, .battleScene .battleCardUser .cardInfo .subtitutes, .battleScene .battleCardEnemy .cardInfo .subtitutes {
+    font-size: 80%; }
+  .battleScene .atOptions .button3, .battleScene .atOptions .button3--blue, .battleScene .atOptions .button3--red {
+    font-size: 100%; } }
 
 @media screen and (min-width: 768px) {
   /*nav*/
@@ -497,6 +679,10 @@ footer {
     font-size: 89%;
     font-weight: 500;
     width: 70%; }
+  .log, .userOp {
+    font-size: 89%; }
+  .logIn, .logOut {
+    font-size: 89%; }
   /* General */
   .mainTitle, .mainTitle2 {
     border-radius: 73px 73px 73px 73px; }
@@ -520,10 +706,20 @@ footer {
       justify-content: space-around; }
       .lorSer article div {
         width: 40%; }
-  .tbYourTeams div article, .btleTeamSelect div article {
+  .tbYourTeams .team, .btleTeamSelect .team, .tbYourTeams .newTeam, .btleTeamSelect .newTeam, .tbYourTeams .selectTeam, .btleTeamSelect .selectTeam {
+    width: 45%; }
+  .selectTeam {
     width: 45%; }
   .tbBuilder {
-    font-size: 80%; } }
+    font-size: 80%; }
+  .secBattle {
+    flex-direction: row; }
+    .secBattle .battleScene {
+      font-size: 100%; }
+      .secBattle .battleScene .battleCard, .secBattle .battleScene .battleCardUser, .secBattle .battleScene .battleCardEnemy {
+        width: 50%; }
+      .secBattle .battleScene .atOptions {
+        width: 45%; } }
 
 @media screen and (min-width: 1024px) {
   .mainTitle2 {
@@ -532,6 +728,10 @@ footer {
     font-family: "Righteous", cursive;
     font-size: 120%;
     font-weight: 500; }
+  .log, .userOp {
+    font-size: 120%; }
+  .logIn, .logOut {
+    font-size: 120%; }
   .indPre {
     font-size: 300%; }
   .indCard, .indLore, .indBat, .indTeamB {
@@ -550,4 +750,6 @@ footer {
   .tbBuilder {
     font-size: 120%; }
     .tbBuilder .charCard {
-      width: 15%; } }
+      width: 15%; }
+  .battleScene {
+    font-size: 125%; } }
