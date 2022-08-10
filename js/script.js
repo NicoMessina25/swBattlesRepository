@@ -17,7 +17,7 @@ class Attack{
         this.special = special;
         this.prob = prob;
         this.probSpecEf = probSpecEf;
-        this.sDes = "( Poder: " + this.power*10 + " Prob: " + this.prob*100 + "% Prioridad: " + this.prio + ") (" + this.probSpecEf*100;
+        this.sDes = "Poder: " + this.power*10 + " Prob: " + this.prob*100 + "% Prioridad: " + this.prio + " (" + this.probSpecEf*100;
         switch (this.special) {
             case 1: 
                 this.sDes += "% de confundir al enemigo)";
@@ -66,6 +66,15 @@ class Attack{
                 break;
             case 16:
                 this.sDes += "% de protegerse de un ataque completo)";
+                break;
+            case 17:
+                this.sDes += "% de bajar el ataque al enemigo)";
+                break;
+            case 18:
+                this.sDes += "% de bajar la defensa al enemigo)";
+                break;
+            case 19:
+                this.sDes += "% de bajar la velocidad al enemigo)";
                 break;
             default: 
                 this.sDes += "";
@@ -126,14 +135,13 @@ function lowersHP(defder, power, atc, def){
     if (defder.chStatus.type != 16){
         if(defder.sustituteHP > 0){
             defder.sustituteHP -= power*atc/def*4;
-            if (defder.sustituteHP <= 0){
-                defder.chStatus.desc = "";
-            }
+            defder.sustituteHP <= 0 && (defder.chStatus.desc = "");
         } else {
             defder.curHP -= power*atc/def*4;
         }
     } else textareaBattleLog.value += `\n\n${defder.chName} se protegió`;       
 }
+
 
 function attacks(attker, defder, att, textareaBattleLog){
     textareaBattleLog.value += `\n\n${attker.chName} ${att.usedAttack()}`;
@@ -151,31 +159,41 @@ function attacks(attker, defder, att, textareaBattleLog){
                                     }
                                     break;
                             case 5: //sube ataque
-                                textareaBattleLog.value += `\n\n${attker.chName} se subio el ataque`;
-                                attker.modAtc++;
-                                if(attker.modAtc >= 0){
-                                    attker.atc = attker.atcBase*(1 + attker.modAtc*0.5); 
-                                } else{
-                                    attker.atc = attker.atcBase/(1 - attker.modAtc*0.5)
-                                }
+                                if(attker.modAtc < 6){
+                                    textareaBattleLog.value += `\n\n${attker.chName} se subio el ataque`;
+                                    attker.modAtc++;
+                                    /* if(attker.modAtc >= 0){
+                                        attker.atc = attker.atcBase*(1 + attker.modAtc*0.5); 
+                                    } else{
+                                        attker.atc = attker.atcBase/(1 - attker.modAtc*0.5)
+                                    } */
+                                    (attker.modAtc >= 0)? attker.atc = attker.atcBase*(1 + attker.modAtc*0.5):attker.atc = attker.atcBase/(1 - attker.modAtc*0.5);
+                                } else textareaBattleLog.value += `\n\n${attker.chName} tiene el ataque máximo`;
                                 break;
                             case 6: //sub defensa
-                                textareaBattleLog.value += `\n\n${attker.chName} se subio la defensa`;
-                                attker.modDef++;
-                                if(attker.modDef >= 0){
-                                    attker.def = attker.defBase*(1 + attker.modDef*0.5); 
-                                } else{
-                                    attker.def = attker.defBase/(1 - attker.modDef*0.5)
-                                }
+                                if(attker.modDef < 6){
+                                    textareaBattleLog.value += `\n\n${attker.chName} se subio la defensa`;
+                                    attker.modDef++;
+                                    /* if(attker.modDef >= 0){
+                                        attker.def = attker.defBase*(1 + attker.modDef*0.5); 
+                                    } else{
+                                        attker.def = attker.defBase/(1 - attker.modDef*0.5)
+                                    } */
+                                    (attker.modDef >= 0)?attker.def = attker.defBase*(1 + attker.modDef*0.5):attker.def = attker.defBase/(1 - attker.modDef*0.5);
+                                } else textareaBattleLog.value += `\n\n${attker.chName} tiene la defensa máxima`;
+                                    
                                 break;
                             case 7: //sube velocidad
-                                textareaBattleLog.value += `\n\n${attker.chName} se subio la velocidad`;
-                                attker.modSpd++;
-                                if(attker.modSpd >= 0){
-                                    attker.spd = attker.spdBase*(1 + attker.modSpd*0.5); 
-                                } else{
-                                    attker.spd = attker.spdBase/(1 - attker.modSpd*0.5)
-                                }
+                                if(attker.modSpd < 6){
+                                    textareaBattleLog.value += `\n\n${attker.chName} se subio la velocidad`;
+                                    attker.modSpd++;
+                                    /* if(attker.modSpd >= 0){
+                                        attker.spd = attker.spdBase*(1 + attker.modSpd*0.5); 
+                                    } else{
+                                        attker.spd = attker.spdBase/(1 - attker.modSpd*0.5)
+                                    } */
+                                    (attker.modSpd >= 0)?attker.spd = attker.spdBase*(1 + attker.modSpd*0.5):attker.spd = attker.spdBase/(1 - attker.modSpd*0.5);
+                                } else textareaBattleLog.value += `\n\n${attker.chName} tiene la velocidad máxima`;
                                 break;
                             case 8: //recurrente (de 1 a 4 golpes)
                                 hitTimes = 1;
@@ -217,9 +235,10 @@ function attacks(attker, defder, att, textareaBattleLog){
                                 break;
                             case 13: //cura 33%
                                 attker.curHP += attker.chHP/3;
-                                if (attker.curHP > attker.chHP){
+                                /* if (attker.curHP > attker.chHP){
                                     attker.curHP = attker.chHP
-                                }
+                                } */
+                                attker.curHP > attker.chHP && (attker.curHP = attker.chHP);
                                 textareaBattleLog.value += `\n\n${attker.chName} se curó un 33% de vida`;
                                 break;
                             case 14: //daño de retroceso
@@ -240,6 +259,27 @@ function attacks(attker, defder, att, textareaBattleLog){
                                 attker.chStatus.type = 16;
                                 attker.chStatus.desc = "protegido";
                                 textareaBattleLog.value += `\n\n${attker.chName} está protegido`;
+                                break;
+                            case 17: //baja ataque
+                                if(defder.modAtc > -6){
+                                    textareaBattleLog.value += `\n\n${attker.chName} le bajó el ataque a ${defder.chName}`;
+                                    defder.modAtc--;
+                                    (defder.modAtc >= 0)? defder.atc = defder.atcBase*(1 + defder.modAtc*0.5):defder.atc = defder.atcBase/(1 - defder.modAtc*0.5);
+                                } else textareaBattleLog.value += `\n\n${defder.chName} tiene el ataque mínimo`;
+                                break;
+                            case 18: //baja defensa
+                            if(defder.modDef > -6){
+                                textareaBattleLog.value += `\n\n${attker.chName} le bajó la defensa a ${defder.chName}`;
+                                defder.modDef--;
+                                (defder.modDef >= 0)? defder.def = defder.defBase*(1 + defder.modDef*0.5):defder.def = defder.defBase/(1 - defder.modDef*0.5);
+                            } else textareaBattleLog.value += `\n\n${defder.chName} tiene la defensa mínima`;
+                                break;
+                            case 19: //baja velocidad
+                            if(defder.modSpd > -6){
+                                textareaBattleLog.value += `\n\n${attker.chName} le bajó la velocidad a ${defder.chName}`;
+                                defder.modSpd--;
+                                (defder.modSpd >= 0)? defder.spd = defder.spdBase*(1 + defder.modSpd*0.5):defder.spd = defder.spdBase/(1 - defder.modSpd*0.5);
+                            } else textareaBattleLog.value += `\n\n${defder.chName} tiene la velocidad mínimo`;
                                 break;
                             default:
                                 break; 
@@ -279,9 +319,9 @@ function attacks(attker, defder, att, textareaBattleLog){
                     } else if(att.special in [1,2,4]){
                         if(defder.chStatus.type == 15){
                             defder.chStatus.type = 0;
-                            textareaBattleLog.value += `\n\n${attker.chName} previno el estado pero perdió la concentración`;
+                            textareaBattleLog.value += `\n\n${defder.chName} previno el estado pero perdió la concentración`;
                         } else {
-                            textareaBattleLog.value += `\n\n${attker.chName} ya está ${defder.chStatus.desc}. No puede tener más de un estado`;
+                            textareaBattleLog.value += `\n\n${defder.chName} ya está ${defder.chStatus.desc}. No puede tener más de un estado`;
                         }
                     }
                     
@@ -392,23 +432,23 @@ function genHTMLTeamChars(team, ind){
 
 function updateTeams(teams, divYourTeams, divTeams, editButtons, deleteButtons){
     divYourTeams.innerHTML = " ";
-    teams.forEach((team, ind) => {
+    teams.forEach(({name, chars}, ind) => {
         divTeams[ind].innerHTML =`
-                <h3 id="teamName${ind}" class="subMainTitle3">${team.name}</h3>`;
+                <h3 id="teamName${ind}" class="subMainTitle3">${name}</h3>`;
         let divChars = document.createElement(`div`);
         divChars.setAttribute("id", `charsTeam${ind}`);
         divChars.setAttribute("class", "flexible--rowWrap chars");
-        team.chars.forEach((char, indChar)=>{
+        chars.forEach(({id, chName, atc, def, chHP, spd}, indChar)=>{
             let divCard = document.createElement("div");
-            divCard.setAttribute("id", `char${char.id}Team${ind}`);
+            divCard.setAttribute("id", `char${id}Team${ind}`);
             divCard.setAttribute("class", "charCard");
-            divCard.innerHTML = `<h4 id="name${char.id}Team${ind}">${char.chName}</h4>
-            <img id="imgChar" src="../img/tb${char.id}.jpg" alt="${char.id}">
-            <div id="stats${char.id}Team${ind}">
-                <p id="attackChar${indChar}Team${ind}">Attack: ${char.atc}</p>
-                <p id="defenseChar${indChar}Team${ind}">Defense: ${char.def}</p>
-                <p id="healthChar${indChar}Team${ind}">Health: ${char.chHP}</p>
-                <p id="speedChar${indChar}Team${ind}">Speed: ${char.spd}</p>
+            divCard.innerHTML = `<h4 id="name${id}Team${ind}">${chName}</h4>
+            <img id="imgChar" src="../img/tb${id}.jpg" alt="${id}">
+            <div id="stats${id}Team${ind}">
+                <p id="attackChar${indChar}Team${ind}">Attack: ${atc}</p>
+                <p id="defenseChar${indChar}Team${ind}">Defense: ${def}</p>
+                <p id="healthChar${indChar}Team${ind}">Health: ${chHP}</p>
+                <p id="speedChar${indChar}Team${ind}">Speed: ${spd}</p>
             </div>`;
             
             divChars.append(divCard);
@@ -456,11 +496,12 @@ function parseAtt(att){
 function cpuAction(cpu, cpuTeam, charToSelecCpu){
     charToSelecCpu = cpuTeam.filter((char)=> char.curHP > 0 && cpu != char);
 
-    if(charToSelecCpu.length > 0){
+    /* if(charToSelecCpu.length > 0){
         atOp = Math.round(Math.random()*4 + 1);
     } else {
         atOp = Math.round(Math.random()*3 + 1);
-    }
+    } */
+    (charToSelecCpu.length > 0)?atOp = Math.round(Math.random()*4 + 1):atOp = Math.round(Math.random()*3 + 1);
 
     switch (atOp){
         case 1: 
@@ -502,8 +543,61 @@ function resetTeam(teamCharArray){
     });
 }
 
-function parseTeam(team){
-    return new Team(team.name, team.size, team.chars, team.wins, team.games);
+function resetBestTeamsTableValues(){
+    let i = 0;
+    while (i < 3){
+        let teamName = document.getElementById(`tableTeam${i+1}`);
+        let winRate = document.getElementById(`winRate${i+1}`);
+        let games = document.getElementById(`games${i+1}`);
+        teamName.innerText = " ----- ";
+        winRate.innerText = " ----- ";
+        games.innerText = " ----- ";
+        i++;
+    }
+}
+
+function updateStats(character, name){
+    let spanAtc = document.getElementById(`spanAtc${name}`);
+    let spanDef = document.getElementById(`spanDef${name}`);
+    let spanSpd = document.getElementById(`spanSpd${name}`);
+    let spanModAtc = document.getElementById(`spanModAtc${name}`);
+    let spanModDef = document.getElementById(`spanModDef${name}`);
+    let spanModSpd = document.getElementById(`spanModSpd${name}`);
+    let hAtt1Name = document.getElementById(`nameAtt1${name}`);
+    let pAtt1Desc = document.getElementById(`descAtt1${name}`);
+    let hAtt2Name = document.getElementById(`nameAtt2${name}`);
+    let pAtt2Desc = document.getElementById(`descAtt2${name}`);
+
+    spanAtc.innerText = character.atcBase.toFixed(2);
+    spanDef.innerText = character.defBase.toFixed(2);
+    spanSpd.innerText = character.spdBase.toFixed(2);
+    spanModAtc.innerText = character.atc.toFixed(2);
+    spanModDef.innerText = character.def.toFixed(2);
+    spanModSpd.innerText = character.spd.toFixed(2);
+
+    if(character.modAtc > 0){
+        spanModAtc.className = "boostedStat";
+    } else if(character.modAtc < 0) {
+        spanModAtc.className = "loweredStat";
+    } else spanModAtc.className = "";
+
+    if(character.modDef > 0){
+        spanModDef.className = "boostedStat";
+    } else if(character.modDef < 0) {
+        spanModDef.className = "loweredStat";
+    } else spanModDef.className = "";
+
+    if(character.modSpd > 0){
+        spanModSpd.className = "boostedStat";
+    } else if(character.modSpd < 0) {
+        spanModSpd.className = "loweredStat";
+    } else spanModSpd.className = "";
+
+    hAtt1Name.innerText = character.att1.nameAt;
+    pAtt1Desc.innerText = character.att1.sDes;
+    hAtt2Name.innerText = character.att2.nameAt;
+    pAtt2Desc.innerText = character.att2.sDes;
+
 }
 
 const tableBestTeams = document.getElementById("tableBestTeams");
@@ -555,6 +649,8 @@ setButtonAttributes(btnExit, "btnExit", "button--purple", "Exit");
 const btnCancelSwitch = document.createElement("button");
 setButtonAttributes(btnCancelSwitch, "btnCancelSwitch", "button3--red", "Cancel");
 const divEnemy = document.getElementById("divEnemy");
+const divEnemyCard = document.getElementById("divBattleCardEnemy");
+const divUserCard = document.getElementById("divBattleCardUser");
 const btnEndBattle = document.getElementById("btnEndBattle");
 const divAtOptions = document.createElement("div");
 divAtOptions.setAttribute("id", "atOptions");
@@ -566,6 +662,12 @@ setButtonAttributes(btnAtt2, "btnAtt2", "button3--blue", "");
 const btnSwitch = document.createElement("button");
 setButtonAttributes(btnSwitch, "btnSwitch", "button3--blue", "");
 const textareaBattleLog = document.getElementById("textareaBattleLog");
+const btnResetStats = document.createElement("button");
+setButtonAttributes(btnResetStats, "btnResetStats", "button2--red", "Reset Stadistics");
+const divEnemyStats = document.getElementById("enemyStats");
+
+const divUserStats = document.getElementById("userStats");
+
 const arrChar = new Array();
 
 
@@ -582,10 +684,10 @@ let attC;
 let btnsChar;
 
 
-arrChar.push(new Character(220.0, 8.7, 9.6, 8.8, "Darth Vader", "Vader", "Dark", new Attack("Golpe Oscuro", 9.5, 0, 5, 1, 0.1), new Attack("Extrangulamiento", 6.5, 0, 2, 0.9, 0.3))); //Crea Darth Vader
-arrChar.push(new Character(250.0, 9.1, 9, 8.5, "Obi-Wan Kenobi", "ObiWan", "Light", new Attack("Soresu - Obi-Wan", 8, 0, 7, 1, 0.2), new Attack("Confusión", 0, 2, 1, 0.5, 1))); //Crea Obi-Wan
+arrChar.push(new Character(220.0, 8.7, 9.6, 8.8, "Darth Vader", "Vader", "Dark", new Attack("Golpe Oscuro", 9.5, 0, 17, 1, 0.1), new Attack("Extrangulamiento", 6.5, 0, 2, 0.9, 0.3))); //Crea Darth Vader
+arrChar.push(new Character(250.0, 9.1, 9, 8.5, "Obi-Wan Kenobi", "ObiWan", "Light", new Attack("Soresu - Obi-Wan", 8, 0, 18, 1, 0.2), new Attack("Confusión", 0, 2, 1, 0.5, 1))); //Crea Obi-Wan
 arrChar.push(new Character(190.0, 9.3, 9, 9.5, "Yoda", "Yoda", "Light", new Attack("Ataru", 9, 0, 7, 0.9, 0.3), new Attack("Conoce al Enemigo", 4, 0, 3, 0.95, 1))); //Crea Yoda
-arrChar.push(new Character(260.0, 9, 9.4, 9.1, "Darth Sidious", "Sidious", "Dark", new Attack("El Poder del Lado Oscuro", 9.5, 0, 7, 0.95, 0.1), new Attack("Rayos de la Fuerza", 5, 0, 4, 1, 0.2))); //Crea Darth Sidious
+arrChar.push(new Character(260.0, 9, 9.4, 9.1, "Darth Sidious", "Sidious", "Dark", new Attack("El Poder del Lado Oscuro", 9.5, 0, 18, 0.95, 0.1), new Attack("Rayos de la Fuerza", 5, 0, 4, 1, 0.2))); //Crea Darth Sidious
 arrChar.push(new Character(275.0, 9.3, 9, 8.3, "Ben Kenobi", "Ben", "Light", new Attack("Soresu - Ben", 8.5, 0, 6, 1, 0.5), new Attack("Estos no son los Droides que Buscas", 3, 2, 1, 0.9, 0.5))); //Crea Ben Kenobi
 arrChar.push(new Character(220.0, 8.5, 9, 9.3, "Darth Maul", "Maul", "Dark", new Attack("Poder Descontrolado", 6, 0, 9, 1, 0.5), new Attack("Ira Extrema", 5, 0, 2, 1, 0.3))); //Crea Darth Maul
 arrChar.push(new Character(200.0, 8.6, 9.5, 9, "Anakin Skywalker", "Anakin", "Light", new Attack("Djem So - Anakin", 12, 0, 14, 0.8, 1), new Attack("El Elegido...", 6, 0, 2, 1, 0.3)));//Crea Anakin Skywalker
@@ -598,9 +700,9 @@ arrChar.push(new Character(150.0, 7.9, 9, 9, "Han Solo", "Han", "Light", new Att
 arrChar.push(new Character(290.0, 8.5, 9, 7.1, "Chewbacca", "Chew", "Light", new Attack("Rrwaahhggg", 12, 0, 14, 0.8, 1), new Attack("Hwaaurrgh ghaawwu huagg", 7, 0, 10, 1, 1))); //Chewbacca
 arrChar.push(new Character(230.0, 9.1, 8.9, 9.2, "Ezra Bridger", "Ezra", "Light", new Attack("Lucha Contra el Lado Oscuro", 3, 0, 15, 1, 1), new Attack("Estrategia Definitiva", 8.5, 0, 5, 1, 0.4))); //Ezra Bridger
 arrChar.push(new Character(260.0, 9.4, 8.7, 8.4, "Kanan Jarrus", "Kanan", "Light", new Attack("Escudo de la Fuerza", 0, 4, 16, 0.5, 1), new Attack("Ataque y Cobertura", 6, 0, 6, 0.9, 0.7))); //Kanan Jarrus
-arrChar.push(new Character(200.0, 8.4, 8, 7.5, "Padmé Amidala", "Padme", "Light", new Attack("Disparos Múltiples", 3, 0, 8, 0.95, 1), new Attack("Disparo a Cubierto", 6.5, 0, 6, 1, 0.6))); //Padmé Amidala
+arrChar.push(new Character(200.0, 8.4, 8, 7.5, "Padmé Amidala", "Padme", "Light", new Attack("Disparos Múltiples", 3, 0, 8, 0.95, 1), new Attack("Disparo a Cubierto", 6.5, 0, 17, 1, 0.6))); //Padmé Amidala
 arrChar.push(new Character(270.0, 9.5, 8.9, 8.6, "Mace Windu", "Mace", "Light", new Attack("Vaapad Ofensivo", 9, 0, 5, 0.95, 0.7), new Attack("Vapaad Defensivo", 5.5, 0, 6, 0.95, 0.8))); //Mace Windu
-arrChar.push(new Character(220.0, 8.2, 7.7, 8.2, "Clone Trooper", "Clone", "Light", new Attack("Ráfaga de Disparos", 3, 0, 8, 0.95, 1), new Attack("Ataque Ágil", 4, 1, 7, 1, 0.4))); //Clone Trooper
+arrChar.push(new Character(220.0, 8.2, 7.7, 8.2, "Clone Trooper", "Clone", "Light", new Attack("Ráfaga de Disparos", 3, 0, 8, 0.95, 1), new Attack("Ataque Disuasivo", 4, 1, 19, 1, 0.4))); //Clone Trooper
 arrChar.push(new Character(250.0, 8.7, 8.5, 8.3, "The Mandalorian", "Mando", "Light", new Attack("Escudo de Beskar - Mandalorian", 1, 4, 16, 0.5, 1), new Attack("Ataque Explosivo", 9, 0, 10, 0.9, 1))); //The Mandalorian
 arrChar.push(new Character(230.0, 8.6, 9.2, 9.1, "Count Dooku", "Dooku", "Dark", new Attack("Makashi - Dooku", 10, 0, 7, 0.9, 0.1), new Attack("Ataque de Rayos", 6.5, 0, 4, 0.95, 0.4))); //Count Dooku
 arrChar.push(new Character(240.0, 8.9, 9.5, 8.3, "General Grievous", "Grievous", "Dark", new Attack("Makashi - Grievous", 4.5, 0, 8, 0.8, 1), new Attack("Extrema Ofensiva", 12, 0, 14, 0.8, 1))); //General Grievous
@@ -613,7 +715,7 @@ arrChar.push(new Character(230.0, 8.2, 8.1, 8.5, "Kylo Ren", "Ren", "Dark", new 
 arrChar.push(new Character(170.0, 8.2, 8.1, 8.5, "Grand Admiral Thrawn", "Thrawn", "Dark", new Attack("Preve el siguiente movimiento", 5, 1, 15, 1, 0.85), new Attack("Mejora las defensas", 8.5, 0, 6, 0.95, 0.7))); //Grand Admiral Thrawn
 arrChar.push(new Character(250.0, 8.9, 9.3, 8.6, "Savage Opress", "Savage", "Dark", new Attack("Golpes Agresivos", 3, 0, 8, 1, 1), new Attack("Furia", 15, 0, 14, 0.7, 1))); //Savage Opress
 arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "Mother Talzin", "Talzin", "Dark", new Attack("Hechizo Sanador", 0, 0, 13, 1, 1), new Attack("Sanación de las Hermanas", 6, 0, 12, 0.9, 1))); //Mother Talzin
-arrChar.push(new Character(250.0, 9.2, 9.5, 9.1, "Darth Bane", "Bane", "Dark", new Attack("Espíritu del Pasado", 0, 0, 11, 1, 1), new Attack("Poder Ancestral", 6, 0, 5, 0.9, 1))); //Darth Bane
+arrChar.push(new Character(250.0, 9.2, 9.5, 9.1, "Darth Bane", "Bane", "Dark", new Attack("Espíritu del Pasado", 0, 0, 11, 1, 1), new Attack("Poder Ancestral", 6, 0, 18, 0.9, 1))); //Darth Bane
 arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "StormTrooper", "Storm", "Dark", new Attack("Ráfaga de Disparos", 3, 0, 8, 0.95, 1), new Attack("Ataque Agresivo", 8.5, 0, 5, 1, 0.4))); //StormTrooper
 arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "Bossk", "Bossk", "Dark", new Attack("MudaPiel", 0, 0, 3, 1, 1), new Attack("Regalo Explosivo", 7.5, 0, 10, 0.95, 1))); //Bossk
 
@@ -663,22 +765,22 @@ const loadToYourTeams = () =>{
             
             for(let i = 0; i < teamCharArray.length; i++){
                 let divCard = document.createElement("div");
-                let char = loggedUser.teams[ind].chars[i];
-                divCard.setAttribute("id", `char${char.id}Team${ind}`);
+                let {id, chName, atc, def, chHP, spd} = loggedUser.teams[ind].chars[i];
+                divCard.setAttribute("id", `char${id}Team${ind}`);
                 divCard.setAttribute("class", "charCard");
 
-                divCard.innerHTML = `<h4 id="name${char.id}Team${ind}">${char.chName}</h4>
-                <img id="imgChar" src="../img/tb${char.id}.jpg" alt="${char.id}">
-                <div id="stats${char.id}Team${ind}">
-                    <p id="attackChar${i}Team${ind}">Attack: ${char.atc}</p>
-                    <p id="defenseChar${i}Team${ind}">Defense: ${char.def}</p>
-                    <p id="healthChar${i}Team${ind}">Health: ${char.chHP}</p>
-                    <p id="speedChar${i}Team${ind}">Speed: ${char.spd}</p>
+                divCard.innerHTML = `<h4 id="name${id}Team${ind}">${chName}</h4>
+                <img id="imgChar" src="../img/tb${id}.jpg" alt="${id}">
+                <div id="stats${id}Team${ind}">
+                    <p id="attackChar${i}Team${ind}">Attack: ${atc}</p>
+                    <p id="defenseChar${i}Team${ind}">Defense: ${def}</p>
+                    <p id="healthChar${i}Team${ind}">Health: ${chHP}</p>
+                    <p id="speedChar${i}Team${ind}">Speed: ${spd}</p>
                 </div>`;
                 let btnDel = document.createElement("button");
                 setButtonAttributes(btnDel, ``, "button2--purple", "Delete");
                 btnDel.onclick = () => {
-                    i = teamCharArray.indexOf(teamCharArray.find((c)=> `char${c.id}Team${ind}` == divCard.getAttribute("id")));
+                    i = teamCharArray.indexOf(teamCharArray.find(({id})=> `char${id}Team${ind}` == divCard.getAttribute("id")));
                     teamCharArray.splice(i, 1);
         
                     divCard.remove();
@@ -718,6 +820,10 @@ const loadToYourTeams = () =>{
 const loadUser = (loggedUser) =>{
     logIn(btnNavLogIn, btnNavUser, loggedUser.userName, nav);
     btnNeedsLogIn.remove();
+    loggedUser.teams.forEach(team =>{
+        resetTeam(team.chars);
+    });
+
     if(divYourTeams){
         loggedUser.teams.forEach(()=>{
              loadToYourTeams();
@@ -726,7 +832,7 @@ const loadUser = (loggedUser) =>{
         updateTeams(loggedUser.teams, divYourTeams, divTeams, editButtons,deleteButtons);
     }
     if(tableBestTeams){
-        let teamsToSort = loggedUser.teams.filter((team)=> team.games != 0);
+        let teamsToSort = loggedUser.teams.filter(({games})=> games != 0);
         teamsToSort.sort((a, b) => b.wins/b.games - a.wins/a.games);
         let i = 0;
         while (i < 3 && i < teamsToSort.length){
@@ -734,12 +840,17 @@ const loadUser = (loggedUser) =>{
             let winRate = document.getElementById(`winRate${i+1}`);
             let games = document.getElementById(`games${i+1}`);
             teamName.innerText = teamsToSort[i].name;
-            winRate.innerText = parseFloat((teamsToSort[i].wins/teamsToSort[i].games).toFixed(2));
+            winRate.innerText = (teamsToSort[i].wins/teamsToSort[i].games).toFixed(2);
             games.innerText = teamsToSort[i].games;
             i++;
         }
+        
+        secYourBTeams.append(btnResetStats);
     }
     if(secSelectYourTeam){
+        divEnemyStats.remove(); 
+        divUserStats.remove();
+
         loggedUser.teams.forEach((team, ind)=>{
             let artTeam = document.createElement("article");
             artTeam.setAttribute("id", `team${ind}`);
@@ -756,17 +867,17 @@ const loadUser = (loggedUser) =>{
 
             for(let i = 0; i < team.chars.length; i++){
                 let divCard = document.createElement("div");
-                let char = team.chars[i];
-                divCard.setAttribute("id", `char${char.id}Team${ind}`);
+                let {chName, id, atc, def, chHP, spd} = team.chars[i];
+                divCard.setAttribute("id", `char${id}Team${ind}`);
                 divCard.setAttribute("class", "charCard");
 
-                divCard.innerHTML = `<h4 id="name${char.id}Team${ind}">${char.chName}</h4>
-                <img id="imgChar" src="../img/tb${char.id}.jpg" alt="${char.id}">
-                <div id="stats${char.id}Team${ind}">
-                    <p id="attackChar${i}Team${ind}">Attack: ${char.atc}</p>
-                    <p id="defenseChar${i}Team${ind}">Defense: ${char.def}</p>
-                    <p id="healthChar${i}Team${ind}">Health: ${char.chHP}</p>
-                    <p id="speedChar${i}Team${ind}">Speed: ${char.spd}</p>
+                divCard.innerHTML = `<h4 id="name${id}Team${ind}">${chName}</h4>
+                <img id="imgChar" src="../img/tb${id}.jpg" alt="${id}">
+                <div id="stats${id}Team${ind}">
+                    <p id="attackChar${i}Team${ind}">Attack: ${atc}</p>
+                    <p id="defenseChar${i}Team${ind}">Defense: ${def}</p>
+                    <p id="healthChar${i}Team${ind}">Health: ${chHP}</p>
+                    <p id="speedChar${i}Team${ind}">Speed: ${spd}</p>
                 </div>`;
 
                 divChars.append(divCard);
@@ -803,17 +914,38 @@ const loadUser = (loggedUser) =>{
 
 const updBattleScene = (character, charToSelec, team, name) =>{
     let HPPercentage = Math.ceil(character.curHP*100/character.chHP);
+    let span = document.getElementById(`span${name}`);
     let hName = document.getElementById(`name${name}`);
-    hName.innerText = character.chName;
-
+    let progressTot = document.getElementById(`progressTot${name}`);
     let progressHP = document.getElementById(`prog${name}`);
-    progressHP.style = `width: ${HPPercentage}%;`;
+    let progressPrevHP = document.getElementById(`progPrev${name}`); 
+    let prevPercentage = progressHP.offsetWidth*100/progressTot.offsetWidth - HPPercentage;
 
-    document.getElementById(`span${name}`).innerText = `${HPPercentage}%`;
-    if (character.chStatus.desc.trim() != ""){
-        document.getElementById(`pStatusDesc${name}`).innerText = `Estado: ${character.chStatus.desc}`;
-    } else document.getElementById(`pStatusDesc${name}`).innerText = "";
     
+    hName.innerText = character.chName;
+    (prevPercentage >= 0)? progressPrevHP.style = `width: ${prevPercentage}%;`:progressPrevHP.style = `width: 0%;`;
+    progressHP.style = `width: ${HPPercentage}%;`;
+    span.innerText = `${HPPercentage}%`;
+    
+
+    if(character.modAtc != 0){
+        (character.modAtc > 0)?span.innerText += `  -- Atc: x${1 + character.modAtc*0.5}`:span.innerText += `  -- Atc: x${(1/(1 - character.modAtc*0.5)).toFixed(2)}`;
+    }
+
+    if(character.modDef != 0){
+        (character.modDef > 0)?span.innerText += `  -- Def: x${1 + character.modDef*0.5}`:span.innerText += `  -- Def: x${(1/(1 - character.modDef*0.5)).toFixed(2)}`;
+    }
+
+    if(character.modSpd != 0){
+        (character.modSpd > 0)?span.innerText += `  -- Spd: x${1 + character.modSpd*0.5}`:span.innerText += `  -- Spd: x${(1/(1 - character.modSpd*0.5)).toFixed(2)}`;
+        
+    }
+    /* if (character.chStatus.desc.trim() != ""){
+        document.getElementById(`pStatusDesc${name}`).innerText = `Estado: ${character.chStatus.desc}`;
+    } else document.getElementById(`pStatusDesc${name}`).innerText = ""; */
+    
+    (character.chStatus.desc.trim() != "")? document.getElementById(`pStatusDesc${name}`).innerText = `Estado: ${character.chStatus.desc}`:document.getElementById(`pStatusDesc${name}`).innerText = "";
+
     document.getElementById(`img${name}`).setAttribute("src", `../img/tb${character.id}.jpg`);
 
     let divSubtitutes = document.getElementById(`divSubtitutes${name}`);
@@ -847,12 +979,12 @@ const turnStarts = (player, cpu, attP, attC, charToSelecPlayer, charToSelecCpu, 
             attacks(player, cpu, attP, textareaBattleLog);
         }
         
-        if(!cpuChanges){
+        /* if(!cpuChanges){
             if (cpu.curHP > 0){
                 attacks(cpu, player, attC, textareaBattleLog);
             } 
-        }
-       
+        } */
+       !cpuChanges && cpu.curHP > 0 && attacks(cpu, player, attC, textareaBattleLog);
         
 
     } else {
@@ -866,11 +998,12 @@ const turnStarts = (player, cpu, attP, attC, charToSelecPlayer, charToSelecCpu, 
             textareaBattleLog.value += `\n\nEl rival ataca primero`;
             attacks(cpu, player, attC, textareaBattleLog);
         }       
-        if(!playerChanges){
+        /* if(!playerChanges){
             if (player.curHP > 0){
                 attacks(player, cpu, attP, textareaBattleLog);
             }                        
-        }
+        } */
+        !playerChanges && player.curHP > 0 && attacks(player, cpu, attP, textareaBattleLog);
     }
 
     if (player.spd > cpu.spd || player.spd == cpu.spd && playFirs){
@@ -885,11 +1018,7 @@ const turnStarts = (player, cpu, attP, attC, charToSelecPlayer, charToSelecCpu, 
     if(player.curHP < 0){
         player.curHP = 0;
         textareaBattleLog.value += `\n\n${player.chName} se debilitó`;
-
-      
         btnSwitch.click();
-     
-        
     }
     if (cpu.curHP < 0){
         cpu.curHP = 0;
@@ -946,23 +1075,22 @@ btnCancelOut.onclick = () =>{
 btnLogSignIn.addEventListener("click", ()=>{
     let userName = document.getElementById("inputUserName").value;
     let pass = document.getElementById("inputPass").value;
-    let exists = false;
     let signedUser;
-    let i = 0;
-    while(i < localStorage.length && !exists){
+    /* while(i < localStorage.length && !exists){
         let key = localStorage.key(i);
         signedUser = JSON.parse(localStorage.getItem(key));
         exists = signedUser.userName == userName;
         i++;
-    }
-    if(userName.trim() != "" && pass != "" && !exists){
+    } */
+    signedUser = JSON.parse(localStorage.getItem(`user${userName}`));
+    if(userName.trim() != "" && pass != "" && !signedUser){
         signedUser = new User(userName, pass, new Array());
         localStorage.setItem(`user${userName}`, JSON.stringify(signedUser));
         btnCancelIn.click();
         sessionStorage.setItem("loggedUser", JSON.stringify(signedUser));
         loggedUser = signedUser;
         loadUser(loggedUser);
-    } else if (exists){
+    } else if (signedUser){
         if(signedUser.password == pass){
             btnCancelIn.click();
             sessionStorage.setItem("loggedUser", JSON.stringify(signedUser));
@@ -981,9 +1109,10 @@ btnLogOut.addEventListener("click", ()=>{
     if(divYourTeams){
         divYourTeams.innerHTML = " ";
         tbYourTeams.appendChild(btnNeedsLogIn);
-        if(secBuilder.innerHTML.trim() != ""){
+        /* if(secBuilder.innerHTML.trim() != ""){
             secBuilder.innerHTML = " ";
-        } else btnAddTeam.remove();
+        } else btnAddTeam.remove(); */
+        (secBuilder.innerHTML.trim() != "")? secBuilder.innerHTML = " ":btnAddTeam.remove();
     }
     if(tableBestTeams){
         secYourBTeams.appendChild(btnNeedsLogIn);
@@ -1002,7 +1131,17 @@ btnLogOut.addEventListener("click", ()=>{
         main.append(secSelectYourTeam);
         secSelectYourTeam.append(btnNeedsLogIn);
     }
-})
+});
+
+btnResetStats.addEventListener("click", ()=>{
+    loggedUser.teams.forEach((team)=>{
+        team.games = 0;
+        team.wins = 0;
+    });
+    sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
+    localStorage.setItem(`user${loggedUser.userName}`, JSON.stringify(loggedUser));
+    resetBestTeamsTableValues();
+});
 
 
 btnAddTeam.addEventListener("click", ()=>{
@@ -1045,7 +1184,7 @@ btnLightSide.onclick = ()=>{
     const charCards = document.querySelectorAll(".charCard");
     charCards.forEach((card)=>{
         card.addEventListener("click", ()=>{
-            charSelected = lightSideCharacters.find((char)=> card.getAttribute("id") == `char${char.id}`);
+            charSelected = lightSideCharacters.find(({id})=> card.getAttribute("id") == `char${id}`);
             addCharToNewTeam(teamCharArray, charSelected, divNewChars, isEdit, teams);
         });
     });
@@ -1054,17 +1193,17 @@ btnLightSide.onclick = ()=>{
 btnDarkSide.onclick = ()=>{
     artCharSide.className = "darkSide flexible--rowWrap";
     artCharSide.innerHTML = " ";
-    const darkSideCharacters = arrChar.filter((char) => char.side.toUpperCase() == "DARK");
+    const darkSideCharacters = arrChar.filter(({side}) => side.toUpperCase() == "DARK");
     darkSideCharacters.sort((a, b)=> a.chName.localeCompare(b.chName));
-    darkSideCharacters.forEach((char)=>{
-        artCharSide.innerHTML += `<div id="char${char.id}" class="charCard flexible--column">
-        <h2 id="name${char.id}" class="tit">${char.chName}</h2>
-        <img src="../img/tb${char.id}.jpg" alt="${char.id}">
-        <div id="stats${char.id}" class="stats flexible--rowWrap">
-            <p id="attack${char.id}">Attack: ${char.atc}</p>
-            <p id="defense${char.id}">Defense: ${char.def}</p>
-            <p id="health${char.id}">Health: ${char.chHP}</p>
-            <p id="speed${char.id}">Speed: ${char.spd}</p>
+    darkSideCharacters.forEach(({id, chName, atc, def, chHP, spd})=>{
+        artCharSide.innerHTML += `<div id="char${id}" class="charCard flexible--column">
+        <h2 id="name${id}" class="tit">${chName}</h2>
+        <img src="../img/tb${id}.jpg" alt="${id}">
+        <div id="stats${id}" class="stats flexible--rowWrap">
+            <p id="attack${id}">Attack: ${atc}</p>
+            <p id="defense${id}">Defense: ${def}</p>
+            <p id="health${id}">Health: ${chHP}</p>
+            <p id="speed${id}">Speed: ${spd}</p>
         </div>`
     });
 
@@ -1073,7 +1212,7 @@ btnDarkSide.onclick = ()=>{
     const charCards = document.querySelectorAll(".charCard");
     charCards.forEach((card)=>{
         card.addEventListener("click", ()=>{
-            charSelected = darkSideCharacters.find((char)=> card.getAttribute("id") == `char${char.id}`);
+            charSelected = darkSideCharacters.find(({id})=> card.getAttribute("id") == `char${id}`);
             addCharToNewTeam(teamCharArray, charSelected, divNewChars, isEdit, loggedUser.teams);
         });
     });
@@ -1194,9 +1333,10 @@ btnSwitch.addEventListener("click", ()=>{
             setButtonAttributes(btnsChar[ind],`btnChar${ind}`, "button3--blue", `${char.chName}`);
             divAtOptions.append(btnsChar[ind]);
 
-            if(char.chStatus.desc.trim() != ""){
+            /* if(char.chStatus.desc.trim() != ""){
                 btnsChar[ind].innerText += ` - Estado: ${char.chStatus.desc}`;
-            }
+            } */
+            char.chStatus.desc.trim() != "" && (btnsChar[ind].innerText += ` - Estado: ${char.chStatus.desc}`);
 
 
             btnsChar[ind].addEventListener("click", ()=>{
@@ -1244,9 +1384,10 @@ btnSwitch.addEventListener("click", ()=>{
                 divAtOptions.append(btnSwitch);
             });
         });
-        if(player.curHP > 0){
+        /* if(player.curHP > 0){
             divAtOptions.append(btnCancelSwitch);
-        }
+        } */
+        player.curHP > 0 && divAtOptions.append(btnCancelSwitch);
     } else {
         btnEndBattle.click();
     }    
@@ -1264,6 +1405,36 @@ btnCancelSwitch.addEventListener("click", ()=>{
     divAtOptions.append(btnSwitch);
 });
 
+if(divEnemyCard){
+    divEnemyCard.addEventListener("mouseenter", ()=>{
+        divEnemyCard.append(divEnemyStats);
+        updateStats(cpu, "Cpu");
+    });
+
+    window.addEventListener("scroll", ()=>{
+        divEnemyStats.style.top = (document.body.offsetHeight - document.getElementById("footer").offsetHeight - secBattle.offsetHeight + divEnemyCard.offsetHeight - window.scrollY - 5) + "px";
+    });// - divEnemyCard.offsetHeight  + 
+
+    divEnemyCard.addEventListener("mouseleave", ()=>{
+        divEnemyStats.remove();
+    });
+
+    divUserCard.addEventListener("mouseenter", ()=>{
+        divUserCard.append(divUserStats);
+        divUserStats.style.top = (document.body.offsetHeight - document.getElementById("footer").offsetHeight - divUserCard.offsetHeight - divUserStats.offsetHeight - window.scrollY - 10) + "px";
+        updateStats(player, "User");
+    });
+
+    window.addEventListener("scroll", ()=>{
+        divUserStats.style.top = (document.body.offsetHeight - document.getElementById("footer").offsetHeight - divUserCard.offsetHeight - divUserStats.offsetHeight - window.scrollY - 10) + "px";
+    });
+
+    divUserCard.addEventListener("mouseleave", ()=>{
+        divUserStats.remove();
+    });
+}
+    
+
 
 if(btnEndBattle){
     btnEndBattle.addEventListener("click", ()=>{
@@ -1271,7 +1442,7 @@ if(btnEndBattle){
         btnAtt1.remove();
         btnAtt2.remove();
         btnSwitch.remove();
-        btnsChar.forEach((btn)=>btn.remove());
+        btnsChar && btnsChar.forEach((btn)=>btn.remove());
         btnCancelSwitch.remove();
         divEnemy.append(btnExit);
         let playerTHP = playerTeam.chars.reduce((hpT, char)=> hpT += char.curHP, 0);
@@ -1279,7 +1450,6 @@ if(btnEndBattle){
         if(playerTHP > 0 && cpuTHP == 0){
             textareaBattleLog.value += `\n\n\ ----- Result ---- \n\n${loggedUser.userName} has won!!!`;
             loggedUser.teams.find(team => playerTeam.name == team.name).wins++;
-            resetTeam(playerTeam.chars);
             sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
             localStorage.setItem(`user${loggedUser.userName}`, JSON.stringify(loggedUser));
         } else if ((playerTHP > 0 && cpuTHP > 0 && confirm("If you leave, you will lose the battle...")) || (playerTHP == 0 && cpuTHP > 0)){
@@ -1288,6 +1458,10 @@ if(btnEndBattle){
             textareaBattleLog.value += `\n\n\ ----- Result ---- \n\nIt's a draw!!!`; 
         } else {
             btnExit.remove();
+            divAtOptions.append(btnAtt1);
+            divAtOptions.append(btnAtt2);
+            divAtOptions.append(btnSwitch);
+            btnsChar && btnsChar.forEach((btn)=>divAtOptions.append(btn));
             divEnemy.append(btnEndBattle);
         }
         textareaBattleLog.scrollTo(0,textareaBattleLog.scrollHeight);

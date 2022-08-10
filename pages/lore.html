@@ -14,37 +14,36 @@
     <div class="gridContainer">
         <header>
             <nav id="nav" class="flexible--row">
-                <div id="logo">
+                <div id="logo" class="logo">
                     <a href="../index.html">
-                    <img src="" alt="LogoSWB"></a>
+                    <img src="../img/swBattlesLogo.png" alt="LogoSWB"></a>
                 </div>
-                <div class="menu_log flexible--row">
-                    <ul class="menu flexible--row">
-                        <li><a href="../index.html">Home</a></li>
-                        <li><a href="#" class="actual">Lore</a></li>
-                        <li><a href="teamBuilder.html">TeamBuilder</a></li>
-                        <li><a href="battles.html">Battles!</a></li>
-                    </ul>
-                </div>
-                
+                <ul class="menu flexible--row">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="#" class="actual">Lore</a></li>
+                    <li><a href="teamBuilder.html">TeamBuilder</a></li>
+                    <li><a href="battles.html">Battles!</a></li>
+                </ul>
             </nav>
         </header>
         <main id="main">
-            <section id="modalLogSignIn" class="logIn flexible--column">
-                <label for="userName">User Name</label>
-                <input type="text" name="userName" id="inputUserName" placeholder="player1234">           
-                <label for="pass">Password</label>
-                <input type="password" name="pass" id="inputPass">
-                <button id="btnLogSignIn" class="button2--blue">Log In/Sign In</button>
-                <button id="btnCancelIn" class="button2--red">Cancel</button>
-            </section>
-            <section id="modalLogOut" class="logOut">
-                <button id="btnLogOut" class="button2--red">Log Out</button>
-                <button id="btnCancelOut" class="button2--green">Cancel</button>
-            </section>
-            <div class="lorMainTit">
-                <h1 class="mainTitle2">The Story of Star Wars</h1>
+            <div id="modalLogSignIn" class="modalContainer">
+                <section class="logIn flexible--column">
+                    <label for="userName">User Name</label>
+                    <input type="text" name="userName" id="inputUserName" placeholder="player1234">           
+                    <label for="pass">Password</label>
+                    <input type="password" name="pass" id="inputPass">
+                    <button id="btnLogSignIn" class="button2--blue">Log In/Sign In</button>
+                    <button id="btnCancelIn" class="button2--red">Cancel</button>
+                </section>
             </div>
+            <div id="modalLogOut" class="modalContainer">
+                <section class="logOut">
+                    <button id="btnLogOut" class="button2--red">Log Out</button>
+                    <button id="btnCancelOut" class="button2--green">Cancel</button>
+                </section>
+            </div>
+            <h1 class="mainTitle2">The Story of Star Wars</h1>
             <section id="episodes" class="lorEp">
                 <article id="episode1" class="flexible--row green">
                     <div class="flexible--column">
@@ -142,7 +141,7 @@
         </section>     
         </main>
         <footer>
-            <div><a href="#">LogoSWB</a></div>
+            <div><a href="#"><img src="../img/swBattlesLogo.png" alt="LogoSWB"></a></div>
             <div></div>
         </footer>
     </div>

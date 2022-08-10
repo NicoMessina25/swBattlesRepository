@@ -276,32 +276,37 @@ header {
 nav {
   justify-content: space-between;
   width: 95%;
-  padding: 2%; }
-  nav .menu_log {
-    width: 70%;
-    justify-content: space-around;
+  padding: 2%;
+  align-items: center;
+  /* .menu_log{
+        width: 70%;
+        justify-content: space-around; */ }
+  nav .logo img {
+    width: 50px;
+    height: 50px; }
+  nav .menu {
     font-family: "Righteous", cursive;
     font-size: 50%;
-    font-weight: 500; }
-    nav .menu_log .menu {
-      justify-content: space-between;
-      width: 50%;
-      list-style: none; }
-      nav .menu_log .menu a {
-        color: #92eafd;
-        text-decoration: none;
-        border-radius: 75px 75px 75px 75px;
-        transition: all .2s;
-        padding: 5%; }
-        nav .menu_log .menu a:hover {
-          color: black;
-          background-image: linear-gradient(90deg, #92eafd, #04c8f2);
-          transform: scale(1.1, 1.1); }
-      nav .menu_log .menu .actual {
-        color: #04c8f2; }
-        nav .menu_log .menu .actual:hover {
-          background-image: linear-gradient(90deg, #04c8f2, #038aa7);
-          transform: scale(1.1, 1.1); }
+    font-weight: 500;
+    justify-content: space-around;
+    width: 50%;
+    list-style: none;
+    align-items: center; }
+    nav .menu a {
+      color: #92eafd;
+      text-decoration: none;
+      border-radius: 75px 75px 75px 75px;
+      transition: all .2s;
+      padding: 5%; }
+      nav .menu a:hover {
+        color: black;
+        background-image: linear-gradient(90deg, #92eafd, #04c8f2);
+        transform: scale(1.1, 1.1); }
+    nav .menu .actual {
+      color: #04c8f2; }
+      nav .menu .actual:hover {
+        background-image: linear-gradient(90deg, #04c8f2, #038aa7);
+        transform: scale(1.1, 1.1); }
 
 /* logIn */
 .log, .userOp {
@@ -310,6 +315,7 @@ nav {
   font-weight: 500;
   color: #f89595;
   background-color: inherit;
+  height: fit-content;
   text-decoration: none;
   padding: 1%;
   transition: all .2s;
@@ -325,6 +331,12 @@ nav {
   .userOp:hover {
     background-image: linear-gradient(90deg, #9bf5ae, #17e040); }
 
+.modalContainer {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 5, 5, 0.85);
+  position: fixed; }
+
 .logIn, .logOut {
   position: fixed;
   font-family: "Righteous", cursive;
@@ -332,6 +344,7 @@ nav {
   font-weight: 300;
   right: 0;
   z-index: 2;
+  border: 5px solid black;
   border-radius: 15px 15px 15px 15px;
   align-items: center;
   margin: 1%;
@@ -615,13 +628,11 @@ nav {
         text-align: center;
         color: #0a0505;
         background-color: #f89595;
-        height: 15px; }
-        .battleScene .battleCard .cardInfo .progress .progressBar, .battleScene .battleCardUser .cardInfo .progress .progressBar, .battleScene .battleCardEnemy .cardInfo .progress .progressBar, .battleScene .battleCard .cardInfo .progress .progressBarPrev, .battleScene .battleCardUser .cardInfo .progress .progressBarPrev, .battleScene .battleCardEnemy .cardInfo .progress .progressBarPrev {
+        height: 5px; }
+        .battleScene .battleCard .cardInfo .progress .progressBar, .battleScene .battleCardUser .cardInfo .progress .progressBar, .battleScene .battleCardEnemy .cardInfo .progress .progressBar, .battleScene .battleCard .cardInfo .progress .progressPrevBar, .battleScene .battleCardUser .cardInfo .progress .progressPrevBar, .battleScene .battleCardEnemy .cardInfo .progress .progressPrevBar {
           background-color: #109b2c;
-          width: 40%;
           height: inherit; }
-        .battleScene .battleCard .cardInfo .progress .progressBarPrev, .battleScene .battleCardUser .cardInfo .progress .progressBarPrev, .battleScene .battleCardEnemy .cardInfo .progress .progressBarPrev {
-          width: 0%;
+        .battleScene .battleCard .cardInfo .progress .progressPrevBar, .battleScene .battleCardUser .cardInfo .progress .progressPrevBar, .battleScene .battleCardEnemy .cardInfo .progress .progressPrevBar {
           background-color: #9bf5ae; }
       .battleScene .battleCard .cardInfo .subtitutes, .battleScene .battleCardUser .cardInfo .subtitutes, .battleScene .battleCardEnemy .cardInfo .subtitutes {
         justify-content: space-evenly;
@@ -632,12 +643,39 @@ nav {
           .battleScene .battleCard .cardInfo .subtitutes div .progress, .battleScene .battleCardUser .cardInfo .subtitutes div .progress, .battleScene .battleCardEnemy .cardInfo .subtitutes div .progress {
             width: 100%;
             height: 5px; }
+    .battleScene .battleCard .statsInCombat, .battleScene .battleCardUser .statsInCombat, .battleScene .battleCardEnemy .statsInCombat {
+      color: black;
+      background-color: #92eafd;
+      font-size: smaller;
+      position: fixed;
+      width: 33%;
+      margin: 1%;
+      padding: 0%;
+      border: 4px solid black;
+      border-radius: 20px 20px 20px 20px; }
+      .battleScene .battleCard .statsInCombat div, .battleScene .battleCardUser .statsInCombat div, .battleScene .battleCardEnemy .statsInCombat div {
+        justify-content: space-around;
+        text-align: center;
+        padding: 1%; }
+      .battleScene .battleCard .statsInCombat .boostedStat, .battleScene .battleCardUser .statsInCombat .boostedStat, .battleScene .battleCardEnemy .statsInCombat .boostedStat {
+        font-weight: bold;
+        color: #109b2c; }
+      .battleScene .battleCard .statsInCombat .loweredStat, .battleScene .battleCardUser .statsInCombat .loweredStat, .battleScene .battleCardEnemy .statsInCombat .loweredStat {
+        font-weight: bold;
+        color: #9d0a0a; }
+      .battleScene .battleCard .statsInCombat .divAttacks, .battleScene .battleCardUser .statsInCombat .divAttacks, .battleScene .battleCardEnemy .statsInCombat .divAttacks {
+        color: #92eafd;
+        background-color: black;
+        justify-content: space-between; }
+        .battleScene .battleCard .statsInCombat .divAttacks p, .battleScene .battleCardUser .statsInCombat .divAttacks p, .battleScene .battleCardEnemy .statsInCombat .divAttacks p {
+          width: 100%;
+          text-align: center; }
   .battleScene .battleCardUser {
     align-self: flex-end;
-    margin: 6% 2% 1% 2%; }
+    margin: 2% 2% 1% 2%; }
   .battleScene .battleCardEnemy {
     justify-self: flex-end;
-    margin: 1% 2% 6% 2%; }
+    margin: 1% 2% 2% 2%; }
   .battleScene .atOptions {
     align-items: center;
     width: 30%;
@@ -652,12 +690,13 @@ nav {
   align-items: center; }
   .battleLog textarea {
     font-family: "Righteous", cursive;
-    font-size: 100%;
+    font-size: 50%;
     font-weight: 500;
     color: #92eafd;
     background-color: black;
-    width: auto;
+    width: 100%;
     height: 100%;
+    text-align: center;
     border-radius: 5px 5px 5px 5px; }
 
 /* footer */
@@ -665,6 +704,9 @@ footer {
   grid-area: footer;
   color: #92eafd;
   background-color: black; }
+  footer img {
+    width: 50px;
+    height: 50px; }
 
 @media screen and (min-width: 420px) {
   .battleScene .battleCard .cardInfo .subtitutes, .battleScene .battleCardUser .cardInfo .subtitutes, .battleScene .battleCardEnemy .cardInfo .subtitutes {
@@ -674,10 +716,11 @@ footer {
 
 @media screen and (min-width: 768px) {
   /*nav*/
-  nav .menu_log {
-    font-family: "Righteous", cursive;
+  nav .logo img {
+    width: 100px;
+    height: 100px; }
+  nav .menu {
     font-size: 89%;
-    font-weight: 500;
     width: 70%; }
   .log, .userOp {
     font-size: 89%; }
@@ -718,16 +761,22 @@ footer {
       font-size: 100%; }
       .secBattle .battleScene .battleCard, .secBattle .battleScene .battleCardUser, .secBattle .battleScene .battleCardEnemy {
         width: 50%; }
+        .secBattle .battleScene .battleCard .progress, .secBattle .battleScene .battleCardUser .progress, .secBattle .battleScene .battleCardEnemy .progress {
+          height: 15px; }
       .secBattle .battleScene .atOptions {
-        width: 45%; } }
+        width: 45%; }
+    .secBattle .battleLog textarea {
+      width: auto;
+      font-size: 75%; }
+  footer img {
+    width: 100px;
+    height: 100px; } }
 
 @media screen and (min-width: 1024px) {
   .mainTitle2 {
     font-size: 600%; }
-  nav .menu_log {
-    font-family: "Righteous", cursive;
-    font-size: 120%;
-    font-weight: 500; }
+  nav .menu {
+    font-size: 120%; }
   .log, .userOp {
     font-size: 120%; }
   .logIn, .logOut {
@@ -752,4 +801,12 @@ footer {
     .tbBuilder .charCard {
       width: 15%; }
   .battleScene {
+    font-size: 120%; }
+  .battleLog {
     font-size: 125%; } }
+
+@media screen and (min-width: 1600px) {
+  .secBattle {
+    font-size: 125%; }
+    .secBattle textarea {
+      font-size: 100%; } }

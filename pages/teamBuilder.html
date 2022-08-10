@@ -11,48 +11,53 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <header>
-        <nav id="nav" class="flexible--row">
-            <div id="logo">
-                <a href="../index.html">
-                <img src="" alt="LogoSWB"></a>
-            </div>
-            <div class="menu_log flexible--row">
+    <div class="gridContainer">
+        <header>
+            <nav id="nav" class="flexible--row">
+                <div id="logo" class="logo">
+                    <a href="../index.html">
+                    <img src="../img/swBattlesLogo.png" alt="LogoSWB"></a>
+                </div>
                 <ul class="menu flexible--row">
                     <li><a href="../index.html">Home</a></li>
                     <li><a href="lore.html">Lore</a></li>
                     <li><a href="#" class="actual">TeamBuilder</a></li>
                     <li><a href="battles.html">Battles!</a></li>
                 </ul>
+            </nav>
+        </header>
+        <main id="main">
+            <div id="modalLogSignIn" class="modalContainer">
+                <section class="logIn flexible--column">
+                    <label for="userName">User Name</label>
+                    <input type="text" name="userName" id="inputUserName" placeholder="player1234">           
+                    <label for="pass">Password</label>
+                    <input type="password" name="pass" id="inputPass">
+                    <button id="btnLogSignIn" class="button2--blue">Log In/Sign In</button>
+                    <button id="btnCancelIn" class="button2--red">Cancel</button>
+                </section>
             </div>
-            
-        </nav>
-    </header>
-    <main id="main">
-        <section id="modalLogSignIn" class="logIn flexible--column">
-            <label for="userName">User Name</label>
-            <input type="text" name="userName" id="inputUserName" placeholder="player1234">           
-            <label for="pass">Password</label>
-            <input type="password" name="pass" id="inputPass">
-            <button id="btnLogSignIn" class="button2--blue">Log In/Sign In</button>
-            <button id="btnCancelIn" class="button2--red">Cancel</button>
-        </section>
-        <section id="modalLogOut" class="logOut">
-            <button id="btnLogOut" class="button2--red">Log Out</button>
-            <button id="btnCancelOut" class="button2--green">Cancel</button>
-        </section>
-        <h1 class="mainTitle2">Team Builder</h1>
-        <section id="tbYourTeams" class="tbYourTeams flexible--column">
-            <div id="teams" class="flexible--rowWrap">
+            <div id="modalLogOut" class="modalContainer">
+                <section class="logOut">
+                    <button id="btnLogOut" class="button2--red">Log Out</button>
+                    <button id="btnCancelOut" class="button2--green">Cancel</button>
+                </section>
             </div>
-            
-        </section>
-        <section id="builder" class="tbBuilder flexible--rowWrap">
-        </section>
-    </main>
-    <footer>
-        <p></p>
-    </footer>
+            <h1 class="mainTitle2">Team Builder</h1>
+            <section id="tbYourTeams" class="tbYourTeams flexible--column">
+                <div id="teams" class="flexible--rowWrap">
+                </div>
+                
+            </section>
+            <section id="builder" class="tbBuilder flexible--rowWrap">
+            </section>
+        </main>
+        <footer>
+            <div><a href="#"><img src="../img/swBattlesLogo.png" alt="LogoSWB"></a></div>
+            <div></div>
+        </footer>
+    </div>
+    
     <script src="../js/script.js"></script>
 </body>
 </html>
