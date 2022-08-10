@@ -167,7 +167,7 @@ function attacks(attker, defder, att, textareaBattleLog){
                                     } else{
                                         attker.atc = attker.atcBase/(1 - attker.modAtc*0.5)
                                     } */
-                                    (attker.modAtc >= 0)? attker.atc = attker.atcBase*(1 + attker.modAtc*0.5):attker.atc = attker.atcBase/(1 - attker.modAtc*0.5);
+                                    attker.atc = (attker.modAtc >= 0)? attker.atcBase*(1 + attker.modAtc*0.5): attker.atcBase/(1 - attker.modAtc*0.5);
                                 } else textareaBattleLog.value += `\n\n${attker.chName} tiene el ataque máximo`;
                                 break;
                             case 6: //sub defensa
@@ -179,7 +179,7 @@ function attacks(attker, defder, att, textareaBattleLog){
                                     } else{
                                         attker.def = attker.defBase/(1 - attker.modDef*0.5)
                                     } */
-                                    (attker.modDef >= 0)?attker.def = attker.defBase*(1 + attker.modDef*0.5):attker.def = attker.defBase/(1 - attker.modDef*0.5);
+                                    attker.def = (attker.modDef >= 0)?attker.defBase*(1 + attker.modDef*0.5):attker.defBase/(1 - attker.modDef*0.5);
                                 } else textareaBattleLog.value += `\n\n${attker.chName} tiene la defensa máxima`;
                                     
                                 break;
@@ -192,7 +192,7 @@ function attacks(attker, defder, att, textareaBattleLog){
                                     } else{
                                         attker.spd = attker.spdBase/(1 - attker.modSpd*0.5)
                                     } */
-                                    (attker.modSpd >= 0)?attker.spd = attker.spdBase*(1 + attker.modSpd*0.5):attker.spd = attker.spdBase/(1 - attker.modSpd*0.5);
+                                    attker.spd = (attker.modSpd >= 0)?attker.spdBase*(1 + attker.modSpd*0.5):attker.spdBase/(1 - attker.modSpd*0.5);
                                 } else textareaBattleLog.value += `\n\n${attker.chName} tiene la velocidad máxima`;
                                 break;
                             case 8: //recurrente (de 1 a 4 golpes)
@@ -264,21 +264,21 @@ function attacks(attker, defder, att, textareaBattleLog){
                                 if(defder.modAtc > -6){
                                     textareaBattleLog.value += `\n\n${attker.chName} le bajó el ataque a ${defder.chName}`;
                                     defder.modAtc--;
-                                    (defder.modAtc >= 0)? defder.atc = defder.atcBase*(1 + defder.modAtc*0.5):defder.atc = defder.atcBase/(1 - defder.modAtc*0.5);
+                                    defder.atc = (defder.modAtc >= 0)? defder.atcBase*(1 + defder.modAtc*0.5): defder.atcBase/(1 - defder.modAtc*0.5);
                                 } else textareaBattleLog.value += `\n\n${defder.chName} tiene el ataque mínimo`;
                                 break;
                             case 18: //baja defensa
                             if(defder.modDef > -6){
                                 textareaBattleLog.value += `\n\n${attker.chName} le bajó la defensa a ${defder.chName}`;
                                 defder.modDef--;
-                                (defder.modDef >= 0)? defder.def = defder.defBase*(1 + defder.modDef*0.5):defder.def = defder.defBase/(1 - defder.modDef*0.5);
+                                defder.def = (defder.modDef >= 0)? defder.defBase*(1 + defder.modDef*0.5):defder.defBase/(1 - defder.modDef*0.5);
                             } else textareaBattleLog.value += `\n\n${defder.chName} tiene la defensa mínima`;
                                 break;
                             case 19: //baja velocidad
                             if(defder.modSpd > -6){
                                 textareaBattleLog.value += `\n\n${attker.chName} le bajó la velocidad a ${defder.chName}`;
                                 defder.modSpd--;
-                                (defder.modSpd >= 0)? defder.spd = defder.spdBase*(1 + defder.modSpd*0.5):defder.spd = defder.spdBase/(1 - defder.modSpd*0.5);
+                                defder.spd = (defder.modSpd >= 0)? defder.spdBase*(1 + defder.modSpd*0.5): defder.spdBase/(1 - defder.modSpd*0.5);
                             } else textareaBattleLog.value += `\n\n${defder.chName} tiene la velocidad mínimo`;
                                 break;
                             default:
@@ -501,7 +501,7 @@ function cpuAction(cpu, cpuTeam, charToSelecCpu){
     } else {
         atOp = Math.round(Math.random()*3 + 1);
     } */
-    (charToSelecCpu.length > 0)?atOp = Math.round(Math.random()*4 + 1):atOp = Math.round(Math.random()*3 + 1);
+    atOp = (charToSelecCpu.length > 0)? Math.round(Math.random()*4 + 1):Math.round(Math.random()*3 + 1);
 
     switch (atOp){
         case 1: 
@@ -923,28 +923,28 @@ const updBattleScene = (character, charToSelec, team, name) =>{
 
     
     hName.innerText = character.chName;
-    (prevPercentage >= 0)? progressPrevHP.style = `width: ${prevPercentage}%;`:progressPrevHP.style = `width: 0%;`;
+    progressPrevHP.style = (prevPercentage >= 0)? `width: ${prevPercentage}%;`:`width: 0%;`;
     progressHP.style = `width: ${HPPercentage}%;`;
     span.innerText = `${HPPercentage}%`;
     
 
     if(character.modAtc != 0){
-        (character.modAtc > 0)?span.innerText += `  -- Atc: x${1 + character.modAtc*0.5}`:span.innerText += `  -- Atc: x${(1/(1 - character.modAtc*0.5)).toFixed(2)}`;
+        span.innerText += (character.modAtc > 0)? `  -- Atc: x${1 + character.modAtc*0.5}`:`  -- Atc: x${(1/(1 - character.modAtc*0.5)).toFixed(2)}`;
     }
 
     if(character.modDef != 0){
-        (character.modDef > 0)?span.innerText += `  -- Def: x${1 + character.modDef*0.5}`:span.innerText += `  -- Def: x${(1/(1 - character.modDef*0.5)).toFixed(2)}`;
+        span.innerText += (character.modDef > 0)?`  -- Def: x${1 + character.modDef*0.5}`:`  -- Def: x${(1/(1 - character.modDef*0.5)).toFixed(2)}`;
     }
 
     if(character.modSpd != 0){
-        (character.modSpd > 0)?span.innerText += `  -- Spd: x${1 + character.modSpd*0.5}`:span.innerText += `  -- Spd: x${(1/(1 - character.modSpd*0.5)).toFixed(2)}`;
+        span.innerText += (character.modSpd > 0)?`  -- Spd: x${1 + character.modSpd*0.5}`:`  -- Spd: x${(1/(1 - character.modSpd*0.5)).toFixed(2)}`;
         
     }
     /* if (character.chStatus.desc.trim() != ""){
         document.getElementById(`pStatusDesc${name}`).innerText = `Estado: ${character.chStatus.desc}`;
     } else document.getElementById(`pStatusDesc${name}`).innerText = ""; */
     
-    (character.chStatus.desc.trim() != "")? document.getElementById(`pStatusDesc${name}`).innerText = `Estado: ${character.chStatus.desc}`:document.getElementById(`pStatusDesc${name}`).innerText = "";
+    document.getElementById(`pStatusDesc${name}`).innerText = (character.chStatus.desc.trim() != "")? `Estado: ${character.chStatus.desc}`:"";
 
     document.getElementById(`img${name}`).setAttribute("src", `../img/tb${character.id}.jpg`);
 
