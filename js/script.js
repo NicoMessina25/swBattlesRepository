@@ -1,11 +1,13 @@
 const MAX_TEAMS = 5;
 const MAX_CHARACTERS = 3;
+const MAX_LASTRESULTS = 3;
 
 class User{
-    constructor(userName, password, teams){
+    constructor(userName, password, teams, lastResults){
         this.userName = userName;
         this.password = password;
         this.teams = teams;
+        this.lastResults = lastResults;
     }
 }
 
@@ -128,6 +130,14 @@ class Team{
         this.chars = chars;
         this.wins = wins;
         this.games = games;
+    }
+}
+
+class Result{
+    constructor(yourTeam, enemyTeam, isForfeit){
+        this.yourTeam = yourTeam;
+        this.enemyTeam = enemyTeam;
+        this.isForfeit = isForfeit;
     }
 }
 
@@ -389,19 +399,20 @@ function addCharToNewTeam(teamCharArray, charSelected, divNewChars, isEdit, team
         teamCharArray.push(new Character(charSelected.chHP, charSelected.def, charSelected.atc, charSelected.spd, charSelected.chName, charSelected.id, charSelected.side, charSelected.att1, charSelected.att2));
         let divCard = document.createElement("div");
         divCard.setAttribute("id", `char${charSelected.id}Team${ind}`);
-        divCard.setAttribute("class", "charCard");
+        divCard.className = "charCard flexible--column";
         divCard.innerHTML = `
         <h4 id="name${charSelected.id}Team${ind}">${charSelected.chName}</h4>
         <img id="imgChar" src="../img/tb${charSelected.id}.jpg" alt="${charSelected.id}">
-        <div id="stats${charSelected.id}Team${ind}">
-            <p id="attackChar${teamCharArray.length}Team${ind}">Attack: ${charSelected.atc}</p>
-            <p id="defenseChar${teamCharArray.length}Team${ind}">Defense: ${charSelected.def}</p>
-            <p id="healthChar${teamCharArray.length}Team${ind}">Health: ${charSelected.chHP}</p>
-            <p id="speedChar${teamCharArray.length}Team${ind}">Speed: ${charSelected.spd}</p>
+        <div id="stats${charSelected.id}Team${ind}" class="stats flexible--column">
+            <p id="attackChar${teamCharArray.length}Team${ind}"><i class="fa-solid fa-hand-fist"></i> Attack: ${charSelected.atc}</p>
+            <p id="defenseChar${teamCharArray.length}Team${ind}"><i class="fa-solid fa-shield-halved"></i> Defense: ${charSelected.def}</p>
+            <p id="healthChar${teamCharArray.length}Team${ind}"><i class="fa-solid fa-heart"></i> Health: ${charSelected.chHP}</p>
+            <p id="speedChar${teamCharArray.length}Team${ind}"><i class="fa-solid fa-person-running"></i> Speed: ${charSelected.spd}</p>
         </div>`
         divNewChars.append(divCard);
         let btnDel = document.createElement("button");
-        setButtonAttributes(btnDel, `char${charSelected.id}Team${ind}`, "button2--purple", "Delete");
+        setButtonAttributes(btnDel, `char${charSelected.id}Team${ind}`, "button2--purple", "Delete ");
+        btnDel.innerHTML += `<i class="fa-solid fa-trash"></i>`;
         btnDel.onclick = () => {
             teamCharArray.splice(teamCharArray.indexOf(teamCharArray.find((char) => `char${char.id}Team${ind}` == divCard.getAttribute("id"))), 1);
             divCard.remove();
@@ -416,14 +427,14 @@ function addCharToNewTeam(teamCharArray, charSelected, divNewChars, isEdit, team
 function genHTMLTeamChars(team, ind){
     let htmlTeamChars = " ";
     team.chars.forEach((char, indChar) => {
-        htmlTeamChars += `<div id="char${char.id}Team${ind}" class="charCard">
+        htmlTeamChars += `<div id="char${char.id}Team${ind}" class="charCard flexible--column">
         <h4 id="name${char.id}Team${ind}">${char.chName}</h4>
         <img id="imgChar" src="../img/tb${char.id}.jpg" alt="${char.id}">
-        <div id="stats${char.id}Team${ind}">
-            <p id="attackChar${indChar}Team${ind}">Attack: ${char.atc}</p>
-            <p id="defenseChar${indChar}Team${ind}">Defense: ${char.def}</p>
-            <p id="healthChar${indChar}Team${ind}">Health: ${char.chHP}</p>
-            <p id="speedChar${indChar}Team${ind}">Speed: ${char.spd}</p>
+        <div id="stats${char.id}Team${ind}" class="stats flexible--column">
+            <p id="attackChar${indChar}Team${ind}"><i class="fa-solid fa-hand-fist"></i> Attack: ${char.atc}</p>
+            <p id="defenseChar${indChar}Team${ind}"><i class="fa-solid fa-shield-halved"></i> Defense: ${char.def}</p>
+            <p id="healthChar${indChar}Team${ind}"><i class="fa-solid fa-heart"></i> Health: ${char.chHP}</p>
+            <p id="speedChar${indChar}Team${ind}"><i class="fa-solid fa-person-running"></i> Speed: ${char.spd}</p>
         </div>
     </div>`;
     });
@@ -441,14 +452,14 @@ function updateTeams(teams, divYourTeams, divTeams, editButtons, deleteButtons){
         chars.forEach(({id, chName, atc, def, chHP, spd}, indChar)=>{
             let divCard = document.createElement("div");
             divCard.setAttribute("id", `char${id}Team${ind}`);
-            divCard.setAttribute("class", "charCard");
+            divCard.setAttribute("class", "charCard flexible--column");
             divCard.innerHTML = `<h4 id="name${id}Team${ind}">${chName}</h4>
             <img id="imgChar" src="../img/tb${id}.jpg" alt="${id}">
-            <div id="stats${id}Team${ind}">
-                <p id="attackChar${indChar}Team${ind}">Attack: ${atc}</p>
-                <p id="defenseChar${indChar}Team${ind}">Defense: ${def}</p>
-                <p id="healthChar${indChar}Team${ind}">Health: ${chHP}</p>
-                <p id="speedChar${indChar}Team${ind}">Speed: ${spd}</p>
+            <div id="stats${id}Team${ind}" class="stats flexible--column">
+                <p id="attackChar${indChar}Team${ind}"><i class="fa-solid fa-hand-fist"></i> Attack: ${atc}</p>
+                <p id="defenseChar${indChar}Team${ind}"><i class="fa-solid fa-shield-halved"></i> Defense: ${def}</p>
+                <p id="healthChar${indChar}Team${ind}"><i class="fa-solid fa-heart"></i> Health: ${chHP}</p>
+                <p id="speedChar${indChar}Team${ind}"><i class="fa-solid fa-person-running"></i> Speed: ${spd}</p>
             </div>`;
             
             divChars.append(divCard);
@@ -600,9 +611,15 @@ function updateStats(character, name){
 
 }
 
+function saveData(loggedUser){
+    sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
+    localStorage.setItem(`user${loggedUser.userName}`, JSON.stringify(loggedUser));
+}
+
 const tableBestTeams = document.getElementById("tableBestTeams");
 const btnAddTeam = document.createElement("button");
-setButtonAttributes(btnAddTeam, "btnAddTeam", "button2--green", "Add Team");
+setButtonAttributes(btnAddTeam, "btnAddTeam", "button2--green", "Add Team ");
+btnAddTeam.innerHTML += `<i class="fa-solid fa-plus"></i>`;
 const btnNeedsLogIn = document.createElement("button");
 setButtonAttributes(btnNeedsLogIn, "btnNeedsLogIn", "button2--red", "You must log in");
 const main = document.getElementById("main");
@@ -629,25 +646,31 @@ const divTeams = new Array();
 const editButtons = new Array();
 const deleteButtons = new Array();
 const btnLightSide = document.createElement("button");
-setButtonAttributes(btnLightSide, "btnLightSide", "button2--blue", "Light Side");
+setButtonAttributes(btnLightSide, "btnLightSide", "button2--blue", "Light Side ");
+btnLightSide.innerHTML += `<i class="fa-solid fa-jedi"></i>`;
 const btnDarkSide = document.createElement("button");
-setButtonAttributes(btnDarkSide, "btnDarkSide", "button2--red", "Dark Side");
+setButtonAttributes(btnDarkSide, "btnDarkSide", "button2--red", "Dark Side ");
+btnDarkSide.innerHTML += `<i class="fa-brands fa-sith"></i>`;
 const btnCreate = document.createElement("button");
-setButtonAttributes(btnCreate, "btnCreate", "button2--purple", "Create");
+setButtonAttributes(btnCreate, "btnCreate", "button2--purple", "Create ");
+btnCreate.innerHTML += `<i class="fa-solid fa-circle-up"></i>`;
 const btnConfirm = document.createElement("button");
-setButtonAttributes(btnConfirm, "btnConfirm", "button2--purple", "Confirm");
+setButtonAttributes(btnConfirm, "btnConfirm", "button2--purple", "Confirm ");
+btnConfirm.innerHTML += `<i class="fa-solid fa-circle-check"></i>`;
 const artCharSide = document.createElement("article");
 artCharSide.setAttribute("id", "charSide");
 const divNewChars = document.createElement("div");
 divNewChars.setAttribute("id", "newChars");
 divNewChars.setAttribute("class", "flexible--row chars");
 const btnStartBattle = document.createElement("button");
-setButtonAttributes(btnStartBattle, "btnStart", "button--green", "Battle!!"); 
+setButtonAttributes(btnStartBattle, "btnStart", "button--green", "Battle!! "); 
+btnStartBattle.innerHTML += `<i class="fa-solid fa-play"></i>`;
 const secBattle = document.getElementById("secBattle");
 const btnExit = document.createElement("button");
 setButtonAttributes(btnExit, "btnExit", "button--purple", "Exit");
 const btnCancelSwitch = document.createElement("button");
-setButtonAttributes(btnCancelSwitch, "btnCancelSwitch", "button3--red", "Cancel");
+setButtonAttributes(btnCancelSwitch, "btnCancelSwitch", "button3--red", "Cancel ");
+btnCancelSwitch.innerHTML += `<i class="fa-solid fa-arrow-left"></i>`;
 const divEnemy = document.getElementById("divEnemy");
 const divEnemyCard = document.getElementById("divBattleCardEnemy");
 const divUserCard = document.getElementById("divBattleCardUser");
@@ -692,7 +715,7 @@ arrChar.push(new Character(275.0, 9.3, 9, 8.3, "Ben Kenobi", "Ben", "Light", new
 arrChar.push(new Character(220.0, 8.5, 9, 9.3, "Darth Maul", "Maul", "Dark", new Attack("Poder Descontrolado", 6, 0, 9, 1, 0.5), new Attack("Ira Extrema", 5, 0, 2, 1, 0.3))); //Crea Darth Maul
 arrChar.push(new Character(200.0, 8.6, 9.5, 9, "Anakin Skywalker", "Anakin", "Light", new Attack("Djem So - Anakin", 12, 0, 14, 0.8, 1), new Attack("El Elegido...", 6, 0, 2, 1, 0.3)));//Crea Anakin Skywalker
 arrChar.push(new Character(210.0, 8.4, 9.2, 9.1, "Ahsoka Tano", "Ahsoka", "Light", new Attack("Doble Sable", 5.5, 0, 9, 1, 0.8), new Attack("Ataque Sorpresa", 5, 1, 5, 1, 0.3)));//Crea Ashoka Tano
-arrChar.push(new Character(260.0, 8.6, 9, 9.1, "Qui-Gon Jinn", "QuiGon", "Light", new Attack("Liberación", 8, 0, 3, 1, 0.7), new Attack("Ataru - Qui-Gon", 7, 1, 5, 0.9, 0.5))); //Qui-Gon Jinn
+arrChar.push(new Character(260.0, 8.6, 9, 9.1, "Qui-Gon Jinn", "QuiGon", "Light", new Attack("Liberación", 8, 0, 3, 1, 0.7), new Attack("Ataru - Qui-Gon", 7, 1, 5, 0.85, 0.5))); //Qui-Gon Jinn
 arrChar.push(new Character(240.0, 8.8, 9.4, 8.8, "Rey Skywalker", "Rey", "Light", new Attack("Sanación de la Fuerza", 0, 0, 13, 1, 1), new Attack("Embestida", 9.5, 0, 5, 0.9, 0.2))); //Rey Skywalker
 arrChar.push(new Character(220.0, 9, 9.5, 9.2, "Luke Skywalker", "Luke", "Light", new Attack("Golpe de Gracia", 8.5, 0, 1, 1, 0.3), new Attack("Ilusión de la Fuerza", 0, 0, 11, 1, 1))); //Luke Skywalker
 arrChar.push(new Character(250.0, 8.5, 7.5, 7.5, "Leia Organa", "Leia", "Light", new Attack("Primera Impresión", 6.5, 1, 5, 1, 0.5), new Attack("Servicio de Sanación", 0, 0, 12, 1, 1))); //Leia Organa
@@ -702,7 +725,7 @@ arrChar.push(new Character(230.0, 9.1, 8.9, 9.2, "Ezra Bridger", "Ezra", "Light"
 arrChar.push(new Character(260.0, 9.4, 8.7, 8.4, "Kanan Jarrus", "Kanan", "Light", new Attack("Escudo de la Fuerza", 0, 4, 16, 0.5, 1), new Attack("Ataque y Cobertura", 6, 0, 6, 0.9, 0.7))); //Kanan Jarrus
 arrChar.push(new Character(200.0, 8.4, 8, 7.5, "Padmé Amidala", "Padme", "Light", new Attack("Disparos Múltiples", 3, 0, 8, 0.95, 1), new Attack("Disparo a Cubierto", 6.5, 0, 17, 1, 0.6))); //Padmé Amidala
 arrChar.push(new Character(270.0, 9.5, 8.9, 8.6, "Mace Windu", "Mace", "Light", new Attack("Vaapad Ofensivo", 9, 0, 5, 0.95, 0.7), new Attack("Vapaad Defensivo", 5.5, 0, 6, 0.95, 0.8))); //Mace Windu
-arrChar.push(new Character(220.0, 8.2, 7.7, 8.2, "Clone Trooper", "Clone", "Light", new Attack("Ráfaga de Disparos", 3, 0, 8, 0.95, 1), new Attack("Ataque Disuasivo", 4, 1, 19, 1, 0.4))); //Clone Trooper
+arrChar.push(new Character(220.0, 8.2, 7.7, 8.2, "Clone Trooper", "Clone", "Light", new Attack("Ráfaga de Disparos", 3, 0, 8, 0.95, 1), new Attack("Ataque Disuasivo", 7, 1, 19, 1, 0.4))); //Clone Trooper
 arrChar.push(new Character(250.0, 8.7, 8.5, 8.3, "The Mandalorian", "Mando", "Light", new Attack("Escudo de Beskar - Mandalorian", 1, 4, 16, 0.5, 1), new Attack("Ataque Explosivo", 9, 0, 10, 0.9, 1))); //The Mandalorian
 arrChar.push(new Character(230.0, 8.6, 9.2, 9.1, "Count Dooku", "Dooku", "Dark", new Attack("Makashi - Dooku", 10, 0, 7, 0.9, 0.1), new Attack("Ataque de Rayos", 6.5, 0, 4, 0.95, 0.4))); //Count Dooku
 arrChar.push(new Character(240.0, 8.9, 9.5, 8.3, "General Grievous", "Grievous", "Dark", new Attack("Makashi - Grievous", 4.5, 0, 8, 0.8, 1), new Attack("Extrema Ofensiva", 12, 0, 14, 0.8, 1))); //General Grievous
@@ -721,7 +744,7 @@ arrChar.push(new Character(260.0, 8.6, 9.2, 8.1, "Bossk", "Bossk", "Dark", new A
 
 
 
-
+let battleInCourse;
 let playerTeam;
 let cpuTeam = new Array();
 let teams = new Array();
@@ -743,9 +766,11 @@ const loadToYourTeams = () =>{
     divTeam.setAttribute("class", "team");
 
     let btnEdi = document.createElement("button");
-    setButtonAttributes(btnEdi, ``, "button2--green", "Edit Team");
+    setButtonAttributes(btnEdi, ``, "button2--green", "Edit Team ");
+    btnEdi.innerHTML += `<i class="fa-solid fa-pencil"></i>`;
     let btnDel = document.createElement("button");
-    setButtonAttributes(btnDel, "", "button2--red", "Delete Team");
+    setButtonAttributes(btnDel, "", "button2--red", "Delete Team ");
+    btnDel.innerHTML += `<i class="fa-solid fa-xmark"></i>`;
 
     btnEdi.addEventListener("click", ()=>{
         if(secBuilder.innerHTML == " " || confirm("Si continuas borrarás el equipo que estabas creando, ¿Desea continuar?")){
@@ -767,18 +792,19 @@ const loadToYourTeams = () =>{
                 let divCard = document.createElement("div");
                 let {id, chName, atc, def, chHP, spd} = loggedUser.teams[ind].chars[i];
                 divCard.setAttribute("id", `char${id}Team${ind}`);
-                divCard.setAttribute("class", "charCard");
+                divCard.className = "charCard flexible--column";
 
                 divCard.innerHTML = `<h4 id="name${id}Team${ind}">${chName}</h4>
                 <img id="imgChar" src="../img/tb${id}.jpg" alt="${id}">
-                <div id="stats${id}Team${ind}">
-                    <p id="attackChar${i}Team${ind}">Attack: ${atc}</p>
-                    <p id="defenseChar${i}Team${ind}">Defense: ${def}</p>
-                    <p id="healthChar${i}Team${ind}">Health: ${chHP}</p>
-                    <p id="speedChar${i}Team${ind}">Speed: ${spd}</p>
+                <div id="stats${id}Team${ind}" class="stats flexible--column">
+                    <p id="attackChar${i}Team${ind}"><i class="fa-solid fa-hand-fist"></i> Attack: ${atc}</p>
+                    <p id="defenseChar${i}Team${ind}"><i class="fa-solid fa-shield-halved"></i> Defense: ${def}</p>
+                    <p id="healthChar${i}Team${ind}"><i class="fa-solid fa-heart"></i> Health: ${chHP}</p>
+                    <p id="speedChar${i}Team${ind}"><i class="fa-solid fa-person-running"></i> Speed: ${spd}</p>
                 </div>`;
                 let btnDel = document.createElement("button");
-                setButtonAttributes(btnDel, ``, "button2--purple", "Delete");
+                setButtonAttributes(btnDel, ``, "button2--purple", "Delete ");
+                btnDel.innerHTML += `<i class="fa-solid fa-trash"></i>`;
                 btnDel.onclick = () => {
                     i = teamCharArray.indexOf(teamCharArray.find(({id})=> `char${id}Team${ind}` == divCard.getAttribute("id")));
                     teamCharArray.splice(i, 1);
@@ -844,13 +870,76 @@ const loadUser = (loggedUser) =>{
             games.innerText = teamsToSort[i].games;
             i++;
         }
-        
         secYourBTeams.append(btnResetStats);
+
+        for(let i = 0; i < loggedUser.lastResults.length; i++){
+            let result = document.getElementById(`result${i+1}`);
+            let tableYourTeam = document.getElementById(`yourTeam${i+1}`);
+            let tableEnemyTeam = document.getElementById(`enemyTeam${i+1}`);
+            let yourTeam = loggedUser.lastResults[i].yourTeam;
+            let enemyTeam = loggedUser.lastResults[i].enemyTeam;
+            let yourCharsAlive = parseInt(yourTeam.chars.reduce((charsAlive, {curHP})=> charsAlive += (curHP > 0)? 1:0, 0));
+            let enemyCharsAlive = parseInt(enemyTeam.reduce((charsAlive, {curHP})=> charsAlive += (curHP > 0)? 1:0, 0));
+            tableEnemyTeam.innerText = "";
+            tableYourTeam.innerText = "";
+
+
+            result.innerText = `${yourCharsAlive} - ${enemyCharsAlive}`;
+            if (yourCharsAlive > enemyCharsAlive){
+                result.className = "win";
+            } else if (yourCharsAlive < enemyCharsAlive || loggedUser.lastResults[i].isForfeit){
+                result.className = "lose";
+            }
+            
+            yourTeam.chars.forEach(({chName}, ind)=>{
+                ind != 0 && (tableYourTeam.innerText += " /");
+                tableYourTeam.innerText += ` ${chName}`;
+            });
+
+            enemyTeam.forEach(({chName}, ind)=>{
+                ind != 0 && (tableEnemyTeam.innerText += " /");
+                tableEnemyTeam.innerText += ` ${chName}`;
+            });
+        }
+        
     }
     if(secSelectYourTeam){
+        document.getElementById("home").addEventListener("click",(e)=>{
+            if(battleInCourse && !confirm("If you leave, you will lose the battle...")){
+                e.preventDefault();
+            } else if(battleInCourse){
+                battleInCourse = false;
+                MAX_LASTRESULTS && loggedUser.lastResults.pop();
+                loggedUser.lastResults.unshift(new Result(playerTeam, cpuTeam, true));
+                saveData(loggedUser);
+            }
+        });
+
+        document.getElementById("lore").addEventListener("click", (e)=>{
+            if(battleInCourse && !confirm("If you leave, you will lose the battle...")){
+                e.preventDefault();
+            } else if(battleInCourse){
+                battleInCourse = false;
+                MAX_LASTRESULTS && loggedUser.lastResults.pop();
+                loggedUser.lastResults.unshift(new Result(playerTeam, cpuTeam, true));
+                saveData(loggedUser);
+            }
+        });
+
+        document.getElementById("teamBuilder").addEventListener("click", (e)=>{
+            if(battleInCourse && !confirm("If you leave, you will lose the battle...")){
+                e.preventDefault();
+            } else if(battleInCourse){
+                battleInCourse = false;
+                MAX_LASTRESULTS && loggedUser.lastResults.pop();
+                loggedUser.lastResults.unshift(new Result(playerTeam, cpuTeam, true));
+                saveData(loggedUser);
+            }
+        });
+
         divEnemyStats.remove(); 
         divUserStats.remove();
-
+        secSelectYourTeam.innerText = (loggedUser.teams.length == 0)? "You don't have any teams":"";
         loggedUser.teams.forEach((team, ind)=>{
             let artTeam = document.createElement("article");
             artTeam.setAttribute("id", `team${ind}`);
@@ -869,15 +958,15 @@ const loadUser = (loggedUser) =>{
                 let divCard = document.createElement("div");
                 let {chName, id, atc, def, chHP, spd} = team.chars[i];
                 divCard.setAttribute("id", `char${id}Team${ind}`);
-                divCard.setAttribute("class", "charCard");
+                divCard.className = "charCard flexible--column";
 
                 divCard.innerHTML = `<h4 id="name${id}Team${ind}">${chName}</h4>
                 <img id="imgChar" src="../img/tb${id}.jpg" alt="${id}">
-                <div id="stats${id}Team${ind}">
-                    <p id="attackChar${i}Team${ind}">Attack: ${atc}</p>
-                    <p id="defenseChar${i}Team${ind}">Defense: ${def}</p>
-                    <p id="healthChar${i}Team${ind}">Health: ${chHP}</p>
-                    <p id="speedChar${i}Team${ind}">Speed: ${spd}</p>
+                <div id="stats${id}Team${ind}" class="stats flexible--column">
+                    <p id="attackChar${i}Team${ind}"><i class="fa-solid fa-hand-fist"></i> Attack: ${atc}</p>
+                    <p id="defenseChar${i}Team${ind}"><i class="fa-solid fa-shield-halved"></i> Defense: ${def}</p>
+                    <p id="healthChar${i}Team${ind}"><i class="fa-solid fa-heart"></i> Health: ${chHP}</p>
+                    <p id="speedChar${i}Team${ind}"><i class="fa-solid fa-person-running"></i> Speed: ${spd}</p>
                 </div>`;
 
                 divChars.append(divCard);
@@ -925,19 +1014,19 @@ const updBattleScene = (character, charToSelec, team, name) =>{
     hName.innerText = character.chName;
     progressPrevHP.style = (prevPercentage >= 0)? `width: ${prevPercentage}%;`:`width: 0%;`;
     progressHP.style = `width: ${HPPercentage}%;`;
-    span.innerText = `${HPPercentage}%`;
+    span.innerHTML = `<i class="fa-solid fa-heart"></i> ${HPPercentage}%`;
     
 
     if(character.modAtc != 0){
-        span.innerText += (character.modAtc > 0)? `  -- Atc: x${1 + character.modAtc*0.5}`:`  -- Atc: x${(1/(1 - character.modAtc*0.5)).toFixed(2)}`;
+        span.innerHTML += (character.modAtc > 0)? `  -- <i class="fa-solid fa-hand-fist"></i> x${1 + character.modAtc*0.5}`:`  -- <i class="fa-solid fa-hand-fist"></i> x${(1/(1 - character.modAtc*0.5)).toFixed(2)}`;
     }
 
     if(character.modDef != 0){
-        span.innerText += (character.modDef > 0)?`  -- Def: x${1 + character.modDef*0.5}`:`  -- Def: x${(1/(1 - character.modDef*0.5)).toFixed(2)}`;
+        span.innerHTML += (character.modDef > 0)?`  -- <i class="fa-solid fa-shield-halved"></i> x${1 + character.modDef*0.5}`:`  -- <i class="fa-solid fa-shield-halved"></i> x${(1/(1 - character.modDef*0.5)).toFixed(2)}`;
     }
 
     if(character.modSpd != 0){
-        span.innerText += (character.modSpd > 0)?`  -- Spd: x${1 + character.modSpd*0.5}`:`  -- Spd: x${(1/(1 - character.modSpd*0.5)).toFixed(2)}`;
+        span.innerHTML += (character.modSpd > 0)?`  -- <i class="fa-solid fa-person-running"></i> x${1 + character.modSpd*0.5}`:`  -- <i class="fa-solid fa-person-running"></i> x${(1/(1 - character.modSpd*0.5)).toFixed(2)}`;
         
     }
     /* if (character.chStatus.desc.trim() != ""){
@@ -1084,7 +1173,7 @@ btnLogSignIn.addEventListener("click", ()=>{
     } */
     signedUser = JSON.parse(localStorage.getItem(`user${userName}`));
     if(userName.trim() != "" && pass != "" && !signedUser){
-        signedUser = new User(userName, pass, new Array());
+        signedUser = new User(userName, pass, new Array(),  new Array());
         localStorage.setItem(`user${userName}`, JSON.stringify(signedUser));
         btnCancelIn.click();
         sessionStorage.setItem("loggedUser", JSON.stringify(signedUser));
@@ -1116,6 +1205,7 @@ btnLogOut.addEventListener("click", ()=>{
     }
     if(tableBestTeams){
         secYourBTeams.appendChild(btnNeedsLogIn);
+        btnResetStats.remove();
         for(let i = 0; i<3; i++){
             let teamName = document.getElementById(`tableTeam${i+1}`);
             let winRate = document.getElementById(`winRate${i+1}`);
@@ -1123,6 +1213,15 @@ btnLogOut.addEventListener("click", ()=>{
             teamName.innerText = " ------ ";
             winRate.innerText = " ------ ";
             games.innerText = " ------ ";
+        }
+        for(let i = 0; i<MAX_LASTRESULTS; i++){
+            let result = document.getElementById(`result${i+1}`);
+            let tableYourTeam = document.getElementById(`yourTeam${i+1}`);
+            let tableEnemyTeam = document.getElementById(`enemyTeam${i+1}`);
+            result.innerText = " ------ ";
+            result.className = "result";
+            tableYourTeam.innerText = " ------ ";
+            tableEnemyTeam.innerText = " ------ ";
         }
     }
     if(secSelectYourTeam){
@@ -1173,11 +1272,11 @@ btnLightSide.onclick = ()=>{
         <div id="char${char.id}" class="charCard flexible--column">
             <h2 id="name${char.id}" class="tit">${char.chName}</h2>
             <img src="../img/tb${char.id}.jpg" alt="${char.id}">
-            <div id="stats${char.id}" class="stats flexible--rowWrap">
-                <p id="attack${char.id}">Attack: ${char.atc}</p>
-                <p id="defense${char.id}">Defense: ${char.def}</p>
-                <p id="health${char.id}">Health: ${char.chHP}</p>
-                <p id="speed${char.id}">Speed: ${char.spd}</p>
+            <div id="stats${char.id}" class="stats flexible--column">
+                <p id="attack${char.id}"><i class="fa-solid fa-hand-fist"></i> Attack: ${char.atc}</p>
+                <p id="defense${char.id}"><i class="fa-solid fa-shield-halved"></i> Defense: ${char.def}</p>
+                <p id="health${char.id}"><i class="fa-solid fa-heart"></i> Health: ${char.chHP}</p>
+                <p id="speed${char.id}"><i class="fa-solid fa-person-running"></i> Speed: ${char.spd}</p>
             </div>
         </div>`
     });
@@ -1199,11 +1298,11 @@ btnDarkSide.onclick = ()=>{
         artCharSide.innerHTML += `<div id="char${id}" class="charCard flexible--column">
         <h2 id="name${id}" class="tit">${chName}</h2>
         <img src="../img/tb${id}.jpg" alt="${id}">
-        <div id="stats${id}" class="stats flexible--rowWrap">
-            <p id="attack${id}">Attack: ${atc}</p>
-            <p id="defense${id}">Defense: ${def}</p>
-            <p id="health${id}">Health: ${chHP}</p>
-            <p id="speed${id}">Speed: ${spd}</p>
+        <div id="stats${id}" class="stats flexible--column">
+            <p id="attack${id}"><i class="fa-solid fa-hand-fist"></i> Attack: ${atc}</p>
+            <p id="defense${id}"><i class="fa-solid fa-shield-halved"></i> Defense: ${def}</p>
+            <p id="health${id}"><i class="fa-solid fa-heart"></i> Health: ${chHP}</p>
+            <p id="speed${id}"><i class="fa-solid fa-person-running"></i> Speed: ${spd}</p>
         </div>`
     });
 
@@ -1232,6 +1331,7 @@ btnCreate.addEventListener("click", ()=>{
 });
 
 btnStartBattle.addEventListener("click", ()=>{
+    battleInCourse = true;
     loggedUser.teams.find(team => playerTeam.name == team.name).games += 1;
     sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
     localStorage.setItem(`user${loggedUser.userName}`, JSON.stringify(loggedUser));
@@ -1275,7 +1375,7 @@ btnStartBattle.addEventListener("click", ()=>{
     
    btnAtt1.innerHTML = `<h4>${player.att1.nameAt}</h4><p>${player.att1.sDes}</p>`;
    btnAtt2.innerHTML = `<h4>${player.att2.nameAt}</h4><p>${player.att2.sDes}</p>`;
-   btnSwitch.innerHTML = `<h4>Switch Character</h4>`;
+   btnSwitch.innerHTML = `<h4>Switch Character</h4><i class="fa-solid fa-repeat"></i>`;
     
 });
 
@@ -1438,6 +1538,7 @@ if(divEnemyCard){
 
 if(btnEndBattle){
     btnEndBattle.addEventListener("click", ()=>{
+        battleInCourse = false;
         btnEndBattle.remove();
         btnAtt1.remove();
         btnAtt2.remove();
@@ -1447,23 +1548,29 @@ if(btnEndBattle){
         divEnemy.append(btnExit);
         let playerTHP = playerTeam.chars.reduce((hpT, char)=> hpT += char.curHP, 0);
         let cpuTHP = cpuTeam.reduce((hpT, char)=> hpT += char.curHP, 0);
+        loggedUser.lastResults.length == MAX_LASTRESULTS && loggedUser.lastResults.pop();
+        loggedUser.lastResults.unshift(new Result(playerTeam, cpuTeam, false));
         if(playerTHP > 0 && cpuTHP == 0){
             textareaBattleLog.value += `\n\n\ ----- Result ---- \n\n${loggedUser.userName} has won!!!`;
             loggedUser.teams.find(team => playerTeam.name == team.name).wins++;
-            sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
-            localStorage.setItem(`user${loggedUser.userName}`, JSON.stringify(loggedUser));
+            saveData(loggedUser);
         } else if ((playerTHP > 0 && cpuTHP > 0 && confirm("If you leave, you will lose the battle...")) || (playerTHP == 0 && cpuTHP > 0)){
+            loggedUser.lastResults[0].isForfeit = playerTHP > 0;
+            saveData(loggedUser);
             textareaBattleLog.value += `\n\n\ ----- Result ---- \n\n${loggedUser.userName} has lost...`;
         } else if(cpuTHP == 0){
+            saveData(loggedUser);
             textareaBattleLog.value += `\n\n\ ----- Result ---- \n\nIt's a draw!!!`; 
         } else {
             btnExit.remove();
+            battleInCourse = true;
             divAtOptions.append(btnAtt1);
             divAtOptions.append(btnAtt2);
             divAtOptions.append(btnSwitch);
             btnsChar && btnsChar.forEach((btn)=>divAtOptions.append(btn));
             divEnemy.append(btnEndBattle);
         }
+        
         textareaBattleLog.scrollTo(0,textareaBattleLog.scrollHeight);
         
     });

@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Yanone+Kaffeesatz&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/83ba80bc14.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -19,10 +20,10 @@
                     <img src="../img/swBattlesLogo.png" alt="LogoSWB"></a>
                 </div>
                 <ul class="menu flexible--row">
-                    <li><a href="../index.html">Home</a></li>
-                    <li><a href="lore.html">Lore</a></li>
-                    <li><a href="teamBuilder.html">TeamBuilder</a></li>
-                    <li><a href="#" class="actual">Battles!</a></li>
+                    <li><a id="home" href="../index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+                    <li><a id="lore" href="lore.html"><i class="fa-solid fa-scroll"></i> Lore</a></li>
+                    <li><a id="teamBuilder" href="teamBuilder.html"><i class="fa-solid fa-wrench"></i> TeamBuilder</a></li>
+                    <li><a href="#" class="actual"><i class="fa-solid fa-hand-fist"></i> Battles!</a></li>
                 </ul>
             </nav>
         </header>
@@ -39,7 +40,7 @@
                 </section>
             </div>
             <div id="modalLogOut" class="modalContainer">
-                <section class="logOut">
+                <section class="logOut flexible--column">
                     <button id="btnLogOut" class="button2--red">Log Out</button>
                     <button id="btnCancelOut" class="button2--green">Cancel</button>
                 </section>
@@ -69,11 +70,11 @@
                                 <div class="flexible--row">
                                     <div>
                                         <h4>Stats</h4>
-                                        <p>Atc: <span id="spanAtcCpu">9.1</span> / Def: <span id="spanDefCpu">8.6</span> / Spd <span id="spanSpdCpu">9</span></p>
+                                        <p><i class="fa-solid fa-hand-fist"></i> <span id="spanAtcCpu"></span> / <i class="fa-solid fa-shield-halved"></i> <span id="spanDefCpu"></span> / <i class="fa-solid fa-person-running"></i> <span id="spanSpdCpu"></span></p>
                                     </div>
                                     <div>
                                         <h4>Modified Stats</h4>
-                                        <p>Atc: <span id="spanModAtcCpu" class="boostedStat">14.3</span> / Def: <span id="spanModDefCpu" class="loweredStat">6.4</span> / Spd <span id="spanModSpdCpu">9</span></p>
+                                        <p><i class="fa-solid fa-hand-fist"></i> <span id="spanModAtcCpu"></span> / <i class="fa-solid fa-shield-halved"></i> <span id="spanModDefCpu"></span> / <i class="fa-solid fa-person-running"></i> <span id="spanModSpdCpu"></span></p>
                                     </div>
                                 </div>
                                 <div class="flexible--row divAttacks">
@@ -111,11 +112,11 @@
                                 <div class="flexible--row">
                                     <div>
                                         <h4>Stats</h4>
-                                        <p>Atc: <span id="spanAtcUser">9.1</span> / Def: <span id="spanDefUser">8.6</span> / Spd <span id="spanSpdUser">9</span></p>
+                                        <p><i class="fa-solid fa-hand-fist"></i> <span id="spanAtcUser"></span> / <i class="fa-solid fa-shield-halved"></i> <span id="spanDefUser"></span> / <i class="fa-solid fa-person-running"></i> <span id="spanSpdUser"></span></p>
                                     </div>
                                     <div>
                                         <h4>Modified Stats</h4>
-                                        <p>Atc: <span id="spanModAtcUser" class="boostedStat">14.3</span> / Def: <span id="spanModDefUser" class="loweredStat">6.4</span> / Spd <span id="spanModSpdUser">9</span></p>
+                                        <p><i class="fa-solid fa-hand-fist"></i> <span id="spanModAtcUser"></span> / <i class="fa-solid fa-shield-halved"></i> <span id="spanModDefUser"></span> / <i class="fa-solid fa-person-running"></i> <span id="spanModSpdUser"></span></p>
                                     </div>
                                 </div>
                                 <div class="flexible--row divAttacks">

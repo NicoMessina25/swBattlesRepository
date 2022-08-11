@@ -21,28 +21,6 @@ body {
   width: 100%;
   max-width: 100%; }
 
-/* .gC--mainLor{
-    display: grid;
-    grid-area: main;
-    grid-template-columns: 100%;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas:"lorEp"
-    "lorSer";
-    width: 100%;
-    max-width: 100%;
-}
-
-.gC--mainTB{
-    display: grid;
-    grid-area: main;
-    grid-template-columns: 100%;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas: "yourTeams"
-    "builder";
-    width: 100%;
-    max-width: 100%;
-
-} */
 .flexible--row {
   display: flex;
   flex-direction: row; }
@@ -256,12 +234,13 @@ input {
   font-weight: 500;
   padding: 1%; }
 
-.visible {
-  visibility: visible; }
+/* .visible{
+    visibility: visible;
+}
 
-.invisible {
-  visibility: hidden; }
-
+.invisible{
+    visibility: hidden;
+} */
 /* header */
 header {
   grid-area: header;
@@ -281,9 +260,9 @@ nav {
   /* .menu_log{
         width: 70%;
         justify-content: space-around; */ }
-  nav .logo img {
-    width: 50px;
-    height: 50px; }
+  nav .logo a img {
+    width: 70px;
+    height: 70px; }
   nav .menu {
     font-family: "Righteous", cursive;
     font-size: 50%;
@@ -292,6 +271,8 @@ nav {
     width: 50%;
     list-style: none;
     align-items: center; }
+    nav .menu li {
+      width: 150%; }
     nav .menu a {
       color: #92eafd;
       text-decoration: none;
@@ -446,6 +427,17 @@ nav {
   max-height: fit-content;
   justify-content: space-around;
   align-items: center; }
+  .indRes .yourTeam {
+    color: #9bf5ae; }
+  .indRes .result {
+    color: #92eafd;
+    width: 10%; }
+  .indRes .win {
+    color: #17e040;
+    font-weight: bold; }
+  .indRes .lose {
+    color: #e50f0f;
+    font-weight: bold; }
 
 .lorEp {
   grid-area: loreEp; }
@@ -501,10 +493,11 @@ nav {
   background-color: black;
   transition: all .5s; }
   .charCard .stats {
-    justify-content: center;
+    height: 100%;
+    justify-content: space-around;
     margin: 1%; }
     .charCard .stats p {
-      margin: 2%; }
+      margin: 1% 0%; }
   .charCard img {
     width: 100%;
     height: auto;
@@ -532,6 +525,8 @@ nav {
     font-size: 200%; }
   .team .chars, .newTeam .chars, .selectTeam .chars {
     justify-content: space-around; }
+  .team .charCard .stats, .newTeam .charCard .stats, .selectTeam .charCard .stats {
+    font-size: 80%; }
   .team .charCard:hover, .newTeam .charCard:hover, .selectTeam .charCard:hover {
     box-shadow: 1px 1px 10px 5px #17e040;
     cursor: auto; }

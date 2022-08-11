@@ -30,29 +30,6 @@ body{
     max-width: 100%;
 }
 
-/* .gC--mainLor{
-    display: grid;
-    grid-area: main;
-    grid-template-columns: 100%;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas:"lorEp"
-    "lorSer";
-    width: 100%;
-    max-width: 100%;
-}
-
-.gC--mainTB{
-    display: grid;
-    grid-area: main;
-    grid-template-columns: 100%;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas: "yourTeams"
-    "builder";
-    width: 100%;
-    max-width: 100%;
-
-} */
-
 .flexible--row{
     display: flex;
     flex-direction: row;
@@ -284,13 +261,13 @@ input{
     padding: 1%;
 };
 
-.visible{
+/* .visible{
     visibility: visible;
 }
 
 .invisible{
     visibility: hidden;
-}
+} */
 
 /* header */
 
@@ -312,9 +289,12 @@ nav{
     padding: 2%;
     align-items: center;
     .logo{
-        img{
-            @include sizes(50px, 50px);
+        a{
+           img{
+            @include sizes(70px, 70px);
+            } 
         }
+        
     }
 
     /* .menu_log{
@@ -327,12 +307,16 @@ nav{
         width: 50%;
         list-style: none;
         align-items: center;
+        li{
+            width: 150%;
+        }
         a{
             color: map-get($lightMainCol, lighterBlue);
             text-decoration: none;
             border-radius: 75px 75px 75px 75px;
             transition: all .2s;
             padding: 5%;
+
             &:hover{
                 color: (map-get($darkMainCol, darkerPrimary));
                 background-image: linear-gradient(90deg, map-get($lightMainCol, lighterBlue), map-get($mainCol, mBlue));;
@@ -509,7 +493,21 @@ nav{
     max-height: fit-content;
     justify-content: space-around;
     align-items: center;
-    
+    .yourTeam{
+        color: map-get($lightMainCol, lighterGreen);
+    }
+    .result{
+        color: map-get($lightMainCol, lighterBlue);
+        width: 10%;
+    }
+    .win{
+        color: map-get($mainCol, mGreen);
+        font-weight: bold;
+    }
+    .lose{
+        color: map-get($mainCol, mRed);
+        font-weight: bold;
+    }
 }
 
 
@@ -581,10 +579,11 @@ nav{
     background-color: map-get($darkMainCol, darkerPrimary);
     transition: all .5s;
     .stats{
-        justify-content: center;
+        height: 100%; 
+        justify-content: space-around;
         margin: 1%;
         p{
-            margin: 2%;
+            margin: 1% 0%;
         }
     }
     img{
@@ -621,6 +620,9 @@ nav{
     }
 
     .charCard{
+        .stats{
+            font-size: 80%;
+        }
         &:hover{
             box-shadow: 1px 1px 10px 5px map-get($mainCol, mGreen);
             cursor: auto;
