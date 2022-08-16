@@ -90,7 +90,7 @@ body {
   margin: 1%;
   padding: 2%; }
 
-.button, .button--red, .button--green, .button--blue, .button--purple, .button2, .button2--red, .button2--green, .button2--blue, .button2--purple, .button3, .button3--blue, .button3--red {
+.button, .button--red, .button--green, .button--blue, .button--purple, .button2, .button2--red, .button2--green, .button2--blue, .button2--purple, .button3, .button3--blue, .button3--red, .button3--green {
   text-decoration: none;
   font-family: "Yanone Kaffeesatz", sans-serif;
   font-size: 100%;
@@ -100,7 +100,7 @@ body {
   margin: 1%;
   padding: 4%;
   transition: all .1s; }
-  .button:hover, .button--red:hover, .button--green:hover, .button--blue:hover, .button--purple:hover, .button2:hover, .button2--red:hover, .button2--green:hover, .button2--blue:hover, .button2--purple:hover, .button3:hover, .button3--blue:hover, .button3--red:hover {
+  .button:hover, .button--red:hover, .button--green:hover, .button--blue:hover, .button--purple:hover, .button2:hover, .button2--red:hover, .button2--green:hover, .button2--blue:hover, .button2--purple:hover, .button3:hover, .button3--blue:hover, .button3--red:hover, .button3--green:hover {
     transform: scale(1.1, 1.1);
     box-shadow: 1px 1px 10px 5px black; }
 
@@ -169,7 +169,7 @@ body {
     color: #c306e3;
     background-color: black; }
 
-.button3, .button3--blue, .button3--red {
+.button3, .button3--blue, .button3--red, .button3--green {
   font-family: "Righteous", cursive;
   font-size: 100%;
   font-weight: inherit;
@@ -178,7 +178,7 @@ body {
   border: 3px solid black;
   transition: all .2s;
   border-radius: 5px 5px 5px 5px; }
-  .button3:hover, .button3--blue:hover, .button3--red:hover {
+  .button3:hover, .button3--blue:hover, .button3--red:hover, .button3--green:hover {
     transform: scale(1, 1); }
 
 .button3--blue {
@@ -195,6 +195,14 @@ body {
   .button3--red:hover {
     border: 3px solid #9d0a0a;
     color: #f89595;
+    background-color: black; }
+
+.button3--green {
+  color: #0a0505;
+  background-color: #9bf5ae; }
+  .button3--green:hover {
+    border: 3px solid #109b2c;
+    color: #9bf5ae;
     background-color: black; }
 
 .table {
@@ -308,7 +316,8 @@ nav {
 
 .userOp {
   color: #9bf5ae;
-  background-color: inherit; }
+  background-color: inherit;
+  background-color: black; }
   .userOp:hover {
     background-image: linear-gradient(90deg, #9bf5ae, #17e040); }
 
@@ -675,7 +684,7 @@ nav {
     align-items: center;
     width: 30%;
     margin: 6% 2% 1% 2%; }
-    .battleScene .atOptions .button3, .battleScene .atOptions .button3--blue, .battleScene .atOptions .button3--red {
+    .battleScene .atOptions .button3, .battleScene .atOptions .button3--blue, .battleScene .atOptions .button3--red, .battleScene .atOptions .button3--green {
       font-size: 5px;
       width: 100%; }
 
@@ -706,10 +715,15 @@ footer {
 @media screen and (min-width: 420px) {
   .battleScene .battleCard .cardInfo .subtitutes, .battleScene .battleCardUser .cardInfo .subtitutes, .battleScene .battleCardEnemy .cardInfo .subtitutes {
     font-size: 80%; }
-  .battleScene .atOptions .button3, .battleScene .atOptions .button3--blue, .battleScene .atOptions .button3--red {
+  .battleScene .atOptions .button3, .battleScene .atOptions .button3--blue, .battleScene .atOptions .button3--red, .battleScene .atOptions .button3--green {
     font-size: 100%; } }
 
 @media screen and (min-width: 768px) {
+  /*General */
+  .text, .text--justify, .text--center {
+    font-size: 100%; }
+  .swal2-modal .button, .swal2-modal .button--red, .swal2-modal .button--green, .swal2-modal .button--blue, .swal2-modal .button--purple, .swal2-modal .button2, .swal2-modal .button2--red, .swal2-modal .button2--green, .swal2-modal .button2--blue, .swal2-modal .button2--purple, .swal2-modal .button3, .swal2-modal .button3--blue, .swal2-modal .button3--red, .swal2-modal .button3--green {
+    font-size: 150%; }
   /*nav*/
   nav .logo img {
     width: 100px;
@@ -768,18 +782,22 @@ footer {
     height: 100px; } }
 
 @media screen and (min-width: 1024px) {
+  .mainTitle, .mainTitle2 {
+    font-size: 600%; }
   .mainTitle2 {
     font-size: 600%; }
+  .subMainTitle {
+    font-size: 300%; }
+  .text, .text--justify, .text--center {
+    font-size: 120%; }
   nav .menu {
     font-size: 120%; }
   .log, .userOp {
     font-size: 120%; }
   .logIn, .logOut {
     font-size: 120%; }
-  .indPre {
-    font-size: 300%; }
-  .indCard, .indLore, .indBat, .indTeamB {
-    font-size: 200%; }
+  .indCard .button, .indLore .button, .indBat .button, .indTeamB .button, .indCard .button--red, .indLore .button--red, .indBat .button--red, .indTeamB .button--red, .indCard .button--green, .indLore .button--green, .indBat .button--green, .indTeamB .button--green, .indCard .button--blue, .indLore .button--blue, .indBat .button--blue, .indTeamB .button--blue, .indCard .button--purple, .indLore .button--purple, .indBat .button--purple, .indTeamB .button--purple, .indCard .button2, .indLore .button2, .indBat .button2, .indTeamB .button2, .indCard .button2--red, .indLore .button2--red, .indBat .button2--red, .indTeamB .button2--red, .indCard .button2--green, .indLore .button2--green, .indBat .button2--green, .indTeamB .button2--green, .indCard .button2--blue, .indLore .button2--blue, .indBat .button2--blue, .indTeamB .button2--blue, .indCard .button2--purple, .indLore .button2--purple, .indBat .button2--purple, .indTeamB .button2--purple, .indCard .button3, .indLore .button3, .indBat .button3, .indTeamB .button3, .indCard .button3--blue, .indLore .button3--blue, .indBat .button3--blue, .indTeamB .button3--blue, .indCard .button3--red, .indLore .button3--red, .indBat .button3--red, .indTeamB .button3--red, .indCard .button3--green, .indLore .button3--green, .indBat .button3--green, .indTeamB .button3--green {
+    font-size: 150%; }
   .indBest {
     font-size: 150%;
     align-items: flex-end; }

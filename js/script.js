@@ -1,6 +1,68 @@
 const MAX_TEAMS = 5;
 const MAX_CHARACTERS = 3;
 const MAX_LASTRESULTS = 3;
+const SwalError = Swal.mixin({
+    customClass: {
+        confirmButton: 'button3--red',
+      },
+    buttonsStyling: false,
+    title: '<h2 class="subMainTitle">ERROR!</h2>',
+    color: '#F89595',
+    background: '#0a0505',
+    icon:`error`,
+    iconColor:'#F89595',
+    showClass: {
+      popup: 'animate__animated animate__fadeInDown'
+    },
+    hideClass: {
+      popup: 'animate__animated animate__fadeOutUp'
+    }
+});
+const SwalWarning = Swal.mixin({
+    customClass: {
+        confirmButton: 'button3--blue',
+      },
+    buttonsStyling: false,
+    title: '<h2 class="subMainTitle">Warning!</h2>',
+    color: '#92EAFD',
+    background: '#0a0505',
+    icon:`warning`,
+    iconColor:'#92EAFD',
+    showClass: {
+      popup: 'animate__animated animate__fadeInDown'
+    },
+    hideClass: {
+      popup: 'animate__animated animate__fadeOutUp'
+    }
+});       
+const SwalConfirm = Swal.mixin({
+    customClass: {
+        confirmButton: 'button3--green',
+        cancelButton: 'button3--red',
+      },
+    title: '<h2 class="subMainTitle">Are you Sure?</h2>',
+    
+    buttonsStyling: false,
+    icon: 'warning',
+    color: '#92EAFD',
+    background: '#0a0505',
+    iconColor: '#92EAFD',   
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!'
+});
+const SwalInfoChar = Swal.mixin({
+    buttonsStyling: false,
+    imageWidth: '50%',
+    imageHeight: 'auto',
+    background: '#0a0505',
+    confirmButtonText: "Nice!",
+    showClass: {
+      popup: 'animate__animated animate__fadeInDown'
+    },
+    hideClass: {
+      popup: 'animate__animated animate__fadeOutUp'
+    }
+});
 
 class User{
     constructor(userName, password, teams, lastResults){
@@ -419,9 +481,27 @@ function addCharToNewTeam(teamCharArray, charSelected, divNewChars, isEdit, team
             
         }
         divCard.append(btnDel);
-
+        Toastify({
+            text: `${charSelected.chName} added to the team, click to see it!`,
+            duration: 3000,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            className: "text--center",
+            style: {
+                color: "#0a0505",
+                background: "linear-gradient(to right, #F7D0FE, #df3bfa)",
+            },
+            onClick: function(){
+                window.scrollTo(0, document.body.offsetHeight - secBuilder.offsetHeight - document.getElementById("footer").offsetHeight);
+            }
+        }).showToast();
         
-    } else alert("El equipo es hasta 3 personajes y no puedes repetir");
+    } else SwalError.fire({
+        html: `<p class="text--center">${MAX_CHARACTERS} is the maximum capacity for each team and you can't repeat</p>`,
+        position: 'top',
+        width: '100%',
+        confirmButtonText: 'Close',
+      });
 }
 
 function genHTMLTeamChars(team, ind){
@@ -468,19 +548,6 @@ function updateTeams(teams, divYourTeams, divTeams, editButtons, deleteButtons){
         divTeams[ind].append(editButtons[ind]);
         divTeams[ind].append(deleteButtons[ind]);
         divYourTeams.append(divTeams[ind]);
-    });
-}
-
-function setConfirmListener(btnConfirm, loggedUser, teamCharArray, divYourTeams, divTeams, editButtons, deleteButtons){
-    btnConfirm.addEventListener("click", ()=>{
-        if(teamCharArray.length > 0){
-            updateTeams(loggedUser.teams, divYourTeams, divTeams, editButtons, deleteButtons);
-            localStorage.setItem(`user${loggedUser.userName}`, JSON.stringify(loggedUser));
-            sessionStorage.setItem(`loggedUser`, JSON.stringify(loggedUser));
-            secBuilder.innerHTML = " ";
-            tbYourTeams.appendChild(btnAddTeam);
-        } else alert("Your team must have at least 1 character");
-            
     });
 }
 
@@ -773,8 +840,9 @@ const loadToYourTeams = () =>{
     btnDel.innerHTML += `<i class="fa-solid fa-xmark"></i>`;
 
     btnEdi.addEventListener("click", ()=>{
-        if(secBuilder.innerHTML == " " || confirm("Si continuas borrarás el equipo que estabas creando, ¿Desea continuar?")){
+        if(secBuilder.innerHTML.trim() == ""){
             isEdit = true;
+            
             let ind = divTeams.indexOf(divTeam);
             teamCharArray = loggedUser.teams[ind].chars;
             divNewChars.innerHTML = " ";
@@ -817,24 +885,65 @@ const loadToYourTeams = () =>{
             } 
             const secNewTeam = document.getElementById("newTeam");
             secBuilder.append(btnLightSide);
-            setConfirmListener(btnConfirm, loggedUser, teamCharArray, divYourTeams, divTeams, editButtons, deleteButtons); 
+            btnConfirm.addEventListener("click", ()=>{
+                if(teamCharArray.length > 0 && editTeamName.value.trim() != ""){
+                    loggedUser.teams[ind].name = editTeamName.value;
+                    updateTeams(loggedUser.teams, divYourTeams, divTeams, editButtons, deleteButtons);
+                    localStorage.setItem(`user${loggedUser.userName}`, JSON.stringify(loggedUser));
+                    sessionStorage.setItem(`loggedUser`, JSON.stringify(loggedUser));
+                    secBuilder.innerHTML = " ";
+                    tbYourTeams.appendChild(btnAddTeam);
+
+                    Toastify({
+                        text: `"${editTeamName.value}" team was successfully edited!`,
+                        duration: 3000,
+                        gravity: "top", // `top` or `bottom`
+                        position: "right", // `left`, `center` or `right`
+                        stopOnFocus: false,
+                        className: "userOp",
+                        style: {
+                          color: "#0a0505",
+                          background: "linear-gradient(to right, #9BF5AE, #17e040)",
+                        },
+                      }).showToast();
+
+                } else SwalWarning.fire({
+                    html: '<p class="text--center">Your team must have at least 1 character and a team name</p>',
+                    confirmButtonText: 'Close',
+                  });                    
+            });
             secBuilder.append(btnConfirm);
             secBuilder.append(btnDarkSide);
             artCharSide.innerHTML = " ";
             secBuilder.append(artCharSide);
-            secNewTeam.append(divNewChars);    
-        }; 
+            secNewTeam.append(divNewChars);
+            window.scrollTo(0, document.body.offsetHeight - document.getElementById("footer").offsetHeight - secBuilder.offsetHeight);    
+        } else SwalConfirm.fire({
+            html: "<p class='text--center'>You will lose the team you are editing!</p>",
+        }).then((result) => {
+                if(result.isConfirmed){
+                    secBuilder.innerHTML = "";
+                    btnEdi.click();
+                }
+            }); 
     });
 
     btnDel.addEventListener("click", ()=>{
-        let i = divTeams.indexOf(divTeam);
-        loggedUser.teams.splice(i, 1);
-        divTeams.splice(i, 1);
-        deleteButtons.splice(i, 1);
-        editButtons.splice(i, 1);
-        localStorage.setItem(`user${loggedUser.userName}`, JSON.stringify(loggedUser));
-        sessionStorage.setItem(`loggedUser`, JSON.stringify(loggedUser));
-        updateTeams(loggedUser.teams, divYourTeams, divTeams, editButtons,deleteButtons);
+        SwalConfirm.fire({
+            html: "<p class='text--center'>You won't be able to revert this!</p>",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let i = divTeams.indexOf(divTeam);
+                loggedUser.teams.splice(i, 1);
+                divTeams.splice(i, 1);
+                deleteButtons.splice(i, 1);
+                editButtons.splice(i, 1);
+                localStorage.setItem(`user${loggedUser.userName}`, JSON.stringify(loggedUser));
+                sessionStorage.setItem(`loggedUser`, JSON.stringify(loggedUser));
+                updateTeams(loggedUser.teams, divYourTeams, divTeams, editButtons,deleteButtons);
+            }
+          })
+            
     })
 
     editButtons.push(btnEdi);
@@ -905,35 +1014,59 @@ const loadUser = (loggedUser) =>{
     }
     if(secSelectYourTeam){
         document.getElementById("home").addEventListener("click",(e)=>{
-            if(battleInCourse && !confirm("If you leave, you will lose the battle...")){
+            if(battleInCourse){
                 e.preventDefault();
-            } else if(battleInCourse){
-                battleInCourse = false;
-                MAX_LASTRESULTS && loggedUser.lastResults.pop();
-                loggedUser.lastResults.unshift(new Result(playerTeam, cpuTeam, true));
-                saveData(loggedUser);
-            }
+                SwalConfirm.fire({
+                    html: "<p class='text--center'>If you leave, you will lose the battle...</p>",
+                    confirmButtonText: "Yes, i want this to end right now!",
+                    cancelButtonText: "I have a bad feeling about this...",
+                }).then((result) => {
+                    if(result.isConfirmed){
+                        battleInCourse = false;
+                        MAX_LASTRESULTS && loggedUser.lastResults.pop();
+                        loggedUser.lastResults.unshift(new Result(playerTeam, cpuTeam, true));
+                        saveData(loggedUser);
+                        document.getElementById("home").click();
+                    } 
+                })
+            }          
         });
 
         document.getElementById("lore").addEventListener("click", (e)=>{
-            if(battleInCourse && !confirm("If you leave, you will lose the battle...")){
+            if(battleInCourse){
                 e.preventDefault();
-            } else if(battleInCourse){
-                battleInCourse = false;
-                MAX_LASTRESULTS && loggedUser.lastResults.pop();
-                loggedUser.lastResults.unshift(new Result(playerTeam, cpuTeam, true));
-                saveData(loggedUser);
+                SwalConfirm.fire({
+                    html: "<p class='text--center'>If you leave, you will lose the battle...</p>",
+                    confirmButtonText: "Yes, i want this to end right now!",
+                    cancelButtonText: "I have a bad feeling about this...",
+                }).then((result) => {
+                    if(result.isConfirmed){
+                        battleInCourse = false;
+                        MAX_LASTRESULTS && loggedUser.lastResults.pop();
+                        loggedUser.lastResults.unshift(new Result(playerTeam, cpuTeam, true));
+                        saveData(loggedUser);
+                        document.getElementById("lore").click();
+                    } 
+                })
             }
         });
 
         document.getElementById("teamBuilder").addEventListener("click", (e)=>{
-            if(battleInCourse && !confirm("If you leave, you will lose the battle...")){
+            if(battleInCourse){
                 e.preventDefault();
-            } else if(battleInCourse){
-                battleInCourse = false;
-                MAX_LASTRESULTS && loggedUser.lastResults.pop();
-                loggedUser.lastResults.unshift(new Result(playerTeam, cpuTeam, true));
-                saveData(loggedUser);
+                SwalConfirm.fire({
+                    html: "<p class='text--center'>If you leave, you will lose the battle...</p>",
+                    confirmButtonText: "Yes, i want this to end right now!",
+                    cancelButtonText: "I have a bad feeling about this...",
+                }).then((result) => {
+                    if(result.isConfirmed){
+                        battleInCourse = false;
+                        MAX_LASTRESULTS && loggedUser.lastResults.pop();
+                        loggedUser.lastResults.unshift(new Result(playerTeam, cpuTeam, true));
+                        saveData(loggedUser);
+                        document.getElementById("teamBuilder").click();
+                    } 
+                })
             }
         });
 
@@ -1171,7 +1304,7 @@ btnLogSignIn.addEventListener("click", ()=>{
         exists = signedUser.userName == userName;
         i++;
     } */
-    signedUser = JSON.parse(localStorage.getItem(`user${userName}`));
+    signedUser = JSON.parse(localStorage.getItem(`user${userName}`)) || false;
     if(userName.trim() != "" && pass != "" && !signedUser){
         signedUser = new User(userName, pass, new Array(),  new Array());
         localStorage.setItem(`user${userName}`, JSON.stringify(signedUser));
@@ -1179,6 +1312,17 @@ btnLogSignIn.addEventListener("click", ()=>{
         sessionStorage.setItem("loggedUser", JSON.stringify(signedUser));
         loggedUser = signedUser;
         loadUser(loggedUser);
+        Toastify({
+            text: `${loggedUser.userName}! Succesful sign up! Welcome to Star Wars Battles!!`,
+            duration: 2000,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            className: "userOp",
+            style: {
+              color: "#0a0505",
+              background: "linear-gradient(to right, #9BF5AE, #17e040)",
+            },
+          }).showToast();
     } else if (signedUser){
         if(signedUser.password == pass){
             btnCancelIn.click();
@@ -1186,9 +1330,26 @@ btnLogSignIn.addEventListener("click", ()=>{
             teams = signedUser.teams;
             loggedUser = signedUser;
             loadUser(loggedUser);
-            
-        } else alert("Contraseña Incorrecta");
-    } else alert("Debe ingresar un nombre o una contraseña");
+            Toastify({
+                text: `Succesful log in! Welcome ${loggedUser.userName}`,
+                duration: 2000,
+                gravity: "top", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: false,// Prevents dismissing of toast on hover
+                className: "userOp",
+                style: {
+                  color: "#0a0505",
+                  background: "linear-gradient(to right, #9BF5AE, #17e040)",
+                },
+              }).showToast();
+        } else SwalError.fire({
+            html: `<p class="text--center">Incorrect Password</p>`,
+            confirmButtonText: 'Try Again'
+          });
+    } else SwalWarning.fire({
+        html:'<p class="text--center">You must enter your name and password</p>',
+        confirmButtonText: 'Try Again',
+      });
 });
 
 btnLogOut.addEventListener("click", ()=>{
@@ -1233,13 +1394,45 @@ btnLogOut.addEventListener("click", ()=>{
 });
 
 btnResetStats.addEventListener("click", ()=>{
-    loggedUser.teams.forEach((team)=>{
-        team.games = 0;
-        team.wins = 0;
-    });
-    sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
-    localStorage.setItem(`user${loggedUser.userName}`, JSON.stringify(loggedUser));
-    resetBestTeamsTableValues();
+    SwalConfirm.fire({
+        html: "<p class='text--center'>You won't get them back again</p>",
+        confirmButtonText: "Yes, delete them forever!",
+        cancelButtonText: "Maybe I should stay with them",
+    }).then(result => {
+        if(result.isConfirmed){
+            loggedUser.teams.forEach((team)=>{
+                team.games = 0;
+                team.wins = 0;
+            });
+            sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
+            localStorage.setItem(`user${loggedUser.userName}`, JSON.stringify(loggedUser));
+            resetBestTeamsTableValues();
+            Toastify({
+                text: `Your stats are successfully gone!`,
+                duration: 3000,
+                gravity: "top", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                className: "userOp",
+                style: {
+                    color: "#0a0505",
+                    background: "linear-gradient(to right, #9BF5AE, #17e040)",
+                },
+            }).showToast();
+        } else {
+            Toastify({
+                text: `Your stats are safe`,
+                duration: 2000,
+                gravity: "top", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                className: "text--center",
+                style: {
+                    color: "#0a0505",
+                    background: "linear-gradient(to right, #92EAFD, #04c8f2)",
+                },
+            }).showToast();
+        }
+    })
+    
 });
 
 
@@ -1280,12 +1473,37 @@ btnLightSide.onclick = ()=>{
             </div>
         </div>`
     });
-    const charCards = document.querySelectorAll(".charCard");
-    charCards.forEach((card)=>{
-        card.addEventListener("click", ()=>{
+    const charCards = artCharSide.querySelectorAll(".charCard");
+    charCards.forEach((card, ind)=>{
+        let btnAttsInfo = document.createElement("button");
+        setButtonAttributes(btnAttsInfo, `btnAttInfo${ind}`, "button2--blue", "Attacks");
+        let btnAddCharToTeam = document.createElement("button");
+        setButtonAttributes(btnAddCharToTeam, `btnAddChar${ind}`, "button2--blue", "Add to the Team");
+        let charSelected;
+
+        btnAddCharToTeam.addEventListener("click", ()=>{
             charSelected = lightSideCharacters.find(({id})=> card.getAttribute("id") == `char${id}`);
             addCharToNewTeam(teamCharArray, charSelected, divNewChars, isEdit, teams);
         });
+
+        btnAttsInfo.addEventListener("click", ()=>{
+            charSelected = lightSideCharacters.find(({id})=> card.getAttribute("id") == `char${id}`);
+            SwalInfoChar.fire({
+                customClass: {
+                    confirmButton: 'button3--blue',
+                  },
+                title: `<h2 class="subMainTitle">${charSelected.chName}</h2>`,
+                html: `<h4 class="text--center">"${charSelected.att1.nameAt}"</h4><p class="text--center">${charSelected.att1.sDes}</p>
+                        <h4 class="text--center">"${charSelected.att2.nameAt}"</h4><p class="text--center">${charSelected.att2.sDes}</p>`,
+                imageUrl: `../img/tb${charSelected.id}.jpg`,
+                imageAlt: `info${charSelected.id}`,
+                color: '#92EAFD',
+            });
+        });
+
+        card.append(btnAddCharToTeam);
+        card.append(btnAttsInfo);
+        
     });
 };
 
@@ -1308,12 +1526,37 @@ btnDarkSide.onclick = ()=>{
 
     
 
-    const charCards = document.querySelectorAll(".charCard");
-    charCards.forEach((card)=>{
-        card.addEventListener("click", ()=>{
-            charSelected = darkSideCharacters.find(({id})=> card.getAttribute("id") == `char${id}`);
+    const charCards = artCharSide.querySelectorAll(".charCard");
+    charCards.forEach((card, ind)=>{
+        let btnAttsInfo = document.createElement("button");
+        setButtonAttributes(btnAttsInfo, `btnAttInfo${ind}`, "button2--red", "Attacks");
+        let btnAddCharToTeam = document.createElement("button");
+        setButtonAttributes(btnAddCharToTeam, `btnAddChar${ind}`, "button2--red", "Add to the Team");
+        let charSelected;
+
+        btnAddCharToTeam.addEventListener("click", ()=>{
+            charSelected = darkSideCharacters.find(({id})=> card.getAttribute("id") == `char${id}`)
             addCharToNewTeam(teamCharArray, charSelected, divNewChars, isEdit, loggedUser.teams);
+        })
+
+        btnAttsInfo.addEventListener("click", ()=>{
+            charSelected = darkSideCharacters.find(({id})=> card.getAttribute("id") == `char${id}`);
+            SwalInfoChar.fire({
+                customClass: {
+                    confirmButton: 'button3--red',
+                  },
+                title: `<h2 class="subMainTitle">${charSelected.chName}</h2>`,
+                html: `<h4 class="text--center">"${charSelected.att1.nameAt}"</h4><p class="text--center">${charSelected.att1.sDes}</p>
+                        <h4 class="text--center">"${charSelected.att2.nameAt}"</h4><p class="text--center">${charSelected.att2.sDes}</p>`,
+                imageUrl: `../img/tb${charSelected.id}.jpg`,
+                imageAlt: `info${charSelected.id}`,
+                color: '#F89595',
+            });
         });
+
+        card.append(btnAddCharToTeam);
+        card.append(btnAttsInfo);
+        
     });
 }
 
@@ -1327,7 +1570,25 @@ btnCreate.addEventListener("click", ()=>{
         localStorage.setItem(`user${loggedUser.userName}`, JSON.stringify(loggedUser));
         sessionStorage.setItem(`loggedUser`, JSON.stringify(loggedUser));
         secBuilder.innerHTML = " ";
-    } else alert(`Solo se pueden crear hasta ${MAX_TEAMS} equipos, tienen que tener al menos un integrante y un nombre`);
+
+        Toastify({
+            text: `"${teamName}" team was successfully created!`,
+            duration: 3000,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: false,
+            className: "userOp",
+            style: {
+              color: "#0a0505",
+              background: "linear-gradient(to right, #9BF5AE, #17e040)",
+            },
+          }).showToast();
+
+    } else SwalError.fire({  
+        html: `<p class="text--center">${MAX_TEAMS} teams is the maximum capacity for each user, it must have at least 1 character and a team name</p>`,
+        position: 'top',
+        confirmButtonText: 'Close',
+      });
 });
 
 btnStartBattle.addEventListener("click", ()=>{
@@ -1554,25 +1815,38 @@ if(btnEndBattle){
             textareaBattleLog.value += `\n\n\ ----- Result ---- \n\n${loggedUser.userName} has won!!!`;
             loggedUser.teams.find(team => playerTeam.name == team.name).wins++;
             saveData(loggedUser);
-        } else if ((playerTHP > 0 && cpuTHP > 0 && confirm("If you leave, you will lose the battle...")) || (playerTHP == 0 && cpuTHP > 0)){
-            loggedUser.lastResults[0].isForfeit = playerTHP > 0;
-            saveData(loggedUser);
-            textareaBattleLog.value += `\n\n\ ----- Result ---- \n\n${loggedUser.userName} has lost...`;
-        } else if(cpuTHP == 0){
+        } else if (playerTHP >= 0 && cpuTHP > 0){
+            if(playerTHP > 0){
+                SwalConfirm.fire({
+                    html: "<p class='text--center'>If you leave, you will lose the battle...</p>",
+                    confirmButtonText: "Yes, i want this to end right now!",
+                    cancelButtonText: "I have a bad feeling about this...",
+                }).then((result)=>{
+                    if(result.isConfirmed){
+                        loggedUser.lastResults[0].isForfeit = playerTHP > 0;
+                        saveData(loggedUser);
+                        textareaBattleLog.value += `\n\n\ ----- Result ---- \n\n${loggedUser.userName} has lost...`;
+                    } else{
+                        btnExit.remove();
+                        battleInCourse = true;
+                        divAtOptions.append(btnAtt1);
+                        divAtOptions.append(btnAtt2);
+                        divAtOptions.append(btnSwitch);
+                        btnsChar && btnsChar.forEach((btn)=>divAtOptions.append(btn));
+                        divEnemy.append(btnEndBattle);
+                    }
+                });
+            } else {
+                loggedUser.lastResults[0].isForfeit = playerTHP > 0;
+                saveData(loggedUser);
+                textareaBattleLog.value += `\n\n\ ----- Result ---- \n\n${loggedUser.userName} has lost...`;
+            }
+            
+        } else {
             saveData(loggedUser);
             textareaBattleLog.value += `\n\n\ ----- Result ---- \n\nIt's a draw!!!`; 
-        } else {
-            btnExit.remove();
-            battleInCourse = true;
-            divAtOptions.append(btnAtt1);
-            divAtOptions.append(btnAtt2);
-            divAtOptions.append(btnSwitch);
-            btnsChar && btnsChar.forEach((btn)=>divAtOptions.append(btn));
-            divEnemy.append(btnEndBattle);
-        }
-        
+        }  
         textareaBattleLog.scrollTo(0,textareaBattleLog.scrollHeight);
-        
     });
 }
 

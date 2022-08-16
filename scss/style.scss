@@ -219,6 +219,15 @@ body{
     }
 }
 
+.button3--green{
+    @extend.button3;
+    @include colAndBGCol(map-get($mainCol, primary), map-get($lightMainCol, lighterGreen));
+    &:hover{
+        border: 3px solid map-get($darkMainCol, darkerGreen);
+        @include colAndBGCol(map-get($lightMainCol, lighterGreen), map-get($darkMainCol, darkerPrimary));
+    }
+}
+
 .table{
     border-collapse: collapse;
     @include sizes(80%, auto);
@@ -356,6 +365,7 @@ nav{
 .userOp{
     @extend.log;
     @include colAndBGCol(map-get($lightMainCol, lighterGreen), inherit);
+    background-color: map-get($darkMainCol, darkerPrimary);
     &:hover{
         background-image: linear-gradient(90deg, map-get($lightMainCol, lighterGreen), map-get($mainCol, mGreen));
     }
@@ -891,6 +901,16 @@ footer{
     }
 }
 @media screen and (min-width: 768px) {
+  /*General */
+  .text{
+    font-size: 100%;
+  }
+
+  .swal2-modal{
+    .button{
+        font-size: 150%;
+    }
+  }
   /*nav*/ 
   nav{
     .logo{
@@ -1002,9 +1022,20 @@ footer{
 }
 
 @media screen and (min-width: 1024px){
+    .mainTitle{
+        font-size: 600%;
+    }
+
     .mainTitle2{
         font-size: 600%;
       }
+
+    .subMainTitle{
+        font-size: 300%;
+    }
+    .text{
+        font-size: 120%;
+    }
 
     nav{
         .menu{
@@ -1019,15 +1050,12 @@ footer{
         font-size: 120%;
     
     }
-      
-    .indPre{
-    font-size: 300%;
-    }
 
     .indCard{
-    font-size: 200%;
+        .button{
+            font-size: 150%;
+        }
     }
-
     .indBest{
     font-size: 150%;
     align-items: flex-end;
