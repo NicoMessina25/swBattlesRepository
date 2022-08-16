@@ -1171,7 +1171,7 @@ btnLogSignIn.addEventListener("click", ()=>{
         exists = signedUser.userName == userName;
         i++;
     } */
-    signedUser = JSON.parse(localStorage.getItem(`user${userName}`));
+    signedUser = JSON.parse(localStorage.getItem(`user${userName}`)) || false;
     if(userName.trim() != "" && pass != "" && !signedUser){
         signedUser = new User(userName, pass, new Array(),  new Array());
         localStorage.setItem(`user${userName}`, JSON.stringify(signedUser));
