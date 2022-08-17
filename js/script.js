@@ -753,7 +753,7 @@ const btnSwitch = document.createElement("button");
 setButtonAttributes(btnSwitch, "btnSwitch", "button3--blue", "");
 const textareaBattleLog = document.getElementById("textareaBattleLog");
 const btnResetStats = document.createElement("button");
-setButtonAttributes(btnResetStats, "btnResetStats", "button2--red", "Reset Stadistics");
+setButtonAttributes(btnResetStats, "btnResetStats", "button2--red", "Reset Statistics");
 const divEnemyStats = document.getElementById("enemyStats");
 
 const divUserStats = document.getElementById("userStats");
@@ -1298,12 +1298,6 @@ btnLogSignIn.addEventListener("click", ()=>{
     let userName = document.getElementById("inputUserName").value;
     let pass = document.getElementById("inputPass").value;
     let signedUser;
-    /* while(i < localStorage.length && !exists){
-        let key = localStorage.key(i);
-        signedUser = JSON.parse(localStorage.getItem(key));
-        exists = signedUser.userName == userName;
-        i++;
-    } */
     signedUser = JSON.parse(localStorage.getItem(`user${userName}`)) || false;
     if(userName.trim() != "" && pass != "" && !signedUser){
         signedUser = new User(userName, pass, new Array(),  new Array());
