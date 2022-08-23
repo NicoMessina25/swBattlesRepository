@@ -5,9 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Star Wars Battles!</title>
+    <meta name="description" content="Star Wars is..., and here you can see your teams statistics and last results! May the force be with you!">
+    <meta name="keywords" content="Star Wars, build, team, character, light side, dark side, attacks">
+    <link rel="icon" type="imgage/png" href="img/swBattlesLogoReduced.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Yanone+Kaffeesatz&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://kit.fontawesome.com/83ba80bc14.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -50,7 +55,7 @@
             <section id="presentation" class="indPre flexible--column">
                 <h1 class="mainTitle">Star Wars Battles!</h1>
                 <p class="text--center">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla, ratione neque debitis saepe officiis aut quidem, similique molestias quia nesciunt nostrum ex hic assumenda aspernatur ad dolore, fuga tempore laudantium!
+                Star Wars Battles is a strategy fighting simulator inspired by the Pokemon combat system, where you can make your own teams with your favorite Star Wars characters in order to prove your skills (or luck) against the IA. May the Force be with you!
                 </p>
             </section>
             <section id="lore" class="indLore flexible--column">
@@ -58,7 +63,7 @@
                 <img src="img/indexLore.jpeg" alt="indexLore">
                 <div>
                     <p class="text--justify">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint veniam distinctio illo eos neque aut nihil sequi. Unde ab dolore, pariatur iste temporibus, numquam illum provident alias quae asperiores ducimus.
+                        If you don't know anything of Star Wars or you want to learn more about it, in this section, you can see which are the main films of this saga that were released so far and also some of the most popular series of Star Wars. However all this content is available on <a href="https://www.disneyplus.com/es-ar" target="_blank">Disney+</a> . 
                     </p>
                 </div>
                 <a href="pages/lore.html" class="button--green">See the Story!</a>
@@ -67,7 +72,7 @@
                 <h2 class="subMainTitle">Start a Battle</h2>
                 <img src="img/indexBattle.jpg" alt="indexBattle">
                 <div>
-                    <p class="text--justify">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ullam cupiditate neque, dolores qui quam dolorum incidunt itaque molestiae optio voluptates doloremque totam! Tenetur numquam porro harum dolorum vel temporibus consectetur!</p>
+                    <p class="text--justify">If you already have a team and want to test it, in this section you can challenge the IA to a battle to see who has the best team of the Galaxy!</p>
                 </div>
                 <a href="pages/battles.html" class="button--red">Go Battle!</a>
             </section>
@@ -75,7 +80,7 @@
                 <h2 class="subMainTitle">Build your Team</h2>
                 <img src="img/indexTB.jpg" alt="indexTB">
                 <div>
-                    <p class="text--justify">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ullam cupiditate neque, dolores qui quam dolorum incidunt itaque molestiae optio voluptates doloremque totam! Tenetur numquam porro harum dolorum vel temporibus consectetur!</p>
+                    <p class="text--justify">Choose your favorite Star Wars characters to build your own temas and put them to the test in the section of battles</p>
                 </div>
                 <a href="pages/teamBuilder.html" class="button--blue">Go build you Team!</a>
             </section>
@@ -139,10 +144,12 @@
                 </table>
             </section>
         </main>
-        <footer>
+        <footer class="flexible--row">
             <div><a href="#"><img src="img/swBattlesLogo.png" alt="LogoSWB"></a></div>
+            <div><p class="text--center">All Rights Reserved - Nicolás Messina 2022 - Star Wars Battles © Copyright</p></div>
         </footer>
     </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/script.js"></script>
 </body>

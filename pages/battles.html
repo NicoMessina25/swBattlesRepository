@@ -5,9 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Battles!</title>
+    <meta name="description" content="Here you can select your team to fight against a random team controlled by a bot">
+    <meta name="keywords" content="Star Wars, battle, team, character, fight, attacks">
+    <link rel="icon" type="imgage/png" href="../img/swBattlesLogoReduced.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Yanone+Kaffeesatz&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://kit.fontawesome.com/83ba80bc14.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -70,11 +75,11 @@
                                 <div class="flexible--row">
                                     <div>
                                         <h4>Stats</h4>
-                                        <p><i class="fa-solid fa-hand-fist"></i> <span id="spanAtcCpu"></span> / <i class="fa-solid fa-shield-halved"></i> <span id="spanDefCpu"></span> / <i class="fa-solid fa-person-running"></i> <span id="spanSpdCpu"></span></p>
+                                        <p><i class="fa-solid fa-heart"></i> <span id="spanHPCpu"></span> / <i class="fa-solid fa-hand-fist"></i> <span id="spanAtcCpu"></span> <br> <i class="fa-solid fa-shield-halved"></i> <span id="spanDefCpu"></span> / <i class="fa-solid fa-person-running"></i> <span id="spanSpdCpu"></span></p>
                                     </div>
                                     <div>
                                         <h4>Modified Stats</h4>
-                                        <p><i class="fa-solid fa-hand-fist"></i> <span id="spanModAtcCpu"></span> / <i class="fa-solid fa-shield-halved"></i> <span id="spanModDefCpu"></span> / <i class="fa-solid fa-person-running"></i> <span id="spanModSpdCpu"></span></p>
+                                        <p><i class="fa-solid fa-heart"></i> <span id="spanCurHPCpu"></span> / <i class="fa-solid fa-hand-fist"></i> <span id="spanModAtcCpu"></span> <br> <i class="fa-solid fa-shield-halved"></i> <span id="spanModDefCpu"></span> / <i class="fa-solid fa-person-running"></i> <span id="spanModSpdCpu"></span></p>
                                     </div>
                                 </div>
                                 <div class="flexible--row divAttacks">
@@ -112,11 +117,11 @@
                                 <div class="flexible--row">
                                     <div>
                                         <h4>Stats</h4>
-                                        <p><i class="fa-solid fa-hand-fist"></i> <span id="spanAtcUser"></span> / <i class="fa-solid fa-shield-halved"></i> <span id="spanDefUser"></span> / <i class="fa-solid fa-person-running"></i> <span id="spanSpdUser"></span></p>
+                                        <p> <i class="fa-solid fa-heart"></i> <span id="spanHPUser"></span> / <i class="fa-solid fa-hand-fist"></i> <span id="spanAtcUser"></span> <br> <i class="fa-solid fa-shield-halved"></i> <span id="spanDefUser"></span> / <i class="fa-solid fa-person-running"></i> <span id="spanSpdUser"></span></p>
                                     </div>
                                     <div>
                                         <h4>Modified Stats</h4>
-                                        <p><i class="fa-solid fa-hand-fist"></i> <span id="spanModAtcUser"></span> / <i class="fa-solid fa-shield-halved"></i> <span id="spanModDefUser"></span> / <i class="fa-solid fa-person-running"></i> <span id="spanModSpdUser"></span></p>
+                                        <p><i class="fa-solid fa-heart"></i> <span id="spanCurHPUser"></span> / <i class="fa-solid fa-hand-fist"></i> <span id="spanModAtcUser"></span> <br> <i class="fa-solid fa-shield-halved"></i> <span id="spanModDefUser"></span> / <i class="fa-solid fa-person-running"></i> <span id="spanModSpdUser"></span></p>
                                     </div>
                                 </div>
                                 <div class="flexible--row divAttacks">
@@ -151,7 +156,8 @@
             <div></div>
         </footer>
     </div>
-    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../js/script.js"></script>
 </body>
 </html>
