@@ -15,9 +15,9 @@ body {
 .gC--mainInd {
   display: grid;
   grid-area: main;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 0.5fr 0.5fr;
-  grid-template-areas: "indPre indPre indPre" "indLore indBat indTeamB" "indBest indBest indBest" "indRes indRes indRes";
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 0.5fr 0.5fr 0.5fr 0.4fr 0.5fr;
+  grid-template-areas: "indPre" "indLore" "indBat" "indTeamB" "indBest" "indRes";
   width: 100%;
   max-width: 100%; }
 
@@ -51,6 +51,12 @@ body {
   font-weight: 500;
   margin: 1%;
   padding: 1%; }
+  .text a, .text--justify a, .text--center a {
+    text-decoration: none;
+    transition: all .2s;
+    color: inherit; }
+    .text a:hover, .text--justify a:hover, .text--center a:hover {
+      color: black; }
 
 .text--justify {
   text-align: justify; }
@@ -242,13 +248,6 @@ input {
   font-weight: 500;
   padding: 1%; }
 
-/* .visible{
-    visibility: visible;
-}
-
-.invisible{
-    visibility: hidden;
-} */
 /* header */
 header {
   grid-area: header;
@@ -264,23 +263,21 @@ nav {
   justify-content: space-between;
   width: 95%;
   padding: 2%;
-  align-items: center;
-  /* .menu_log{
-        width: 70%;
-        justify-content: space-around; */ }
+  align-items: center; }
   nav .logo a img {
-    width: 70px;
-    height: 70px; }
+    width: 35px;
+    height: 35px; }
   nav .menu {
     font-family: "Righteous", cursive;
     font-size: 50%;
     font-weight: 500;
     justify-content: space-around;
-    width: 50%;
+    width: 80%;
     list-style: none;
     align-items: center; }
     nav .menu li {
-      width: 150%; }
+      width: 150%;
+      text-align: center; }
     nav .menu a {
       color: #92eafd;
       text-decoration: none;
@@ -367,7 +364,7 @@ nav {
 
 /* indCard */
 .indCard, .indLore, .indBat, .indTeamB {
-  margin: 2%;
+  margin: 10%;
   padding: 1%;
   border-radius: 25px 25px 100px 100px;
   transition: all .5s;
@@ -474,14 +471,16 @@ nav {
   grid-area: loreSer; }
   .lorSer .subMainTitle {
     color: #f7d0fe; }
-  .lorSer article div {
-    text-align: center;
-    align-items: center; }
+  .lorSer article {
+    justify-content: center; }
+    .lorSer article div {
+      text-align: center;
+      align-items: center; }
   .lorSer img {
     margin: 1%;
     padding: 2%;
     border-radius: 15px 15px 15px 15px;
-    width: 80%;
+    width: 50%;
     height: auto; }
 
 .tbYourTeams, .btleTeamSelect {
@@ -589,7 +588,8 @@ nav {
     box-shadow: 1px 1px 10px 5px #17e040; }
 
 .btleTeamSelect {
-  justify-content: center; }
+  justify-content: center;
+  color: #92eafd; }
   .btleTeamSelect div article {
     color: #92eafd;
     background-color: rgba(10, 5, 5, 0.85); }
@@ -706,6 +706,7 @@ nav {
 /* footer */
 footer {
   grid-area: footer;
+  justify-content: space-around;
   color: #92eafd;
   background-color: black; }
   footer img {
@@ -713,6 +714,12 @@ footer {
     height: 50px; }
 
 @media screen and (min-width: 420px) {
+  .gC--mainInd {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 0.5fr 0.5fr;
+    grid-template-areas: "indPre indPre indPre" "indLore indBat indTeamB" "indBest indBest indBest" "indRes indRes indRes"; }
+  .indCard, .indLore, .indBat, .indTeamB {
+    margin: 2%; }
   .battleScene .battleCard .cardInfo .subtitutes, .battleScene .battleCardUser .cardInfo .subtitutes, .battleScene .battleCardEnemy .cardInfo .subtitutes {
     font-size: 80%; }
   .battleScene .atOptions .button3, .battleScene .atOptions .button3--blue, .battleScene .atOptions .button3--red, .battleScene .atOptions .button3--green {
@@ -725,7 +732,7 @@ footer {
   .swal2-modal .button, .swal2-modal .button--red, .swal2-modal .button--green, .swal2-modal .button--blue, .swal2-modal .button--purple, .swal2-modal .button2, .swal2-modal .button2--red, .swal2-modal .button2--green, .swal2-modal .button2--blue, .swal2-modal .button2--purple, .swal2-modal .button3, .swal2-modal .button3--blue, .swal2-modal .button3--red, .swal2-modal .button3--green {
     font-size: 150%; }
   /*nav*/
-  nav .logo img {
+  nav .logo a img {
     width: 100px;
     height: 100px; }
   nav .menu {

@@ -1,0 +1,852 @@
+[
+    {
+        "name":"Anakin SkyWalker",
+        "id": "Anakin",
+        "hp": "200.0",
+        "atc": "9.5",
+        "def": "8.6",
+        "spd": "9",
+        "side": "Light",
+        "att1": {
+            "nameAt":"Djem So - Anakin",
+            "power": "12",
+            "prio": "0",
+            "special": "14",
+            "prob": "0.8",
+            "probSpecEf": "1"
+        },
+        "att2": {
+            "nameAt":"The Chosen One...",
+            "power": "6",
+            "prio": "0",
+            "special": "2",
+            "prob": "1",
+            "probSpecEf": "0.3"
+        }
+    },
+    {
+        "name":"Darth Vader",
+        "id": "Vader",
+        "hp": "220.0",
+        "atc": "9.6",
+        "def": "8.7",
+        "spd": "8.8",
+        "side": "Dark",
+        "att1": {
+            "nameAt":"Dark Strike",
+            "power": "9.5",
+            "prio": "0",
+            "special": "17",
+            "prob": "1",
+            "probSpecEf": "0.1"
+        },
+        "att2": {
+            "nameAt":"Strangulation",
+            "power": "6.5",
+            "prio": "0",
+            "special": "2",
+            "prob": "0.9",
+            "probSpecEf": "0.3"
+        }  
+    },
+    {
+        "name":"Yoda",
+        "id": "Yoda",
+        "hp": "190.0",
+        "atc": "9",
+        "def": "9.3",
+        "spd": "9.5",
+        "side": "Light",
+        "att1": {
+            "nameAt":"Ataru",
+            "power": "9",
+            "prio": "0",
+            "special": "7",
+            "prob": "0.9",
+            "probSpecEf": "0.3"
+        },
+        "att2": {
+            "nameAt":"Know the Enemy",
+            "power": "4",
+            "prio": "0",
+            "special": "3",
+            "prob": "0.95",
+            "probSpecEf": "1"
+        }
+    },
+    {
+        "name":"Obi-Wan Kenobi",
+        "id": "ObiWan",
+        "hp": "250.0",
+        "atc": "9",
+        "def": "9.1",
+        "spd": "8.5",
+        "side": "Light",
+        "att1": {
+            "nameAt":"Soresu - Obi-Wan",
+            "power": "8",
+            "prio": "0",
+            "special": "18",
+            "prob": "1",
+            "probSpecEf": "0.2"
+        },
+        "att2": {
+            "nameAt":"Confusion",
+            "power": "0",
+            "prio": "2",
+            "special": "1",
+            "prob": "0.5",
+            "probSpecEf": "1"
+        }  
+    },
+    {
+        "name":"Ben Kenobi",
+        "id": "Ben",
+        "hp": "275.0",
+        "atc": "9",
+        "def": "9.3",
+        "spd": "8.3",
+        "side": "Light",
+        "att1": {
+            "nameAt":"Soresu - Ben",
+            "power": "8.5",
+            "prio": "0",
+            "special": "6",
+            "prob": "1",
+            "probSpecEf": "0.5"
+        },
+        "att2": {
+            "nameAt":"These aren't the droids you're looking for...",
+            "power": "3",
+            "prio": "2",
+            "special": "1",
+            "prob": "0.9",
+            "probSpecEf": "0.5"
+        }
+    },
+    {
+        "name":"Ahsoka Tano",
+        "id": "Ahsoka",
+        "hp": "210.0",
+        "atc": "9.2",
+        "def": "8.4",
+        "spd": "9.1",
+        "side": "Light",
+        "att1": {
+            "nameAt":"Dual Saber",
+            "power": "5.5",
+            "prio": "0",
+            "special": "9",
+            "prob": "1",
+            "probSpecEf": "0.8"
+        },
+        "att2": {
+            "nameAt":"Surprise Attack",
+            "power": "5",
+            "prio": "1",
+            "special": "5",
+            "prob": "1",
+            "probSpecEf": "0.3"
+        }  
+    },
+    {
+        "name":"Qui-Gon Jinn",
+        "id": "QuiGon",
+        "hp": "260.0",
+        "atc": "9",
+        "def": "8.6",
+        "spd": "9.1",
+        "side": "Light",
+        "att1": {
+            "nameAt":"Ataru - Qui-Gon",
+            "power": "7",
+            "prio": "1",
+            "special": "5",
+            "prob": "0.85",
+            "probSpecEf": "0.5"
+        },
+        "att2": {
+            "nameAt":"Freeing",
+            "power": "8",
+            "prio": "0",
+            "special": "3",
+            "prob": "1",
+            "probSpecEf": "0.7"
+        }
+    },
+    {
+        "name":"Rey Skywalker",
+        "id": "Rey",
+        "hp": "240.0",
+        "atc": "9.4",
+        "def": "8.8",
+        "spd": "8.8",
+        "side": "Light",
+        "att1": {
+            "nameAt":"Force Healing",
+            "power": "0",
+            "prio": "0",
+            "special": "13",
+            "prob": "1",
+            "probSpecEf": "1"
+        },
+        "att2": {
+            "nameAt":"Rush",
+            "power": "9.5",
+            "prio": "0",
+            "special": "5",
+            "prob": "0.9",
+            "probSpecEf": "0.2"
+        }  
+    },
+    {
+        "name":"Luke SkyWalker",
+        "id": "Luke",
+        "hp": "220.0",
+        "atc": "9.5",
+        "def": "9",
+        "spd": "9.2",
+        "side": "Light",
+        "att1": {
+            "nameAt":"Flair Strike",
+            "power": "8.5",
+            "prio": "0",
+            "special": "1",
+            "prob": "1",
+            "probSpecEf": "0.3"
+        },
+        "att2": {
+            "nameAt":"Force Ilusion",
+            "power": "0",
+            "prio": "0",
+            "special": "11",
+            "prob": "1",
+            "probSpecEf": "1"
+        }
+    },
+    {
+        "name":"Leia Organa",
+        "id": "Leia",
+        "hp": "250.0",
+        "atc": "7.5",
+        "def": "8.5",
+        "spd": "7.5",
+        "side": "Light",
+        "att1": {
+            "nameAt":"First Impression",
+            "power": "6.5",
+            "prio": "1",
+            "special": "5",
+            "prob": "1",
+            "probSpecEf": "0.5"
+        },
+        "att2": {
+            "nameAt":"Healing Service",
+            "power": "0",
+            "prio": "0",
+            "special": "12",
+            "prob": "1",
+            "probSpecEf": "1"
+        }  
+    },
+    {
+        "name":"Han Solo",
+        "id": "Han",
+        "hp": "150.0",
+        "atc": "9",
+        "def": "7.9",
+        "spd": "9",
+        "side": "Light",
+        "att1": {
+            "nameAt":"No Deal",
+            "power": "7",
+            "prio": "0",
+            "special": "9",
+            "prob": "1",
+            "probSpecEf": "0.6"
+        },
+        "att2": {
+            "nameAt":"Secret Bomb",
+            "power": "8",
+            "prio": "0",
+            "special": "10",
+            "prob": "1",
+            "probSpecEf": "1"
+        }
+    },
+    {
+        "name":"Chewbacca",
+        "id": "Chew",
+        "hp": "290.0",
+        "atc": "9",
+        "def": "8.5",
+        "spd": "7.1",
+        "side": "Light",
+        "att1": {
+            "nameAt":"Rrwaahhggg",
+            "power": "12",
+            "prio": "0",
+            "special": "14",
+            "prob": "1",
+            "probSpecEf": "1"
+        },
+        "att2": {
+            "nameAt":"Hwaaurrgh ghaawwu huagg",
+            "power": "7",
+            "prio": "0",
+            "special": "10",
+            "prob": "1",
+            "probSpecEf": "1"
+        }  
+    },
+    {
+        "name":"Ezra Brigder",
+        "id": "Ezra",
+        "hp": "230.0",
+        "atc": "8.9",
+        "def": "9.1",
+        "spd": "9.2",
+        "side": "Light",
+        "att1": {
+            "nameAt":"Fight Against the Dark Side",
+            "power": "3",
+            "prio": "0",
+            "special": "15",
+            "prob": "1",
+            "probSpecEf": "1"
+        },
+        "att2": {
+            "nameAt":"Ultimate Strategy",
+            "power": "8.5",
+            "prio": "0",
+            "special": "5",
+            "prob": "1",
+            "probSpecEf": "0.4"
+        }
+    },
+    {
+        "name":"Kanan Jarrus",
+        "id": "Kanan",
+        "hp": "260.0",
+        "atc": "8.7",
+        "def": "9.4",
+        "spd": "8.4",
+        "side": "Light",
+        "att1": {
+            "nameAt":"Force Shield",
+            "power": "0",
+            "prio": "4",
+            "special": "16",
+            "prob": "0.5",
+            "probSpecEf": "1"
+        },
+        "att2": {
+            "nameAt":"Attack and Cover",
+            "power": "6",
+            "prio": "0",
+            "special": "6",
+            "prob": "0.9",
+            "probSpecEf": "0.7"
+        }  
+    },
+    {
+        "name":"Padmé Amidala",
+        "id": "Padme",
+        "hp": "200.0",
+        "atc": "8",
+        "def": "8.4",
+        "spd": "7.5",
+        "side": "Light",
+        "att1": {
+            "nameAt":"Multiple Shots",
+            "power": "3",
+            "prio": "0",
+            "special": "8",
+            "prob": "0.95",
+            "probSpecEf": "1"
+        },
+        "att2": {
+            "nameAt":"Distracting Shot",
+            "power": "6.5",
+            "prio": "0",
+            "special": "17",
+            "prob": "1",
+            "probSpecEf": "0.6"
+        }
+    },
+    {
+        "name":"Mace Windu",
+        "id": "Mace",
+        "hp": "270.0",
+        "atc": "8.9",
+        "def": "9.5",
+        "spd": "8.6",
+        "side": "Light",
+        "att1": {
+            "nameAt":"Offensive Vaapad",
+            "power": "9",
+            "prio": "0",
+            "special": "5",
+            "prob": "0.95",
+            "probSpecEf": "0.5"
+        },
+        "att2": {
+            "nameAt":"Defensive Vaapad",
+            "power": "6.5",
+            "prio": "0",
+            "special": "6",
+            "prob": "1",
+            "probSpecEf": "0.6"
+        }  
+    },
+    {
+        "name":"Clone Trooper",
+        "id": "Clone",
+        "hp": "220.0",
+        "atc": "7.7",
+        "def": "8.2",
+        "spd": "8.2",
+        "side": "Light",
+        "att1": {
+            "nameAt":"Burst",
+            "power": "3",
+            "prio": "0",
+            "special": "8",
+            "prob": "0.95",
+            "probSpecEf": "1"
+        },
+        "att2": {
+            "nameAt":"Dissuasive Attack",
+            "power": "7",
+            "prio": "1",
+            "special": "19",
+            "prob": "1",
+            "probSpecEf": "0.4"
+        }
+    },
+    {
+        "name":"The Mandalorian",
+        "id": "Mando",
+        "hp": "250.0",
+        "atc": "8.5",
+        "def": "8.7",
+        "spd": "8.3",
+        "side": "Light",
+        "att1": {
+            "nameAt":"Beskar Shield",
+            "power": "1",
+            "prio": "4",
+            "special": "16",
+            "prob": "0.5",
+            "probSpecEf": "1"
+        },
+        "att2": {
+            "nameAt":"Explosion",
+            "power": "9",
+            "prio": "0",
+            "special": "10",
+            "prob": "0.9",
+            "probSpecEf": "1"
+        }  
+    },
+    {
+        "name":"Count Dooku",
+        "id": "Dooku",
+        "hp": "230.0",
+        "atc": "9.2",
+        "def": "8.6",
+        "spd": "9.1",
+        "side": "Dark",
+        "att1": {
+            "nameAt":"Makashi - Dooku",
+            "power": "10",
+            "prio": "0",
+            "special": "7",
+            "prob": "0.9",
+            "probSpecEf": "0.1"
+        },
+        "att2": {
+            "nameAt":"Lighting Attack",
+            "power": "6.5",
+            "prio": "0",
+            "special": "4",
+            "prob": "0.95",
+            "probSpecEf": "0.4"
+        }
+    },
+    {
+        "name":"Darth Sidious",
+        "id": "Sidious",
+        "hp": "260.0",
+        "atc": "9.4",
+        "def": "9",
+        "spd": "9.1",
+        "side": "Dark",
+        "att1": {
+            "nameAt":"Power of the Dark Side",
+            "power": "9.5",
+            "prio": "0",
+            "special": "18",
+            "prob": "0.95",
+            "probSpecEf": "0.1"
+        },
+        "att2": {
+            "nameAt":"Force Lighting",
+            "power": "5",
+            "prio": "0",
+            "special": "4",
+            "prob": "1",
+            "probSpecEf": "0.5"
+        }  
+    },
+    {
+        "name":"General Grievous",
+        "id": "Grievous",
+        "hp": "240.0",
+        "atc": "9.5",
+        "def": "8.9",
+        "spd": "8.3",
+        "side": "Dark",
+        "att1": {
+            "nameAt":"Makashi - Grievous",
+            "power": "4.5",
+            "prio": "0",
+            "special": "8",
+            "prob": "0.8",
+            "probSpecEf": "1"
+        },
+        "att2": {
+            "nameAt":"Extreme Offensive",
+            "power": "12",
+            "prio": "0",
+            "special": "14",
+            "prob": "0.8",
+            "probSpecEf": "1"
+        }
+    },
+    {
+        "name":"Jango Fett",
+        "id": "Jango",
+        "hp": "210.0",
+        "atc": "8.4",
+        "def": "8",
+        "spd": "8",
+        "side": "Dark",
+        "att1": {
+            "nameAt":"Guided Missile",
+            "power": "10",
+            "prio": "0",
+            "special": "10",
+            "prob": "0.85",
+            "probSpecEf": "1"
+        },
+        "att2": {
+            "nameAt":"Jett Pack",
+            "power": "4",
+            "prio": "1",
+            "special": "7",
+            "prob": "1",
+            "probSpecEf": "0.7"
+        }  
+    },
+    {
+        "name":"Boba Fett",
+        "id": "Boba",
+        "hp": "200.0",
+        "atc": "8.5",
+        "def": "7.9",
+        "spd": "8.5",
+        "side": "Dark",
+        "att1": {
+            "nameAt":"Explosive Missile",
+            "power": "12",
+            "prio": "0",
+            "special": "10",
+            "prob": "0.75",
+            "probSpecEf": "1"
+        },
+        "att2": {
+            "nameAt":"Beskar Armor",
+            "power": "0",
+            "prio": "1",
+            "special": "6",
+            "prob": "1",
+            "probSpecEf": "1"
+        }
+    },
+    {
+        "name":"Moff Gideon",
+        "id": "Gideon",
+        "hp": "210.0",
+        "atc": "8.5",
+        "def": "7.9",
+        "spd": "8",
+        "side": "Dark",
+        "att1": {
+            "nameAt":"Dark Saber",
+            "power": "7",
+            "prio": "0",
+            "special": "9",
+            "prob": "0.9",
+            "probSpecEf": "0.6"
+        },
+        "att2": {
+            "nameAt":"Foresee the Enemy",
+            "power": "3",
+            "prio": "3",
+            "special": "15",
+            "prob": "1",
+            "probSpecEf": "1"
+        }  
+    },
+    {
+        "name":"Darth Maul",
+        "id": "Maul",
+        "hp": "220.0",
+        "atc": "9",
+        "def": "8.5",
+        "spd": "9.3",
+        "side": "Dark",
+        "att1": {
+            "nameAt":"Power out of Control",
+            "power": "6",
+            "prio": "0",
+            "special": "9",
+            "prob": "1",
+            "probSpecEf": "0.5"
+        },
+        "att2": {
+            "nameAt":"Estreme Rage",
+            "power": "6.5",
+            "prio": "0",
+            "special": "2",
+            "prob": "1",
+            "probSpecEf": "0.3"
+        }
+    },
+    {
+        "name":"Asajj Ventress",
+        "id": "Asajj",
+        "hp": "200.0",
+        "atc": "9.5",
+        "def": "8.1",
+        "spd": "9.3",
+        "side": "Dark",
+        "att1": {
+            "nameAt":"Double Sword",
+            "power": "5.5",
+            "prio": "0",
+            "special": "9",
+            "prob": "1",
+            "probSpecEf": "0.9"
+        },
+        "att2": {
+            "nameAt":"Sisterhood Healing",
+            "power": "0",
+            "prio": "0",
+            "special": "12",
+            "prob": "1",
+            "probSpecEf": "1"
+        }  
+    },
+    {
+        "name":"Captain Phasma",
+        "id": "Phasma",
+        "hp": "220.0",
+        "atc": "8.3",
+        "def": "8.6",
+        "spd": "8.1",
+        "side": "Dark",
+        "att1": {
+            "nameAt":"Blaster Submachine-gun",
+            "power": "3.5",
+            "prio": "0",
+            "special": "8",
+            "prob": "0.9",
+            "probSpecEf": "1"
+        },
+        "att2": {
+            "nameAt":"Beskar Shield - Phasma",
+            "power": "1.5",
+            "prio": "4",
+            "special": "16",
+            "prob": "0.5",
+            "probSpecEf": "1"
+        }
+    },
+    {
+        "name":"Kylo Ren",
+        "id": "Ren",
+        "hp": "240.0",
+        "atc": "9.3",
+        "def": "8.9",
+        "spd": "9.2",
+        "side": "Dark",
+        "att1": {
+            "nameAt":"Paralysis",
+            "power": "10",
+            "prio": "0",
+            "special": "4",
+            "prob": "0.75",
+            "probSpecEf": "0.5"
+        },
+        "att2": {
+            "nameAt":"Hatred",
+            "power": "8.5",
+            "prio": "0",
+            "special": "2",
+            "prob": "0.9",
+            "probSpecEf": "0.4"
+        }  
+    },
+    {
+        "name":"Grand Admiral Thrawn",
+        "id": "Thrawn",
+        "hp": "170.0",
+        "atc": "8.1",
+        "def": "8.2",
+        "spd": "8.5",
+        "side": "Dark",
+        "att1": {
+            "nameAt":"Forsee his next move",
+            "power": "5",
+            "prio": "1",
+            "special": "15",
+            "prob": "1",
+            "probSpecEf": "0.85"
+        },
+        "att2": {
+            "nameAt":"Defensive Upgrade",
+            "power": "8.5",
+            "prio": "0",
+            "special": "6",
+            "prob": "0.95",
+            "probSpecEf": "0.7"
+        }
+    },
+    {
+        "name":"Savage Opress",
+        "id": "Savage",
+        "hp": "250.0",
+        "atc": "9.3",
+        "def": "8.9",
+        "spd": "8.6",
+        "side": "Dark",
+        "att1": {
+            "nameAt":"Agressive Strikes",
+            "power": "3",
+            "prio": "0",
+            "special": "8",
+            "prob": "1",
+            "probSpecEf": "1"
+        },
+        "att2": {
+            "nameAt":"Anger",
+            "power": "15",
+            "prio": "0",
+            "special": "14",
+            "prob": "0.7",
+            "probSpecEf": "1"
+        }  
+    },
+    {
+        "name":"Mother Talzin",
+        "id": "Talzin",
+        "hp": "260.0",
+        "atc": "9.2",
+        "def": "8.6",
+        "spd": "8.1",
+        "side": "Dark",
+        "att1": {
+            "nameAt":"Healing Spell",
+            "power": "0",
+            "prio": "0",
+            "special": "13",
+            "prob": "1",
+            "probSpecEf": "1"
+        },
+        "att2": {
+            "nameAt":"Sisters Healing",
+            "power": "6",
+            "prio": "0",
+            "special": "12",
+            "prob": "0.9",
+            "probSpecEf": "1"
+        }  
+    },
+    {
+        "name":"Darth Bane",
+        "id": "Bane",
+        "hp": "250.0",
+        "atc": "9.5",
+        "def": "9.2",
+        "spd": "9.1",
+        "side": "Dark",
+        "att1": {
+            "nameAt":"Spirit from the Past",
+            "power": "0",
+            "prio": "0",
+            "special": "11",
+            "prob": "1",
+            "probSpecEf": "1"
+        },
+        "att2": {
+            "nameAt":"Ancestral Power",
+            "power": "6",
+            "prio": "0",
+            "special": "18",
+            "prob": "0.9",
+            "probSpecEf": "1"
+        }
+    },
+    {
+        "name":"Stormtrooper",
+        "id": "Storm",
+        "hp": "210.0",
+        "atc": "8.1",
+        "def": "7.7",
+        "spd": "8",
+        "side": "Dark",
+        "att1": {
+            "nameAt":"Burst",
+            "power": "3",
+            "prio": "0",
+            "special": "8",
+            "prob": "0.95",
+            "probSpecEf": "1"
+        },
+        "att2": {
+            "nameAt":"Agressive Attack",
+            "power": "8.5",
+            "prio": "0",
+            "special": "5",
+            "prob": "1",
+            "probSpecEf": "0.4"
+        }  
+    },
+    {
+        "name":"Bossk",
+        "id": "Bossk",
+        "hp": "180.0",
+        "atc": "7.5",
+        "def": "8.3",
+        "spd": "8.5",
+        "side": "Dark",
+        "att1": {
+            "nameAt":"Shed Skin",
+            "power": "0",
+            "prio": "0",
+            "special": "3",
+            "prob": "1",
+            "probSpecEf": "1"
+        },
+        "att2": {
+            "nameAt":"Explosive Present",
+            "power": "7.5",
+            "prio": "0",
+            "special": "10",
+            "prob": "0.95",
+            "probSpecEf": "1"
+        }
+    }
+]

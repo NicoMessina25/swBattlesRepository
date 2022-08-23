@@ -20,12 +20,14 @@ body{
 .gC--mainInd{
     display: grid;
     grid-area: main;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 0.5fr 0.5fr;
-    grid-template-areas: "indPre indPre indPre"
-    "indLore indBat indTeamB"
-    "indBest indBest indBest"
-    "indRes indRes indRes";
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 0.5fr 0.5fr 0.5fr 0.4fr 0.5fr;
+    grid-template-areas: "indPre"
+    "indLore"
+    "indBat"
+    "indTeamB"
+    "indBest"
+    "indRes";
     width: 100%;
     max-width: 100%;
 }
@@ -63,6 +65,14 @@ body{
 .text{
     @include fonts($primaryFont, 75%, 500);
     @include marPad(1%, 1%);
+    a{
+        text-decoration: none;
+        transition: all .2s;
+        color: inherit;
+        &:hover{
+            color: map-get($darkMainCol, darkerPrimary);
+        }
+    }
 }
 
 .text--justify{
@@ -270,13 +280,6 @@ input{
     padding: 1%;
 };
 
-/* .visible{
-    visibility: visible;
-}
-
-.invisible{
-    visibility: hidden;
-} */
 
 /* header */
 
@@ -300,24 +303,22 @@ nav{
     .logo{
         a{
            img{
-            @include sizes(70px, 70px);
+            @include sizes(35px, 35px);
             } 
         }
         
     }
 
-    /* .menu_log{
-        width: 70%;
-        justify-content: space-around; */
         
     .menu{
         @include fonts($primaryFont, 50%, 500);
         justify-content: space-around;
-        width: 50%;
+        width: 80%;
         list-style: none;
         align-items: center;
         li{
             width: 150%;
+            text-align: center;
         }
         a{
             color: map-get($lightMainCol, lighterBlue);
@@ -424,7 +425,7 @@ nav{
 /* indCard */
 
 .indCard{
-    @include marPad(2%, 1%);
+    @include marPad(10%, 1%);
     //background-color: map-get($transpMainCol, transPrimary);
     border-radius: 25px 25px 100px 100px;
     transition: all .5s;
@@ -468,6 +469,7 @@ nav{
 .indTeamB{
     @extend.indCard;
     grid-area: indTeamB;
+    
     @include colAndBGCol(map-get($darkMainCol, darkerBlue), (map-get($lightMainCol, lighterBlue)));
     img{
         @include sizes(100%, auto);
@@ -550,11 +552,13 @@ nav{
 
 .lorSer{
     grid-area: loreSer;
+    
     .subMainTitle{
         color: map-get($lightMainCol, lighterPurple);
     }
   
     article{
+        justify-content: center;
         div{
             text-align: center;
             align-items: center;
@@ -565,7 +569,7 @@ nav{
     img{
         @include marPad(1%, 2%);
         border-radius: 15px 15px 15px 15px;
-        @include sizes(80%, auto);
+        @include sizes(50%, auto);
     }
 }
 
@@ -722,6 +726,7 @@ nav{
 .btleTeamSelect{
     @extend.tbYourTeams;
     justify-content: center;
+    color: map-get($lightMainCol, lighterBlue);
     div{
         article{
             @include colAndBGCol(map-get($lightMainCol, lighterBlue), map-get($transpMainCol, transPrimary));
@@ -876,6 +881,7 @@ nav{
 /* footer */
 footer{
     grid-area: footer;
+    justify-content: space-around;
     @include colAndBGCol(map-get($lightMainCol, lighterBlue), map-get($darkMainCol, darkerPrimary));
     img{
         @include sizes(50px, 50px);
@@ -883,6 +889,19 @@ footer{
 }
 
 @media screen and (min-width: 420px) {
+    .gC--mainInd{
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 0.5fr 0.5fr;
+        grid-template-areas: "indPre indPre indPre"
+        "indLore indBat indTeamB"
+        "indBest indBest indBest"
+        "indRes indRes indRes";
+    }
+
+    .indCard{
+        margin:2%;
+    }
+
     .battleScene{
         .battleCard{
             .cardInfo{
@@ -902,6 +921,8 @@ footer{
 }
 @media screen and (min-width: 768px) {
   /*General */
+    
+
   .text{
     font-size: 100%;
   }
@@ -914,9 +935,12 @@ footer{
   /*nav*/ 
   nav{
     .logo{
-        img{
+        a{
+           img{
             @include sizes(100px, 100px);
+            } 
         }
+        
         
     }
     .menu{
