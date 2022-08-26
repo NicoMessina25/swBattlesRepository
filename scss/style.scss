@@ -855,7 +855,7 @@ nav{
         width: 30%;
         margin: 6% 2% 1% 2%;
         .button3{
-            font-size:5px;
+            font-size:8px;
             width: 100%;
         }
     }
@@ -937,7 +937,7 @@ footer{
     .logo{
         a{
            img{
-            @include sizes(100px, 100px);
+            @include sizes(75px, 75px);
             } 
         }
         

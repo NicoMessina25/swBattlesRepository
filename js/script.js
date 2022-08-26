@@ -186,9 +186,8 @@ class Character {
 }
 
 class Team{
-    constructor(name,size, chars, wins, games){
+    constructor(name, chars, wins, games){
         this.name = name;
-        this.size = size;
         this.chars = chars;
         this.wins = wins;
         this.games = games;
@@ -412,6 +411,7 @@ function updStatus(char, textareaBattleLog){
                 break;
             case 12:
                 char.curHP += 0.05*char.chHP;
+                char.curHP > char.chHP && (char.curHP = char.chHP);
                 textareaBattleLog.value += `\n\n${char.chName} healed due to healing every turn`;
                 break;
             case 15:
@@ -731,9 +731,6 @@ btnDarkSide.innerHTML += `<i class="fa-brands fa-sith"></i>`;
 const btnCreate = document.createElement("button");
 setButtonAttributes(btnCreate, "btnCreate", "button2--purple", "Create ");
 btnCreate.innerHTML += `<i class="fa-solid fa-circle-up"></i>`;
-const btnConfirm = document.createElement("button");
-setButtonAttributes(btnConfirm, "btnConfirm", "button2--purple", "Confirm ");
-btnConfirm.innerHTML += `<i class="fa-solid fa-circle-check"></i>`;
 const artCharSide = document.createElement("article");
 artCharSide.setAttribute("id", "charSide");
 const divNewChars = document.createElement("div");
@@ -768,7 +765,7 @@ const divEnemyStats = document.getElementById("enemyStats");
 
 const divUserStats = document.getElementById("userStats");
 
-const arrChar = new Array();
+let arrChar;
 nav.append(btnNavLogIn);
 
 let isEdit;
@@ -857,6 +854,11 @@ const loadToYourTeams = () =>{
             } 
             const secNewTeam = document.getElementById("newTeam");
             secBuilder.append(btnLightSide);
+            
+            let btnConfirm = document.createElement("button");
+            setButtonAttributes(btnConfirm, "btnConfirm", "button2--purple", "Confirm ");
+            btnConfirm.innerHTML += `<i class="fa-solid fa-circle-check"></i>`;
+
             btnConfirm.addEventListener("click", ()=>{
                 if(teamCharArray.length > 0 && editTeamName.value.trim() != ""){
                     loggedUser.teams[ind].name = editTeamName.value;
@@ -932,6 +934,7 @@ const loadUser = (loggedUser) =>{
     });
 
     if(divYourTeams){
+        arrChar = new Array();
         loadCharacters(arrChar).then(()=>{
             loggedUser.teams.forEach(team =>{
                 updateChars(team.chars, arrChar);
@@ -994,6 +997,7 @@ const loadUser = (loggedUser) =>{
         
     }
     if(secSelectYourTeam){
+        arrChar = new Array();
         loadCharacters(arrChar).then(()=>{
             loggedUser.teams.forEach(team =>{
                 updateChars(team.chars, arrChar);
@@ -1534,7 +1538,7 @@ btnDarkSide.onclick = ()=>{
 btnCreate.addEventListener("click", ()=>{
     let teamName = document.getElementById("newTeamName").value
     if(loggedUser.teams.length < MAX_TEAMS && teamCharArray.length > 0 && teamName.trim() != ""){
-        loggedUser.teams.push(new Team(teamName, teamCharArray.length, teamCharArray, 0, 0));
+        loggedUser.teams.push(new Team(teamName, teamCharArray, 0, 0));
         
         loadToYourTeams();
         updateTeams(loggedUser.teams, divYourTeams, divTeams, editButtons,deleteButtons);

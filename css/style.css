@@ -685,7 +685,7 @@ nav {
     width: 30%;
     margin: 6% 2% 1% 2%; }
     .battleScene .atOptions .button3, .battleScene .atOptions .button3--blue, .battleScene .atOptions .button3--red, .battleScene .atOptions .button3--green {
-      font-size: 5px;
+      font-size: 8px;
       width: 100%; }
 
 .battleLog {
@@ -733,8 +733,8 @@ footer {
     font-size: 150%; }
   /*nav*/
   nav .logo a img {
-    width: 100px;
-    height: 100px; }
+    width: 75px;
+    height: 75px; }
   nav .menu {
     font-size: 89%;
     width: 70%; }
